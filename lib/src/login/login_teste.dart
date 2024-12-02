@@ -52,7 +52,7 @@ class _LoginTesteState extends State<LoginTeste> {
       backgroundColor: colors['background'] as Color,
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 700, maxWidth: 1200),
+          constraints: BoxConstraints(maxHeight: 750, maxWidth: 1050),
           child: Container(
             height: MediaQuery.of(context).size.height * 0.75,
             width: MediaQuery.of(context).size.width * 0.9,
