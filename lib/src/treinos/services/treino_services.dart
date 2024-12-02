@@ -329,7 +329,7 @@ class TreinoServices {
     try {
       var dio = Dio();
       String url =
-          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getTreinoFinalizado';
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getTreinoFinalizadov2';
       //'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/newGetTreinos';
 
       final response = await dio.post(url, data: {

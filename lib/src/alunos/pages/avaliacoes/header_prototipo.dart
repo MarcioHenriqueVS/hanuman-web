@@ -4,9 +4,15 @@ import '../../../utils.dart';
 
 class HeaderPrototipo extends StatelessWidget {
   final VoidCallback? onSave;
+  final String title;
+  final String subtitle;
+  final String? button;
   const HeaderPrototipo({
     super.key,
     this.onSave,
+    required this.title,
+    required this.subtitle,
+    this.button,
   });
 
   @override
@@ -27,7 +33,7 @@ class HeaderPrototipo extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1200),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: button != null ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -40,7 +46,7 @@ class HeaderPrototipo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Avaliação Antropométrica',
+                        title,
                         style: SafeGoogleFont(
                           'Outfit',
                           textStyle: const TextStyle(
@@ -51,7 +57,7 @@ class HeaderPrototipo extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Insira os dados coletados',
+                        subtitle,
                         style: SafeGoogleFont(
                           'Readex Pro',
                           textStyle: TextStyle(
@@ -64,9 +70,9 @@ class HeaderPrototipo extends StatelessWidget {
                   ),
                 ],
               ),
-              FFButtonWidget(
+              button != null ? FFButtonWidget(
                 onPressed: onSave,
-                text: 'Salvar',
+                text: button!,
                 icon: const Icon(
                   Icons.add_rounded,
                   size: 15,
@@ -90,7 +96,7 @@ class HeaderPrototipo extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
-              ),
+              ) : const SizedBox.shrink(),
             ],
           ),
         ),

@@ -256,9 +256,10 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
                   ),
                 ),
               ),
-              Center(
+              Align(
+                alignment: Alignment.topCenter,
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1600),
+                  constraints: const BoxConstraints(maxWidth: 1200),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 24, horizontal: 60),

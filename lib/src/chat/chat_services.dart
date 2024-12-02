@@ -9,8 +9,8 @@ class ChatServices {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   // Future<void> sendMessageToFirestore(Message message, String uid) async {
-  //   print(message.paraJson());
-  //   print('======= chegou aqui ==========');
+  //   debugPrint(message.paraJson());
+  //   debugPrint('======= chegou aqui ==========');
   //   try {
   //     // Verifica se a mensagem é do tipo 'image' ou 'voice'
   //     if (message.messageType == MessageType.image ||
@@ -27,7 +27,7 @@ class ChatServices {
   //       uploadTask =
   //           FirebaseStorage.instance.ref().child(filePath).putFile(file);
   //       // } else {
-  //       //   print('======= chegou aqui, web ==========');
+  //       //   debugPrint('======= chegou aqui, web ==========');
   //       //   final response = await html.window.fetch(message.message);
   //       //   final blob = await response.blob();
   //       //   // String filePath = message.messageType == MessageType.voice
@@ -70,7 +70,7 @@ class ChatServices {
   //     // Chama addMessage para atualizar a lista local e o stream de mensagens
   //     // messageStreamController.sink.add(initialMessageList);
   //   } catch (e) {
-  //     print("Erro ao enviar mensagem: $e");
+  //     debugPrint("Erro ao enviar mensagem: $e");
   //   }
   // }
 

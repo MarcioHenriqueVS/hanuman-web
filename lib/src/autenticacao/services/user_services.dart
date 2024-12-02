@@ -45,8 +45,8 @@ class UserServices {
 
     var dio = Dio();
     String url =
-        //'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/newCadastrov2';
-        'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/newCadastrov2';
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/newCadastrov2';
+        //'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/newCadastrov2';
 
     try {
       final response = await dio.post(

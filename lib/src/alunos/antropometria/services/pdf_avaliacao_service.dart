@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
@@ -53,7 +54,7 @@ class PdfAvaliacaoService {
 
           fotosProcessadas.add(pw.MemoryImage(fotoBytes));
         } catch (e) {
-          print('Erro ao processar foto: $e');
+          debugPrint('Erro ao processar foto: $e');
         }
       }
     }
@@ -227,7 +228,7 @@ class PdfAvaliacaoService {
         return response.bodyBytes;
       }
     } catch (e) {
-      print('Erro ao baixar imagem: $e');
+      debugPrint('Erro ao baixar imagem: $e');
     }
     return null;
   }

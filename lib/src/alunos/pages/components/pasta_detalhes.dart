@@ -154,7 +154,9 @@ class _PastaDetalhesState extends State<PastaDetalhes> {
                                   color: widget.pasta['cor']),
                             ),
                             title: Text(
-                              treino.titulo == '' ? 'Sem título' : treino.titulo,
+                              treino.titulo == ''
+                                  ? 'Sem título'
+                                  : treino.titulo,
                               style: SafeGoogleFont('Outfit', fontSize: 16),
                             ),
                             subtitle: Text(
@@ -169,7 +171,7 @@ class _PastaDetalhesState extends State<PastaDetalhes> {
                               icon: const Icon(Icons.arrow_forward),
                               onPressed: () {
                                 //imprimir no log o json completo do treino
-                                print(treino.toMap());
+                                debugPrint(treino.toMap().toString());
                                 // Implementar navegação para o treino
                                 Navigator.push(
                                   context,

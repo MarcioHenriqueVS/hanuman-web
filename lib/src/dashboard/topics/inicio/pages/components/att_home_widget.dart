@@ -77,13 +77,11 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
               cursor: SystemMouseCursors.click,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TreinoFinalizadoScreen(
-                        alunoUid: widget.alunoUid,
-                        treinoId: widget.treinoDocId,
-                      ),
+                  showDialog(
+                    context: context,
+                    builder: (context) => TreinoFinalizadoScreen(
+                      alunoUid: widget.alunoUid,
+                      treinoId: widget.treinoDocId,
                     ),
                   );
                 },
@@ -97,11 +95,11 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Row(
                     children: [
-                          CircleAvatar(
-                              backgroundImage: NetworkImage(aluno!.fotoUrl ??
-                                  'https://i.pravatar.cc/150?img=1'),
-                              radius: 20,
-                            ),
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(aluno!.fotoUrl ??
+                            'https://i.pravatar.cc/150?img=1'),
+                        radius: 20,
+                      ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: Column(

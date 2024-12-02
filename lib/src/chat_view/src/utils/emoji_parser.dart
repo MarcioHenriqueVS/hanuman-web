@@ -161,7 +161,7 @@ class EmojiParser {
   ///
   ///   var parser = EmojiParser();
   ///   var emojiHeart = parser.getEmoji('❤');
-  ///   print(emojiHeart); '{name: heart, full: :heart:, emoji: ❤️}'
+  ///   debugPrint(emojiHeart); '{name: heart, full: :heart:, emoji: ❤️}'
   ///
   /// Returns Emoji.None if not found.
   ///

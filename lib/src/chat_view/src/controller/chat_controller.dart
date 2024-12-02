@@ -100,8 +100,7 @@ class ChatController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> sendMessageToFirestore(Message message, String uid) async {
-    print(message.paraJson());
-    print('======= chegou aqui ==========');
+    debugPrint('======= chegou aqui ==========');
     try {
       //String msgType = 'text';
       //firestore.settings = const Settings(persistenceEnabled: true);
@@ -204,7 +203,7 @@ class ChatController {
 
       String url =
           'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/virtualAssistantv2';
-          //'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/virtualAssistantv2';
+      //'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/virtualAssistantv2';
 
       debugPrint('fazendo requisicao');
       final msgJson = message.paraJson();
@@ -212,7 +211,11 @@ class ChatController {
 
       debugPrint('message id ------> ${message.id}');
 
-      final msgType =  message.messageType == MessageType.text ? 'text' : message.messageType == MessageType.image ? 'image' : 'voice';
+      final msgType = message.messageType == MessageType.text
+          ? 'text'
+          : message.messageType == MessageType.image
+              ? 'image'
+              : 'voice';
 
       final dioresult = await Dio().post(url, data: {
         'uid': uid,
@@ -243,7 +246,7 @@ class ChatController {
             token, 'Nova mensagem', message.message, null);
       }
     } catch (e) {
-      print("Erro ao enviar mensagem: $e");
+      debugPrint("Erro ao enviar mensagem: $e");
     }
   }
 

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../utils.dart';
 import '../../models/exercicio_treino_model.dart';
 import '../../models/treino_model.dart';
 

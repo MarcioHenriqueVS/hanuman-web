@@ -317,6 +317,9 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
           children: [
             HeaderPrototipo(
               onSave: salvarAvaliacao,
+              title: 'Avaliação Antropométrica',
+              subtitle: 'Insira os dados coletados',
+              button: 'Salvar',
             ),
             const SizedBox(height: 25),
             ConstrainedBox(

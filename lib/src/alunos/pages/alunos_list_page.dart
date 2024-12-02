@@ -239,8 +239,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                       width: 1,
                     ),
                   ),
-                  child: 
-                  Padding(
+                  child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -708,9 +707,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                           .fromSTEB(
                                                           12, 0, 12, 0),
                                                   child: Text(
-                                                    ativo
-                                                        ? 'Ativo'
-                                                        : 'Inativo',
+                                                    ativo ? 'Ativo' : 'Inativo',
                                                     style: SafeGoogleFont(
                                                       'Readex Pro',
                                                       textStyle:
@@ -784,7 +781,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                   onSelected: (value) {
                                                     switch (value) {
                                                       case 'visualizar':
-                                                        print(
+                                                        debugPrint(
                                                             'Visualizar aluno ${aluno.uid}');
                                                         Navigator.push(
                                                           context,
@@ -797,7 +794,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                         );
                                                         break;
                                                       case 'editar':
-                                                        print(
+                                                        debugPrint(
                                                             'Editar aluno ${aluno.uid}');
                                                         showDialog(
                                                           context: context,

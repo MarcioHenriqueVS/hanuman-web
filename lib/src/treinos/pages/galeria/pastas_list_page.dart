@@ -180,7 +180,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
                                   icon: const Icon(Icons.arrow_forward),
                                   onPressed: () {
                                     //imprimir no log o json completo do treino
-                                    //print(treino.toMap());
+                                    //debugPrint(treino.toMap());
                                     // Implementar navegação para o treino
                                     Navigator.push(
                                       context,
