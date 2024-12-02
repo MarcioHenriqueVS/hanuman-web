@@ -90,11 +90,107 @@ class _AlunosTableState extends State<AlunosTable> {
         }
 
         if (state is GetAlunosError) {
-          return Center(child: Text('Erro: ${state.message}'));
+          debugPrint('Erro ao buscar alunos: ${state.message}');
+          return Center(child: Text('Erro ao buscar alunos'));
         }
 
         if (state is GetAlunosDataIsEmpty) {
-          return const Center(child: Text('Nenhum aluno encontrado'));
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 3),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //if (showExtraColumns)
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 12, 0),
+                            child: Text(
+                              'Alunos',
+                              style: SafeGoogleFont(
+                                'Outfit',
+                                textStyle: const TextStyle(
+                                  fontSize: 24,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 4, 12, 0),
+                            child: Text(
+                              'Alunos atualizados recentemente',
+                              style: SafeGoogleFont(
+                                'Readex Pro',
+                                textStyle: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    FFButtonWidget(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const AddAlunoDialog(),
+                        );
+                      },
+                      text: 'Adicionar aluno',
+                      icon: const Icon(
+                        Icons.add_rounded,
+                        size: 15,
+                      ),
+                      options: FFButtonOptions(
+                        height: 40,
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                        iconPadding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                        color: Colors.green,
+                        textStyle: SafeGoogleFont(
+                          'Readex Pro',
+                          textStyle: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                        elevation: 3,
+                        borderSide: const BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 50),
+                Center(
+                  child: Text(
+                    'Nenhum aluno encontrado',
+                    style: SafeGoogleFont(
+                      'Readex Pro',
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
         }
 
         if (state is GetAlunosLoaded) {

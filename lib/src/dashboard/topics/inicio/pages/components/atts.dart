@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../../atualizacoes/atts_bloc/qtd_missoes_pendentes_bloc.dart';
 import '../../../../../atualizacoes/atts_bloc/qtd_missoes_pendentes_state.dart';
+import '../../../../../utils.dart';
 import 'att_home_widget.dart';
 
 class DashboardAtts extends StatefulWidget {
@@ -36,6 +37,27 @@ class _DashboardAttsState extends State<DashboardAtts> {
             child: Text('Erro ao buscar dados, atualize a tela!'),
           );
         } else if (attsState is AttsHomeLoaded) {
+          if (attsState.atts.isEmpty) {
+            return SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 40),
+                  Text(
+                    'Nenhuma atualização disponível!',
+                    style: SafeGoogleFont(
+                      'Readex Pro',
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            );
+          }
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,

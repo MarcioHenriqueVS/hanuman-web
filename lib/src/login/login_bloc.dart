@@ -18,13 +18,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     debugPrint('---- Error: ${e.code} ----');
     switch (e.code) {
       case "user-not-found":
-        return 'Nenhum usuário encontrado com esse e-mail.';
+        return 'Nenhum usuário encontrado com esse e-mail';
       case "wrong-password":
-        return 'Senha incorreta.';
+        return 'Senha incorreta';
       case "invalid-credential":
-        return 'Senha ou email inválidos.';
+        return 'Senha ou email inválidos';
       default:
-        return 'Ocorreu um erro durante o login. Por favor, tente novamente.';
+        return 'Ocorreu um erro durante o login. Por favor, tente novamente';
     }
   }
 
@@ -48,14 +48,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (object == true) {
         emit(LoginSuccess());
       } else {
+        debugPrint('---- Error: $object ----');
         if (object is FirebaseAuthException) {
           emit(LoginFailure(_mapFirebaseErrorToMessage(object)));
         } else {
+          debugPrint('---- Error: $object ----');
           emit(LoginFailure('Ocorreu um erro. Tente novamente.'));
         }
       }
     } catch (e) {
-      emit(LoginFailure('Ocorreu um erro. Tente novamente.'));
+      debugPrint('---- Error caught: $e ----');
+      if (e is FirebaseAuthException) {
+        emit(LoginFailure(_mapFirebaseErrorToMessage(e)));
+      } else {
+        emit(LoginFailure('Ocorreu um erro inesperado. Tente novamente.'));
+      }
     }
   }
 }

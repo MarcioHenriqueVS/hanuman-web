@@ -31,7 +31,11 @@ class GetAlunosBloc extends Bloc<GetAlunosEvent, GetAlunosState> {
               ? emit(GetAlunosDataIsEmpty())
               : emit(GetAlunosLoaded(alunos));
         } catch (e) {
-          emit(GetAlunosError(e.toString()));
+          if (e.toString().contains('No element')) {
+            emit(GetAlunosDataIsEmpty());
+          } else {
+            emit(GetAlunosError(e.toString()));
+          }
         }
       },
     );

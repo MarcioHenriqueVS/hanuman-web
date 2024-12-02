@@ -1,16 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:web_test/src/alunos/pages/avaliacoes/add_ava_prototipo.dart';
-import '../autenticacao/cadastro/bloc/pages/cadastro_screen.dart';
 import '../autenticacao/checagem/checagem.dart';
 import '../dashboard/dashboard_view.dart';
-import '../login/login_screen.dart';
 import '../login/reset_senha_screen.dart';
 import '../treinos/editar_treino/new_edit_treino_screen.dart';
 import '../treinos/pages/galeria/test/criar_treino_personal_screen.dart';
 import '../treinos/teste/treinos_screen.dart';
 import '../web/checagem/checagem.dart';
+import '../login/cadastro_page.dart';
+import '../login/login_teste.dart';
 
 class Rotas {
   static final GlobalKey<NavigatorState> navigatorKey =
@@ -29,12 +28,14 @@ class Rotas {
       GoRoute(
         name: '/login',
         path: '/login',
-        builder: (context, state) => const LoginScreen(),
+        //builder: (context, state) => const LoginScreen(),
+        builder: (context, state) => const LoginTeste()
       ),
       GoRoute(
         name: '/cadastro',
         path: '/cadastro',
-        builder: (context, state) => const CadastroScreen(),
+        //builder: (context, state) => const CadastroScreen(),
+        builder: (context, state) => const CadastroPage(),
       ),
       GoRoute(
         name: '/redefinirsenha',

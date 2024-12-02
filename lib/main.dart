@@ -33,7 +33,7 @@ void main() async {
   );
   FirebaseMessagingService service = FirebaseMessagingService();
   service.initialize();
-
+ 
   // FlutterError.onError = (FlutterErrorDetails details) {
   //   FlutterError.presentError(details);
   //   debugPrint('ERRO DETALHADO: ${details.toString()}');

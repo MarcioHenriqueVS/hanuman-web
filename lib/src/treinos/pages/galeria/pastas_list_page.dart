@@ -163,7 +163,9 @@ class _TreinosListPageState extends State<TreinosListPage> {
                                       color: pasta['cor']),
                                 ),
                                 title: Text(
-                                  treino.titulo == '' ? 'Sem título' : treino.titulo,
+                                  treino.titulo == ''
+                                      ? 'Sem título'
+                                      : treino.titulo,
                                   style: SafeGoogleFont('Outfit', fontSize: 16),
                                 ),
                                 subtitle: Text(
@@ -308,7 +310,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
             width: double.infinity,
             padding: maxWidth > 1200
                 ? const EdgeInsets.symmetric(horizontal: 40, vertical: 20)
-                : const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                : const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -378,154 +380,160 @@ class _TreinosListPageState extends State<TreinosListPage> {
                       return Center(child: Text(state.message));
                     }
                     if (state is GetPastasPersonalLoaded) {
-                      final pastas = state.pastasIds
-                          .map((pasta) => {
-                                'id': pasta['id'],
-                                'nome': pasta['nome'],
-                                'qtdTreinos': pasta['qtdTreinos']
-                                    as int, // Garantir que é int
-                                'cor': _pastasGaleriaServices
-                                    .getColorFromString(pasta['cor']),
-                              })
-                          .toList();
+                      if (state.pastasIds.isEmpty) {
+                        return _buildEmptyState();
+                      } else {
+                        final pastas = state.pastasIds
+                            .map((pasta) => {
+                                  'id': pasta['id'],
+                                  'nome': pasta['nome'],
+                                  'qtdTreinos': pasta['qtdTreinos']
+                                      as int, // Garantir que é int
+                                  'cor': _pastasGaleriaServices
+                                      .getColorFromString(pasta['cor']),
+                                })
+                            .toList();
 
-                      return LayoutBuilder(
-                        builder: (context, constraints) {
-                          return GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: constraints.maxWidth > 1200
-                                  ? 4
-                                  : constraints.maxWidth > 800
-                                      ? 3
-                                      : constraints.maxWidth > 600
-                                          ? 2
-                                          : 1,
-                              crossAxisSpacing: 16,
-                              mainAxisSpacing: 16,
-                              childAspectRatio: 2.2,
-                            ),
-                            itemCount: pastas.length,
-                            itemBuilder: (context, index) {
-                              final pasta = pastas[index];
-                              return MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  onTap: () =>
-                                      _mostrarDetalhesPasta(context, pasta),
-                                  child: Container(
-                                    constraints: const BoxConstraints(
-                                      maxHeight: 120, // Altura máxima definida
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[900],
-                                      borderRadius: BorderRadius.circular(8),
-                                      border:
-                                          Border.all(color: Colors.grey[800]!),
-                                    ),
-                                    child: Stack(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(16),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    width: 40,
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                      color: pasta['cor']
-                                                          .withOpacity(0.2),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                    ),
-                                                    child: Icon(
-                                                      Icons.folder,
-                                                      color: pasta['cor'],
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 12),
-                                                  Expanded(
-                                                    child: Text(
-                                                      pasta['nome'],
-                                                      style: SafeGoogleFont(
-                                                        'Outfit',
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                        return LayoutBuilder(
+                          builder: (context, constraints) {
+                            return GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: constraints.maxWidth > 1200
+                                    ? 4
+                                    : constraints.maxWidth > 800
+                                        ? 3
+                                        : constraints.maxWidth > 600
+                                            ? 2
+                                            : 1,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
+                                childAspectRatio: 2.2,
+                              ),
+                              itemCount: pastas.length,
+                              itemBuilder: (context, index) {
+                                final pasta = pastas[index];
+                                return MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                    onTap: () =>
+                                        _mostrarDetalhesPasta(context, pasta),
+                                    child: Container(
+                                      constraints: const BoxConstraints(
+                                        maxHeight:
+                                            120, // Altura máxima definida
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[900],
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                            color: Colors.grey[800]!),
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(16),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 40,
+                                                      height: 40,
+                                                      decoration: BoxDecoration(
+                                                        color: pasta['cor']
+                                                            .withOpacity(0.2),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.folder,
+                                                        color: pasta['cor'],
                                                       ),
                                                     ),
+                                                    const SizedBox(width: 12),
+                                                    Expanded(
+                                                      child: Text(
+                                                        pasta['nome'],
+                                                        style: SafeGoogleFont(
+                                                          'Outfit',
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const Spacer(),
+                                                Text(
+                                                  '${pasta['qtdTreinos']} treinos',
+                                                  style: SafeGoogleFont(
+                                                    'Readex Pro',
+                                                    fontSize: 14,
+                                                    color: Colors.grey,
                                                   ),
-                                                ],
-                                              ),
-                                              const Spacer(),
-                                              Text(
-                                                '${pasta['qtdTreinos']} treinos',
-                                                style: SafeGoogleFont(
-                                                  'Readex Pro',
-                                                  fontSize: 14,
-                                                  color: Colors.grey,
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Positioned(
-                                          top: 8,
-                                          right: 8,
-                                          child: PopupMenuButton<String>(
-                                            icon: const Icon(Icons.more_vert,
-                                                color: Colors.grey),
-                                            itemBuilder:
-                                                (BuildContext context) => [
-                                              const PopupMenuItem(
-                                                value: 'edit',
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons.edit, size: 18),
-                                                    SizedBox(width: 8),
-                                                    Text('Editar'),
-                                                  ],
+                                          Positioned(
+                                            top: 8,
+                                            right: 8,
+                                            child: PopupMenuButton<String>(
+                                              icon: const Icon(Icons.more_vert,
+                                                  color: Colors.grey),
+                                              itemBuilder:
+                                                  (BuildContext context) => [
+                                                const PopupMenuItem(
+                                                  value: 'edit',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.edit,
+                                                          size: 18),
+                                                      SizedBox(width: 8),
+                                                      Text('Editar'),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              const PopupMenuItem(
-                                                value: 'delete',
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons.delete,
-                                                        size: 18),
-                                                    SizedBox(width: 8),
-                                                    Text('Excluir'),
-                                                  ],
+                                                const PopupMenuItem(
+                                                  value: 'delete',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.delete,
+                                                          size: 18),
+                                                      SizedBox(width: 8),
+                                                      Text('Excluir'),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                            onSelected: (String value) async {
-                                              if (value == 'edit') {
-                                                _mostrarDialogEditarPasta(
-                                                    pasta);
-                                              } else if (value == 'delete') {
-                                                _mostrarDialogConfirmacaoExclusao(
-                                                    pasta);
-                                              }
-                                            },
+                                              ],
+                                              onSelected: (String value) async {
+                                                if (value == 'edit') {
+                                                  _mostrarDialogEditarPasta(
+                                                      pasta);
+                                                } else if (value == 'delete') {
+                                                  _mostrarDialogConfirmacaoExclusao(
+                                                      pasta);
+                                                }
+                                              },
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
+                                );
+                              },
+                            );
+                          },
+                        );
+                      }
                     }
                     return const SizedBox();
                   },
@@ -534,6 +542,31 @@ class _TreinosListPageState extends State<TreinosListPage> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 48),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.folder_outlined, size: 48, color: Colors.grey[600]),
+            const SizedBox(height: 16),
+            Text(
+              'Nenhuma pasta encontrada',
+              style: SafeGoogleFont(
+                'Readex Pro',
+                textStyle: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[400],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

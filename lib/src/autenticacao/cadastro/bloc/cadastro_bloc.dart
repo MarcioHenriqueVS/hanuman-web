@@ -25,13 +25,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(RegisterLoading());
 
     try {
-      bool isRegisterSuccessful = await userServices.performRegistration(
+      String? isRegisterSuccessful = await userServices.performRegistration(
           event.name, event.email, event.password);
-      if (isRegisterSuccessful) {
+      if (isRegisterSuccessful == 'success') {
         await Future.delayed(const Duration(seconds: 3));
         emit(RegisterSuccess('Conta criada com sucesso.'));
       } else {
-        emit(RegisterFailure('Erro desconhecido.'));
+        emit(RegisterFailure(isRegisterSuccessful));
       }
     } catch (e) {
       if (e is FirebaseAuthException) {
@@ -45,10 +45,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   String _mapFirebaseErrorToMessage(FirebaseAuthException e) {
     switch (e.code) {
-      case "user-not-found":
-        return 'Nenhum usuário encontrado com esse e-mail.';
-      case "wrong-password":
-        return 'Senha incorreta.';
+      case "email-already-in-use":
+        return 'Este email já está em uso.';
+      case "invalid-email":
+        return 'Email inválido.';
+      case "weak-password":
+        return 'Senha fraca. Tente uma senha mais forte.';
       default:
         return 'Ocorreu um erro durante o cadastro. Por favor, tente novamente.';
     }

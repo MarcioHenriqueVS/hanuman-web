@@ -119,7 +119,27 @@ class _InicioPageState extends State<InicioPage> {
                     ],
                   ),
           );
-        } else {
+        } else if (state is GetAlunosDataIsEmpty) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: shouldStack ? maxWidth * 0.05 : maxWidth * 0.01,
+            ),
+            child: shouldStack
+                ? const SizedBox.shrink()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildStatContainer(
+                          'Total de Alunos', '0', Icons.people, false),
+                      buildStatContainer( 'Alunos Ativos (7 dias)', '0',
+                          Icons.check_circle, false),
+                      buildStatContainer('Alunos Inativos (7 dias)', '0',
+                          Icons.warning, false),
+                    ],
+                  ),
+          );
+        }
+        else {
           return const Center(child: Text('Erro ao buscar dados'));
         }
       },
@@ -246,80 +266,6 @@ class _InicioPageState extends State<InicioPage> {
         child: isFirst
             ? Column(
                 children: [
-                  // Row(
-                  //   children: [
-                  //     Padding(
-                  //       padding: EdgeInsets.symmetric(
-                  //         horizontal: isSmallScreen ? 5.0 : maxWidth * 0.01,
-                  //       ),
-                  //       child: Text(
-                  //         'Alunos recentes',
-                  //         style: SafeGoogleFont(
-                  //           'Outfit',
-                  //           textStyle: const TextStyle(
-                  //             fontSize: 24,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     // SizedBox(width: maxWidth * 0.01),
-                  //     // Expanded(
-                  //     //   child: Padding(
-                  //     //     padding:
-                  //     //         EdgeInsets.symmetric(horizontal: maxWidth * 0.02),
-                  //     //     child: SizedBox(
-                  //     //       height: 40,
-                  //     //       child: TextField(
-                  //     //         cursorHeight: 20,
-                  //     //         decoration: InputDecoration(
-                  //     //           isDense: true,
-                  //     //           hintText: 'Procurar aluno...',
-                  //     //           hintStyle: SafeGoogleFont(
-                  //     //             'Readex Pro',
-                  //     //             textStyle: const TextStyle(
-                  //     //               fontSize: 12,
-                  //     //             ),
-                  //     //           ),
-                  //     //           enabledBorder: OutlineInputBorder(
-                  //     //             borderSide: BorderSide(
-                  //     //               color: Colors.grey[800]!,
-                  //     //               width: 2,
-                  //     //             ),
-                  //     //             borderRadius: BorderRadius.circular(8),
-                  //     //           ),
-                  //     //           focusedBorder: OutlineInputBorder(
-                  //     //             borderSide: const BorderSide(
-                  //     //               color: Colors.green,
-                  //     //               width: 2,
-                  //     //             ),
-                  //     //             borderRadius: BorderRadius.circular(8),
-                  //     //           ),
-                  //     //           errorBorder: OutlineInputBorder(
-                  //     //             borderSide: const BorderSide(
-                  //     //               color: Color(0x00000000),
-                  //     //               width: 2,
-                  //     //             ),
-                  //     //             borderRadius: BorderRadius.circular(8),
-                  //     //           ),
-                  //     //           focusedErrorBorder: OutlineInputBorder(
-                  //     //             borderSide: const BorderSide(
-                  //     //               color: Color(0x00000000),
-                  //     //               width: 2,
-                  //     //             ),
-                  //     //             borderRadius: BorderRadius.circular(8),
-                  //     //           ),
-                  //     //           prefixIcon: const Icon(
-                  //     //             Icons.search_rounded,
-                  //     //             color: Color(0xFF57636C),
-                  //     //             size: 20,
-                  //     //           ),
-                  //     //         ),
-                  //     //       ),
-                  //     //     ),
-                  //     //   ),
-                  //     // ),
-                  //   ],
-                  // ),
                   SizedBox(height: maxHeight * 0.02),
                   _buildAlunosList(maxWidth, maxHeight),
                   SizedBox(height: 30),

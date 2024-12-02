@@ -10,10 +10,11 @@ class LogServices {
 
    Future<bool> login(String email, String password) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      final result = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       return true;
     } catch (e) {
+      debugPrint('Erro: $e');
       rethrow;
     }
   }

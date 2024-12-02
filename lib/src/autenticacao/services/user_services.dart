@@ -1,18 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../perfil_user/bloc/foto/get_foto_bloc.dart';
-import '../../perfil_user/bloc/foto/get_foto_events.dart';
-import '../../perfil_user/bloc/nome/get_name_bloc.dart';
-import '../../perfil_user/bloc/nome/get_name_events.dart';
 import '../tratamento/error_snackbar.dart';
 import '../tratamento/success_snackbar.dart';
 import 'log_services.dart';
@@ -24,46 +18,65 @@ class UserServices {
   MensagemDeSucesso mensagemDeSucesso = MensagemDeSucesso();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  Future<bool> registerUser(String name, String email, String password) async {
+  Future<String?> registerUser(
+      String name, String email, String password) async {
     if (!isEmailValid(email)) {
-      return false;
+      return 'Por favor, insira um email válido.';
     }
 
     if (!isPasswordValid(password)) {
-      return false;
+      return 'A senha deve conter no mínimo 6 caracteres.';
     }
     return await performRegistration(name, email, password);
   }
 
-  Future<bool> performRegistration(
+  Future<String> performRegistration(
       String name, String email, String password) async {
-    String? token = await getFCMtoken();
-    debugPrint(token);
+    String? token;
+    if (kIsWeb) {
+      token = await FirebaseMessaging.instance.getToken(
+          vapidKey:
+              'BAab-Kx8H9rl5Lg_PNflviIKlOcENUwVfibdnWILYC45z06qp0e7-kH80Ln-vrq1LxrMZ_X-i_q-5WYiG5yIUjA');
+    } else {
+      token = await FirebaseMessaging.instance.getToken();
+    }
 
-    HttpsCallable callable =
-        FirebaseFunctions.instanceFor(region: 'southamerica-east1')
-            .httpsCallable('cadastro');
+    debugPrint('token ----------> $token');
+
+    var dio = Dio();
+    String url =
+        //'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/newCadastrov2';
+        'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/newCadastrov2';
+
     try {
-      final HttpsCallableResult result = await callable.call(<String, dynamic>{
-        'nome': name,
-        'email': email,
-        'senha': password,
-        'token': token
-      });
-      debugPrint(result.data['message']);
-      Future.delayed(
-        const Duration(seconds: 3),
+      final response = await dio.post(
+        url,
+        data: {'nome': name, 'email': email, 'senha': password, 'token': token},
       );
+
+      debugPrint(response.data['message']);
+
+      await Future.delayed(const Duration(seconds: 3));
+
       try {
         await logServices.login(email, password);
       } catch (e) {
         debugPrint('Erro ao fazer login: $e');
-        return true;
+        return 'success';
       }
-      return true;
-    } on FirebaseFunctionsException catch (e) {
-      debugPrint('Erro na requisicao: ${e.code}\n${e.message}');
-      return false;
+      return 'success';
+    } on DioException catch (e) {
+      debugPrint('Erro na requisição: ${e.message}');
+      if (e.response != null) {
+        debugPrint('Status: ${e.response?.statusCode}');
+        debugPrint('Dados: ${e.response?.data}');
+        return e.response?.data;
+      } else {
+        rethrow;
+      }
+    } catch (e) {
+      debugPrint('Erro inesperado: $e');
+      rethrow;
     }
   }
 
@@ -179,16 +192,16 @@ class UserServices {
     try {
       if (isEmailValid(email)) {
         await firebaseAuth.sendPasswordResetEmail(email: email);
-        mensagemDeSucesso.showSuccessSnackbar(
-            context, 'Email enviado com sucesso');
+        // mensagemDeSucesso.showSuccessSnackbar(
+        //     context, 'Email enviado com sucesso');
       } else {
-        tratamentoDeErros.showErrorSnackbar(
-            context, 'Falha ao enviar email, tente novamente');
+        // tratamentoDeErros.showErrorSnackbar(
+        //     context, 'Falha ao enviar email, tente novamente');
       }
     } catch (e) {
       debugPrint('Erro: $e');
-      tratamentoDeErros.showErrorSnackbar(
-          context, 'Falha ao enviar email, tente novamente');
+      // tratamentoDeErros.showErrorSnackbar(
+      //     context, 'Falha ao enviar email, tente novamente');
     }
   }
 
