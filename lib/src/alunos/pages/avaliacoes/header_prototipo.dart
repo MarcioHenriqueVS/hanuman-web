@@ -7,12 +7,16 @@ class HeaderPrototipo extends StatelessWidget {
   final String title;
   final String subtitle;
   final String? button;
+  final bool? icon;
+  final double? maxWidth;
   const HeaderPrototipo({
     super.key,
     this.onSave,
     required this.title,
     required this.subtitle,
     this.button,
+    this.icon = true,
+    this.maxWidth,
   });
 
   @override
@@ -31,9 +35,11 @@ class HeaderPrototipo extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
+          constraints: BoxConstraints(maxWidth: maxWidth ?? 1200),
           child: Row(
-            mainAxisAlignment: button != null ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
+            mainAxisAlignment: button != null
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -48,7 +54,7 @@ class HeaderPrototipo extends StatelessWidget {
                       Text(
                         title,
                         style: SafeGoogleFont(
-                          'Outfit',
+                          'Open Sans',
                           textStyle: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -59,7 +65,7 @@ class HeaderPrototipo extends StatelessWidget {
                       Text(
                         subtitle,
                         style: SafeGoogleFont(
-                          'Readex Pro',
+                          'Open Sans',
                           textStyle: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[400],
@@ -70,33 +76,43 @@ class HeaderPrototipo extends StatelessWidget {
                   ),
                 ],
               ),
-              button != null ? FFButtonWidget(
-                onPressed: onSave,
-                text: button!,
-                icon: const Icon(
-                  Icons.add_rounded,
-                  size: 15,
-                ),
-                options: FFButtonOptions(
-                  height: 40,
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                  iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                  color: Colors.green,
-                  textStyle: SafeGoogleFont(
-                    'Readex Pro',
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                  elevation: 3,
-                  borderSide: const BorderSide(
-                    color: Colors.transparent,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ) : const SizedBox.shrink(),
+              button != null
+                  ? Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: FFButtonWidget(
+                        onPressed: onSave,
+                        text: button!,
+                        icon: icon!
+                            ? const Icon(
+                                Icons.add_rounded,
+                                size: 15,
+                              )
+                            : null,
+                        options: FFButtonOptions(
+                          height: 40,
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16, 0, 16, 0),
+                          iconPadding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          color: Colors.green,
+                          // textStyle:
+                          // // SafeGoogleFont(
+                          // //   'Open Sans',
+                          // //   textStyle: const TextStyle(
+                          // //     fontSize: 16,
+                          // //     color: Colors.white,
+                          // //   ),
+                          // ),
+                          elevation: 3,
+                          borderSide: const BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

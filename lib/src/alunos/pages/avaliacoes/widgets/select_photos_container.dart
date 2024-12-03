@@ -46,7 +46,7 @@ class SelectPhotosContainer extends StatelessWidget {
             Text(
               'Fotos',
               style: SafeGoogleFont(
-                'Outfit',
+                'Open Sans',
                 textStyle: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,

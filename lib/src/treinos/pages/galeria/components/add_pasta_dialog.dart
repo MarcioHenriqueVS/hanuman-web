@@ -83,7 +83,7 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
                   Text(
                     'Nova Pasta de Treinos',
                     style: SafeGoogleFont(
-                      'Outfit',
+                      'Open Sans',
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
@@ -96,12 +96,12 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
                 decoration: InputDecoration(
                   labelText: 'Nome da Pasta',
                   labelStyle: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     color: Colors.grey[600],
                   ),
                   hintText: 'Ex: Treinos de Força',
                   hintStyle: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     color: Colors.grey[700],
                   ),
                   border: OutlineInputBorder(
@@ -119,7 +119,7 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
               Text(
                 'Cor da Etiqueta',
                 style: SafeGoogleFont(
-                  'Outfit',
+                  'Open Sans',
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
@@ -161,7 +161,7 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
                     child: Text(
                       'Cancelar',
                       style: SafeGoogleFont(
-                        'Readex Pro',
+                        'Open Sans',
                         color: Colors.grey,
                       ),
                     ),
@@ -204,7 +204,7 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
                           const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                       color: Colors.green,
                       textStyle: SafeGoogleFont(
-                        'Readex Pro',
+                        'Open Sans',
                         textStyle: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,

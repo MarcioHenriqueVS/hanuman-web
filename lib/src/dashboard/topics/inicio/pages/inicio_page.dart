@@ -131,15 +131,14 @@ class _InicioPageState extends State<InicioPage> {
                     children: [
                       buildStatContainer(
                           'Total de Alunos', '0', Icons.people, false),
-                      buildStatContainer( 'Alunos Ativos (7 dias)', '0',
+                      buildStatContainer('Alunos Ativos (7 dias)', '0',
                           Icons.check_circle, false),
                       buildStatContainer('Alunos Inativos (7 dias)', '0',
                           Icons.warning, false),
                     ],
                   ),
           );
-        }
-        else {
+        } else {
           return const Center(child: Text('Erro ao buscar dados'));
         }
       },
@@ -172,7 +171,7 @@ class _InicioPageState extends State<InicioPage> {
                   Text(
                     'Olá, ',
                     style: SafeGoogleFont(
-                      'Outfit',
+                      'Open Sans',
                       fontSize: 31,
                       fontWeight: FontWeight.normal,
                       color: Colors.white,
@@ -184,7 +183,7 @@ class _InicioPageState extends State<InicioPage> {
                     child: Text(
                       'Usuário',
                       style: SafeGoogleFont(
-                        'Outfit',
+                        'Open Sans',
                         fontSize: 31,
                         fontWeight: FontWeight.normal,
                         color: Colors.green,
@@ -286,7 +285,7 @@ class _InicioPageState extends State<InicioPage> {
                           child: Text(
                             'Atualizações',
                             style: SafeGoogleFont(
-                              'Outfit',
+                              'Open Sans',
                               textStyle: const TextStyle(
                                 fontSize: 24,
                               ),
@@ -299,7 +298,7 @@ class _InicioPageState extends State<InicioPage> {
                           child: Text(
                             'Veja as atividades dos alunos',
                             style: SafeGoogleFont(
-                              'Readex Pro',
+                              'Open Sans',
                               textStyle: const TextStyle(
                                 fontSize: 14,
                               ),

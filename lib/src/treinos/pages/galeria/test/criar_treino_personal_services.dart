@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../exercicios/model/exercicio_model.dart';
 import '../../../models/exercicio_treino_model.dart';
 import '../../../models/serie_model.dart';
@@ -25,16 +24,18 @@ class CriarTreinoServices {
     return intervalos;
   }
 
-    void addNewExercicio(List<TextEditingController> notasControllers) {
+  void addNewExercicio(List<TextEditingController> notasControllers) {
     notasControllers.add(TextEditingController());
   }
 
-    List<Serie> getSeriesForExercicio(ExercicioSelecionado exercicio, Map<String, List<Serie>> exercicioSeriesMap) {
+  List<Serie> getSeriesForExercicio(ExercicioSelecionado exercicio,
+      Map<String, List<Serie>> exercicioSeriesMap) {
     // Obter a lista de séries para o id do exercício
     return exercicioSeriesMap[exercicio.newId] ?? [];
   }
 
-  Intervalo getIntervalForExercicio(ExercicioSelecionado exercicio, Map<String, String?> exerciseIntervalMap) {
+  Intervalo getIntervalForExercicio(ExercicioSelecionado exercicio,
+      Map<String, String?> exerciseIntervalMap) {
     // Obter o valor do intervalo como uma string
     String? intervalString = exerciseIntervalMap[exercicio.newId];
     if (intervalString == null) {
@@ -50,20 +51,23 @@ class CriarTreinoServices {
     }
   }
 
-  void showIntervalPicker(BuildContext context, intervalos, nome, Map<String, String?> exerciseIntervalMap) {
-    showModalBottomSheet(
+  void showIntervalPicker(BuildContext context, intervalos, nome,
+      Map<String, String?> exerciseIntervalMap) {
+    showDialog(
       context: context,
       builder: (BuildContext context) {
-        return IntervalPickerWidget(
-          intervalos: intervalos,
-          nome: nome,
-          exerciseIntervalMap: exerciseIntervalMap,
+        return Dialog(
+          child: IntervalPickerWidget(
+            intervalos: intervalos,
+            nome: nome,
+            exerciseIntervalMap: exerciseIntervalMap,
+          ),
         );
       },
     );
   }
 
-    String verificarTipo(String tipo) {
+  String verificarTipo(String tipo) {
     if (tipo.contains('segundos')) {
       return 'seg';
     } else {

@@ -59,7 +59,7 @@ class _PastaDetalhesState extends State<PastaDetalhes> {
                       Text(
                         widget.pasta['nome'],
                         style: SafeGoogleFont(
-                          'Outfit',
+                          'Open Sans',
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
                         ),
@@ -67,7 +67,7 @@ class _PastaDetalhesState extends State<PastaDetalhes> {
                       Text(
                         '${widget.pasta['qtdTreinos']} treinos',
                         style: SafeGoogleFont(
-                          'Readex Pro',
+                          'Open Sans',
                           fontSize: 14,
                           color: Colors.grey,
                         ),
@@ -157,12 +157,12 @@ class _PastaDetalhesState extends State<PastaDetalhes> {
                               treino.titulo == ''
                                   ? 'Sem título'
                                   : treino.titulo,
-                              style: SafeGoogleFont('Outfit', fontSize: 16),
+                              style: SafeGoogleFont('Open Sans', fontSize: 16),
                             ),
                             subtitle: Text(
                               '${treino.exercicios.length} exercícios',
                               style: SafeGoogleFont(
-                                'Readex Pro',
+                                'Open Sans',
                                 fontSize: 12,
                                 color: Colors.grey,
                               ),

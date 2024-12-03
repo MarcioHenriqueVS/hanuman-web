@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../../utils.dart';
 import '../../../../models/serie_model.dart';
 import 'build_series_button.dart';
 
@@ -98,13 +99,18 @@ class _BuildSeriesInputState extends State<BuildSeriesInput> {
                           },
                           controller: serie.pesoController,
                           decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[900],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: BorderSide.none,
+                            labelStyle: SafeGoogleFont(
+                              'Open Sans',
+                              textStyle: TextStyle(
+                                  color: Colors.white70, fontSize: 14),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white30),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                         ),
@@ -137,13 +143,18 @@ class _BuildSeriesInputState extends State<BuildSeriesInput> {
                           },
                           controller: serie.repsController, // Preserva o valor
                           decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[900],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              borderSide: BorderSide.none,
+                            labelStyle: SafeGoogleFont(
+                              'Open Sans',
+                              textStyle: TextStyle(
+                                  color: Colors.white70, fontSize: 14),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white30),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                         ),

@@ -35,7 +35,7 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
                 Text(
                   'Prévia do Aluno',
                   style: SafeGoogleFont(
-                    'Outfit',
+                    'Open Sans',
                     textStyle: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -110,10 +110,11 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                           // AvaliacoesListPage(aluno: widget.aluno),
-                           AddAvaPrototipo(aluno: widget.aluno,)
-                      ),
+                          builder: (context) =>
+                              // AvaliacoesListPage(aluno: widget.aluno),
+                              AddAvaPrototipo(
+                                aluno: widget.aluno,
+                              )),
                     );
                   },
                 ),
@@ -135,7 +136,7 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
           child: Text(
             label,
             style: SafeGoogleFont(
-              'Readex Pro',
+              'Open Sans',
               textStyle: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[400],
@@ -158,7 +159,7 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
               Text(
                   value,
                   style: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     textStyle: TextStyle(
                       fontSize: 14,
                       color: isActive ? Colors.green : Colors.red,
@@ -169,7 +170,7 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
               : Text(
                   value,
                   style: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     textStyle: const TextStyle(
                       fontSize: 14,
                     ),
@@ -200,7 +201,7 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
                 Text(
                   label,
                   style: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     textStyle: TextStyle(
                       fontSize: 14,
                       color: color,

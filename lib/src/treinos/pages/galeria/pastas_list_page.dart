@@ -70,7 +70,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
                           Text(
                             pasta['nome'],
                             style: SafeGoogleFont(
-                              'Outfit',
+                              'Open Sans',
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
                             ),
@@ -78,7 +78,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
                           Text(
                             '${pasta['qtdTreinos']} treinos',
                             style: SafeGoogleFont(
-                              'Readex Pro',
+                              'Open Sans',
                               fontSize: 14,
                               color: Colors.grey,
                             ),
@@ -166,12 +166,13 @@ class _TreinosListPageState extends State<TreinosListPage> {
                                   treino.titulo == ''
                                       ? 'Sem título'
                                       : treino.titulo,
-                                  style: SafeGoogleFont('Outfit', fontSize: 16),
+                                  style:
+                                      SafeGoogleFont('Open Sans', fontSize: 16),
                                 ),
                                 subtitle: Text(
                                   '${treino.exercicios.length} exercícios',
                                   style: SafeGoogleFont(
-                                    'Readex Pro',
+                                    'Open Sans',
                                     fontSize: 12,
                                     color: Colors.grey,
                                   ),
@@ -323,7 +324,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
                         Text(
                           'Pastas de Treinos',
                           style: SafeGoogleFont(
-                            'Outfit',
+                            'Open Sans',
                             fontSize: 24,
                             fontWeight: FontWeight.w500,
                           ),
@@ -332,7 +333,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
                         Text(
                           'Organize seus treinos em pastas',
                           style: SafeGoogleFont(
-                            'Readex Pro',
+                            'Open Sans',
                             fontSize: 14,
                             color: Colors.grey,
                           ),
@@ -354,7 +355,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
                             const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                         color: Colors.green,
                         textStyle: SafeGoogleFont(
-                          'Readex Pro',
+                          'Open Sans',
                           textStyle: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
@@ -461,7 +462,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
                                                       child: Text(
                                                         pasta['nome'],
                                                         style: SafeGoogleFont(
-                                                          'Outfit',
+                                                          'Open Sans',
                                                           fontSize: 18,
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -474,7 +475,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
                                                 Text(
                                                   '${pasta['qtdTreinos']} treinos',
                                                   style: SafeGoogleFont(
-                                                    'Readex Pro',
+                                                    'Open Sans',
                                                     fontSize: 14,
                                                     color: Colors.grey,
                                                   ),
@@ -558,7 +559,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
             Text(
               'Nenhuma pasta encontrada',
               style: SafeGoogleFont(
-                'Readex Pro',
+                'Open Sans',
                 textStyle: TextStyle(
                   fontSize: 16,
                   color: Colors.grey[400],

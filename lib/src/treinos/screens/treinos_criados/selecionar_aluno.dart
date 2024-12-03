@@ -68,8 +68,10 @@ class _SelecionarAlunoState extends State<SelecionarAluno> {
           alunosFiltrados = List.from(alunos);
         } else {
           alunosFiltrados = alunos.where((aluno) {
-            final nomeNormalizado = removeDiacritics(aluno.nome.toLowerCase()).trim();
-            final queryNormalizada = removeDiacritics(query.toLowerCase()).trim();
+            final nomeNormalizado =
+                removeDiacritics(aluno.nome.toLowerCase()).trim();
+            final queryNormalizada =
+                removeDiacritics(query.toLowerCase()).trim();
             return nomeNormalizado.contains(queryNormalizada);
           }).toList();
         }
@@ -225,7 +227,7 @@ class _SelecionarAlunoState extends State<SelecionarAluno> {
           Text(
             'Nenhum aluno encontrado',
             style: SafeGoogleFont(
-              'Readex Pro',
+              'Open Sans',
               textStyle: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[400],
@@ -251,7 +253,7 @@ class _SelecionarAlunoState extends State<SelecionarAluno> {
               iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
               color: Colors.green,
               textStyle: SafeGoogleFont(
-                'Readex Pro',
+                'Open Sans',
                 textStyle: const TextStyle(
                   fontSize: 16,
                   color: Colors.white,

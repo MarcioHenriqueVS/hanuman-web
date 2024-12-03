@@ -47,7 +47,7 @@ class _DashboardAttsState extends State<DashboardAtts> {
                   Text(
                     'Nenhuma atualização disponível!',
                     style: SafeGoogleFont(
-                      'Readex Pro',
+                      'Open Sans',
                       textStyle: const TextStyle(
                         fontSize: 16,
                       ),

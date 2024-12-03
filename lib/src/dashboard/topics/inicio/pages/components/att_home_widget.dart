@@ -108,7 +108,7 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                             Text(
                               '${aluno!.nome} ${widget.titulo}',
                               style: SafeGoogleFont(
-                                'Readex Pro',
+                                'Open Sans',
                                 textStyle: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -119,7 +119,7 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                             Text(
                               'Clique para visualizar',
                               style: SafeGoogleFont(
-                                'Readex Pro',
+                                'Open Sans',
                                 textStyle: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 12,
@@ -137,7 +137,7 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                           Text(
                             'Em:',
                             style: SafeGoogleFont(
-                              'Readex Pro',
+                              'Open Sans',
                               textStyle: TextStyle(
                                 color: Colors.grey[500],
                                 fontSize: 12,
@@ -147,7 +147,7 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                           Text(
                             friendlyDate ?? 'Não registrado',
                             style: SafeGoogleFont(
-                              'Readex Pro',
+                              'Open Sans',
                               textStyle: const TextStyle(
                                 color: Colors.green,
                                 fontSize: 12,

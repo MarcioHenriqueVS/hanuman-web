@@ -117,7 +117,7 @@ class _AlunosTableState extends State<AlunosTable> {
                             child: Text(
                               'Alunos',
                               style: SafeGoogleFont(
-                                'Outfit',
+                                'Open Sans',
                                 textStyle: const TextStyle(
                                   fontSize: 24,
                                 ),
@@ -130,7 +130,7 @@ class _AlunosTableState extends State<AlunosTable> {
                             child: Text(
                               'Alunos atualizados recentemente',
                               style: SafeGoogleFont(
-                                'Readex Pro',
+                                'Open Sans',
                                 textStyle: const TextStyle(
                                   fontSize: 14,
                                 ),
@@ -160,7 +160,7 @@ class _AlunosTableState extends State<AlunosTable> {
                             const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                         color: Colors.green,
                         textStyle: SafeGoogleFont(
-                          'Readex Pro',
+                          'Open Sans',
                           textStyle: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
@@ -181,7 +181,7 @@ class _AlunosTableState extends State<AlunosTable> {
                   child: Text(
                     'Nenhum aluno encontrado',
                     style: SafeGoogleFont(
-                      'Readex Pro',
+                      'Open Sans',
                       textStyle: const TextStyle(
                         fontSize: 16,
                       ),
@@ -227,7 +227,7 @@ class _AlunosTableState extends State<AlunosTable> {
                             child: Text(
                               'Alunos',
                               style: SafeGoogleFont(
-                                'Outfit',
+                                'Open Sans',
                                 textStyle: const TextStyle(
                                   fontSize: 24,
                                 ),
@@ -240,7 +240,7 @@ class _AlunosTableState extends State<AlunosTable> {
                             child: Text(
                               'Alunos atualizados recentemente',
                               style: SafeGoogleFont(
-                                'Readex Pro',
+                                'Open Sans',
                                 textStyle: const TextStyle(
                                   fontSize: 14,
                                 ),
@@ -269,7 +269,7 @@ class _AlunosTableState extends State<AlunosTable> {
                     //           isDense: true,
                     //           hintText: 'Procurar aluno...',
                     //           hintStyle: SafeGoogleFont(
-                    //             'Readex Pro',
+                    //             'Open Sans',
                     //             textStyle: const TextStyle(
                     //               fontSize: 12,
                     //             ),
@@ -314,7 +314,7 @@ class _AlunosTableState extends State<AlunosTable> {
                     //           });
                     //         },
                     //         style: SafeGoogleFont(
-                    //           'Readex Pro',
+                    //           'Open Sans',
                     //           textStyle: const TextStyle(
                     //             fontSize: 14,
                     //           ),
@@ -342,7 +342,7 @@ class _AlunosTableState extends State<AlunosTable> {
                             const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                         color: Colors.green,
                         textStyle: SafeGoogleFont(
-                          'Readex Pro',
+                          'Open Sans',
                           textStyle: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
@@ -383,7 +383,7 @@ class _AlunosTableState extends State<AlunosTable> {
                 //             child: Text(
                 //               'Dados do aluno',
                 //               style: SafeGoogleFont(
-                //                 'Readex Pro',
+                //                 'Open Sans',
                 //                 textStyle: const TextStyle(
                 //                   fontSize: 12,
                 //                 ),
@@ -399,7 +399,7 @@ class _AlunosTableState extends State<AlunosTable> {
                 //               child: Text(
                 //                 'Última atualização',
                 //                 style: SafeGoogleFont(
-                //                   'Readex Pro',
+                //                   'Open Sans',
                 //                   textStyle: const TextStyle(
                 //                     fontSize: 12,
                 //                   ),
@@ -411,7 +411,7 @@ class _AlunosTableState extends State<AlunosTable> {
                 //               child: Text(
                 //                 'Status',
                 //                 style: SafeGoogleFont(
-                //                   'Readex Pro',
+                //                   'Open Sans',
                 //                   textStyle: const TextStyle(
                 //                     fontSize: 12,
                 //                   ),
@@ -423,7 +423,7 @@ class _AlunosTableState extends State<AlunosTable> {
                 //               'Ações',
                 //               textAlign: TextAlign.end,
                 //               style: SafeGoogleFont(
-                //                 'Readex Pro',
+                //                 'Open Sans',
                 //                 textStyle: const TextStyle(
                 //                   fontSize: 12,
                 //                 ),
@@ -533,7 +533,7 @@ class _AlunosTableState extends State<AlunosTable> {
                                                     child: Text(
                                                       aluno.nome,
                                                       style: SafeGoogleFont(
-                                                        'Readex Pro',
+                                                        'Open Sans',
                                                         textStyle: TextStyle(
                                                           fontSize: 14,
                                                           fontWeight:
@@ -558,7 +558,7 @@ class _AlunosTableState extends State<AlunosTable> {
                                                   child: Text(
                                                     aluno.email,
                                                     style: SafeGoogleFont(
-                                                      'Readex Pro',
+                                                      'Open Sans',
                                                       textStyle:
                                                           const TextStyle(
                                                               fontSize: 12,
@@ -584,7 +584,7 @@ class _AlunosTableState extends State<AlunosTable> {
                                     child: Text(
                                       formatarData(aluno.lastAtt),
                                       style: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           fontSize: 14,
                                         ),
@@ -613,7 +613,7 @@ class _AlunosTableState extends State<AlunosTable> {
                                             child: Text(
                                               ativo ? 'Ativo' : 'Inativo',
                                               style: SafeGoogleFont(
-                                                'Readex Pro',
+                                                'Open Sans',
                                                 textStyle: const TextStyle(
                                                   fontSize: 14,
                                                 ),

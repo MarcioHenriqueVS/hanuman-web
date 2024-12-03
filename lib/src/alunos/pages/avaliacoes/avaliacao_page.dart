@@ -86,7 +86,7 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
               Text(
                 'RELATÓRIO DE AVALIAÇÃO FÍSICA',
                 style: SafeGoogleFont(
-                  'Outfit',
+                  'Open Sans',
                   textStyle: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -102,7 +102,7 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
           Text(
             widget.avaliacao.titulo,
             style: SafeGoogleFont(
-              'Outfit',
+              'Open Sans',
               textStyle: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w600,
@@ -168,7 +168,7 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
 
   TextStyle _sectionTitleStyle() {
     return SafeGoogleFont(
-      'Outfit',
+      'Open Sans',
       textStyle: const TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
@@ -329,7 +329,7 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
         Text(
           widget.avaliacao.obs ?? '',
           style: SafeGoogleFont(
-            'Readex Pro',
+            'Open Sans',
             textStyle: const TextStyle(fontSize: 14, color: Colors.white),
           ),
         ),

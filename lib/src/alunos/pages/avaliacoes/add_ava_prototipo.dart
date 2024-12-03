@@ -437,7 +437,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                               Text(
                                 'Selecione a fórmula',
                                 style: SafeGoogleFont(
-                                  'Outfit',
+                                  'Open Sans',
                                   textStyle: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -450,7 +450,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                 hint: Text(
                                   'Selecione',
                                   style: SafeGoogleFont(
-                                    'Readex Pro',
+                                    'Open Sans',
                                     textStyle: const TextStyle(
                                       color: Colors.white,
                                     ),
@@ -494,7 +494,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                     child: Text(
                                       'Durnin-Womersley',
                                       style: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           color: Colors.white,
                                         ),
@@ -525,7 +525,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                     child: Text(
                                       'Jackson e Pollock (3 dobras)',
                                       style: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           color: Colors.white,
                                         ),
@@ -558,7 +558,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                     child: Text(
                                       'Jackson e Pollock (4 dobras)',
                                       style: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           color: Colors.white,
                                         ),
@@ -601,7 +601,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                     child: Text(
                                       'Jackson e Pollock (7 dobras)',
                                       style: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           color: Colors.white,
                                         ),

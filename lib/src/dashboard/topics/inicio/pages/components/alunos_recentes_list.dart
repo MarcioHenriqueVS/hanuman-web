@@ -40,91 +40,95 @@ class _AlunosRecentesListState extends State<AlunosRecentesList> {
               itemCount: alunos.length,
               itemBuilder: (context, index) {
                 final aluno = alunos[index];
-                return Padding(padding: EdgeInsets.symmetric(vertical: 3), child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AlunoProfilePage(aluno: aluno),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      //margin: const EdgeInsets.symmetric(vertical: 3),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF121212),
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(aluno.fotoUrl ??
-                                'https://i.pravatar.cc/150?img=1'),
-                            radius: 20,
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 3),
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AlunoProfilePage(aluno: aluno),
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        );
+                      },
+                      child: Container(
+                        //margin: const EdgeInsets.symmetric(vertical: 3),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF121212),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(aluno.fotoUrl ??
+                                  'https://i.pravatar.cc/150?img=1'),
+                              radius: 20,
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    aluno.nome,
+                                    style: SafeGoogleFont(
+                                      'Open Sans',
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    aluno.email,
+                                    style: SafeGoogleFont(
+                                      'Open Sans',
+                                      textStyle: TextStyle(
+                                        color: Colors.grey[400],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  aluno.nome,
+                                  'Última atualização:',
                                   style: SafeGoogleFont(
-                                    'Readex Pro',
-                                    textStyle: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
+                                    'Open Sans',
+                                    textStyle: TextStyle(
+                                      color: Colors.grey[500],
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),
                                 Text(
-                                  aluno.email,
+                                  aluno.lastAtt ?? 'Não registrado',
                                   style: SafeGoogleFont(
-                                    'Readex Pro',
-                                    textStyle: TextStyle(
-                                      color: Colors.grey[400],
+                                    'Open Sans',
+                                    textStyle: const TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Última atualização:',
-                                style: SafeGoogleFont(
-                                  'Readex Pro',
-                                  textStyle: TextStyle(
-                                    color: Colors.grey[500],
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                aluno.lastAtt ?? 'Não registrado',
-                                style: SafeGoogleFont(
-                                  'Readex Pro',
-                                  textStyle: const TextStyle(
-                                    color: Colors.green,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),);
+                );
               },
             ),
           );

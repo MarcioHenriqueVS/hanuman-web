@@ -5,8 +5,11 @@ import '../autenticacao/checagem/checagem.dart';
 import '../dashboard/dashboard_view.dart';
 import '../login/reset_senha_screen.dart';
 import '../treinos/editar_treino/new_edit_treino_screen.dart';
+import '../treinos/models/treino_model.dart';
 import '../treinos/pages/galeria/test/criar_treino_personal_screen.dart';
+import '../treinos/screens/treinos_criados/personal_treinos_criados_screen.dart';
 import '../treinos/screens/treinos_criados/selecionar_aluno.dart';
+import '../treinos/services/treino_services.dart';
 import '../treinos/teste/treinos_screen.dart';
 import '../web/checagem/checagem.dart';
 import '../login/cadastro_page.dart';
@@ -51,18 +54,18 @@ class Rotas {
       GoRoute(
         name: '/painel',
         path: '/painel',
-        builder: (context, state) => kIsWeb ? const Painel() : Container(),
+        //! builder: (context, state) => kIsWeb ? const Painel() : Container(),
         //builder: (context, state) => const AddAvaPrototipo(),
 
-        // builder: (context, state) {
-        //   final TreinoServices treinoServices = TreinoServices();
-        //   Treino treino =
-        //       Treino.fromFirestore(treinoServices.treinoData, 'Treino A');
-        //   //return TreinoCriadoScreen(treino: treino, pastaId: 'pasta teste');
-        //   //return NewEditarTreinoScreen(pastaId: 'pasta teste', treino: treino, treinoId: '0bea9041-84f9-4cf2-99d2-37157fab93f6',);
-        //   //return NovoTreinoPersonalScreen(pastaId: 'pasta teste',);
-        //   //return NovoTreinoPersonalScreen2(pastaId: 'pasta teste', funcao: 'addTreinoCriado');
-        // },
+        builder: (context, state) {
+          final TreinoServices treinoServices = TreinoServices();
+          Treino treino =
+              Treino.fromFirestore(treinoServices.treinoData, 'Treino A');
+          //return TreinoCriadoScreen(treino: treino, pastaId: 'pasta teste');
+          return NewEditarTreinoScreen(pastaId: 'pasta teste', treino: treino, treinoId: '0bea9041-84f9-4cf2-99d2-37157fab93f6',);
+          //return NovoTreinoPersonalScreen(pastaId: 'pasta teste',);
+          //return NovoTreinoPersonalScreen2(pastaId: 'pasta teste', funcao: 'addTreinoCriado');
+        },
       ),
 
       // GoRoute(

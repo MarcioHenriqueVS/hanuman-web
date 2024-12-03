@@ -141,7 +141,7 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
           Text(
             'Nenhuma pasta encontrada',
             style: SafeGoogleFont(
-              'Readex Pro',
+              'Open Sans',
               textStyle: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[400],
@@ -200,7 +200,7 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
                                 Text(
                                   'Pastas de Treinos',
                                   style: SafeGoogleFont(
-                                    'Outfit',
+                                    'Open Sans',
                                     textStyle: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
@@ -211,7 +211,7 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
                                 Text(
                                   'Organize seus treinos em pastas',
                                   style: SafeGoogleFont(
-                                    'Readex Pro',
+                                    'Open Sans',
                                     textStyle: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[400],
@@ -237,7 +237,7 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
                                 0, 0, 0, 0),
                             color: Colors.green,
                             textStyle: SafeGoogleFont(
-                              'Readex Pro',
+                              'Open Sans',
                               textStyle: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
@@ -371,7 +371,7 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
                                                               pasta['nome'],
                                                               style:
                                                                   SafeGoogleFont(
-                                                                'Outfit',
+                                                                'Open Sans',
                                                                 fontSize: 18,
                                                                 fontWeight:
                                                                     FontWeight
@@ -385,7 +385,7 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
                                                       Text(
                                                         '${pasta['qtdTreinos']} treinos',
                                                         style: SafeGoogleFont(
-                                                          'Readex Pro',
+                                                          'Open Sans',
                                                           fontSize: 14,
                                                           color: Colors.grey,
                                                         ),

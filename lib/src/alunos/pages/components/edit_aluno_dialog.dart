@@ -241,7 +241,7 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
                   Text(
                     'Editar Aluno',
                     style: SafeGoogleFont(
-                      'Outfit',
+                      'Open Sans',
                       textStyle: const TextStyle(fontSize: 24),
                     ),
                   ),

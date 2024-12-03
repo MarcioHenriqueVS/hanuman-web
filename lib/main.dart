@@ -34,22 +34,22 @@ void main() async {
   FirebaseMessagingService service = FirebaseMessagingService();
   service.initialize();
  
-  // FlutterError.onError = (FlutterErrorDetails details) {
-  //   FlutterError.presentError(details);
-  //   debugPrint('ERRO DETALHADO: ${details.toString()}');
-  // };
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    debugPrint('ERRO DETALHADO: ${details.toString()}');
+  };
 
-  // ErrorWidget.builder = (FlutterErrorDetails details) {
-  //   return Material(
-  //     child: Container(
-  //       padding: const EdgeInsets.all(16),
-  //       child: Text(
-  //         'Erro: ${details.exception}\n'
-  //         'Stack: ${details.stack}',
-  //         style: const TextStyle(color: Colors.red),
-  //       ),
-  //     ),
-  //   );
-  // };
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Material(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          'Erro: ${details.exception}\n'
+          'Stack: ${details.stack}',
+          style: const TextStyle(color: Colors.red),
+        ),
+      ),
+    );
+  };
   runApp(MyApp(settingsController: settingsController));
 }

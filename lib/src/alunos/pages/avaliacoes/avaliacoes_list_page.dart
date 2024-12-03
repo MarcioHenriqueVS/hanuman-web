@@ -104,7 +104,7 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
                       Text(
                         'Avaliações Antropométricas',
                         style: SafeGoogleFont(
-                          'Outfit',
+                          'Open Sans',
                           textStyle: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -115,7 +115,7 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
                       Text(
                         'Acompanhamento do progresso físico',
                         style: SafeGoogleFont(
-                          'Readex Pro',
+                          'Open Sans',
                           textStyle: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[400],
@@ -131,7 +131,9 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AddAvaPrototipo(aluno: widget.aluno,)));
+                          builder: (context) => AddAvaPrototipo(
+                                aluno: widget.aluno,
+                              )));
                 },
                 text: 'Nova avaliação',
                 icon: const Icon(
@@ -144,7 +146,7 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
                   iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                   color: Colors.green,
                   textStyle: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     textStyle: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
@@ -214,7 +216,7 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
                         Text(
                           avaliacao.titulo,
                           style: SafeGoogleFont(
-                            'Outfit',
+                            'Open Sans',
                             textStyle: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -224,7 +226,7 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
                         Text(
                           avaliacao.timestamp,
                           style: SafeGoogleFont(
-                            'Readex Pro',
+                            'Open Sans',
                             textStyle: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 14,
@@ -271,7 +273,7 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
           Text(
             label,
             style: SafeGoogleFont(
-              'Readex Pro',
+              'Open Sans',
               textStyle: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[400],
@@ -302,7 +304,7 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
           Text(
             'Nenhuma avaliação encontrada',
             style: SafeGoogleFont(
-              'Readex Pro',
+              'Open Sans',
               textStyle: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[400],

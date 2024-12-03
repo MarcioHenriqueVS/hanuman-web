@@ -38,7 +38,7 @@ class ResultadosContainer extends StatelessWidget {
             Text(
               'Resultados',
               style: SafeGoogleFont(
-                'Outfit',
+                'Open Sans',
                 textStyle: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class ResultadosContainer extends StatelessWidget {
             //       Text(
             //         'Recomendações',
             //         style: SafeGoogleFont(
-            //           'Outfit',
+            //           'Open Sans',
             //           textStyle: const TextStyle(
             //             fontSize: 16,
             //             fontWeight: FontWeight.bold,
@@ -120,7 +120,7 @@ class ResultadosContainer extends StatelessWidget {
             //       Text(
             //         'Seus índices estão dentro do esperado. Mantenha o foco nos treinos e na alimentação balanceada.',
             //         style: SafeGoogleFont(
-            //           'Readex Pro',
+            //           'Open Sans',
             //           textStyle: const TextStyle(
             //             color: Colors.white70,
             //             height: 1.5,
@@ -156,7 +156,7 @@ class ResultadosContainer extends StatelessWidget {
               Text(
                 title,
                 style: SafeGoogleFont(
-                  'Readex Pro',
+                  'Open Sans',
                   textStyle: TextStyle(
                     color: Colors.grey[400],
                     fontSize: 14,
@@ -173,7 +173,7 @@ class ResultadosContainer extends StatelessWidget {
                   child: Text(
                     status,
                     style: SafeGoogleFont(
-                      'Readex Pro',
+                      'Open Sans',
                       textStyle: TextStyle(
                         color: statusColor,
                         fontSize: 12,
@@ -191,7 +191,7 @@ class ResultadosContainer extends StatelessWidget {
               Text(
                 value,
                 style: SafeGoogleFont(
-                  'Outfit',
+                  'Open Sans',
                   textStyle: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -205,7 +205,7 @@ class ResultadosContainer extends StatelessWidget {
                 child: Text(
                   unit,
                   style: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     textStyle: TextStyle(
                       color: Colors.grey[400],
                       fontSize: 14,

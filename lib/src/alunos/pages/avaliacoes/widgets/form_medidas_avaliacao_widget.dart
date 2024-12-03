@@ -46,7 +46,7 @@ class FormMedidasAvaliacaoWidget extends StatelessWidget {
           Text(
             'Circunferências (cm)',
             style: SafeGoogleFont(
-              'Outfit',
+              'Open Sans',
               textStyle: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -185,13 +185,13 @@ class FormMedidasAvaliacaoWidget extends StatelessWidget {
         CommaToPointInputFormatter(),
       ],
       style: SafeGoogleFont(
-        'Readex Pro',
+        'Open Sans',
         textStyle: const TextStyle(color: Colors.white, fontSize: 14),
       ),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: SafeGoogleFont(
-          'Readex Pro',
+          'Open Sans',
           textStyle: TextStyle(color: Colors.white70, fontSize: 14),
         ),
         enabledBorder: OutlineInputBorder(

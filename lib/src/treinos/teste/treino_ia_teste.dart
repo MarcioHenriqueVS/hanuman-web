@@ -88,7 +88,7 @@ class _TreinoIAScreenState extends State<TreinoIAScreen> {
                         Text(
                           'Selecione',
                           style: SafeGoogleFont(
-                            'Outfit',
+                            'Open Sans',
                             fontSize: 24,
                             fontWeight: FontWeight.w500,
                           ),
@@ -99,7 +99,7 @@ class _TreinoIAScreenState extends State<TreinoIAScreen> {
                               ? 'Os treinos selecionados serão enviados para o aluno'
                               : 'Os treinos selecionados serão salvos',
                           style: SafeGoogleFont(
-                            'Readex Pro',
+                            'Open Sans',
                             fontSize: 14,
                             color: Colors.grey,
                           ),
@@ -148,7 +148,7 @@ class _TreinoIAScreenState extends State<TreinoIAScreen> {
                     //         0, 0, 0, 0),
                     //     color: Colors.green,
                     //     textStyle: SafeGoogleFont(
-                    //       'Readex Pro',
+                    //       'Open Sans',
                     //       textStyle: const TextStyle(
                     //         fontSize: 16,
                     //         color: Colors.white,
@@ -208,7 +208,7 @@ class _TreinoIAScreenState extends State<TreinoIAScreen> {
                     child: Text(
                       sheet.day!,
                       style: SafeGoogleFont(
-                        'Readex Pro',
+                        'Open Sans',
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),

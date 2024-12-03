@@ -60,7 +60,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                           Text(
                             'Perfil do Aluno',
                             style: SafeGoogleFont(
-                              'Outfit',
+                              'Open Sans',
                               textStyle: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -71,7 +71,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                           Text(
                             'Veja os dados do aluno',
                             style: SafeGoogleFont(
-                              'Readex Pro',
+                              'Open Sans',
                               textStyle: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[400],
@@ -124,7 +124,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                                           ? 'ATIVO'
                                           : 'INATIVO'
                                       : 'INATIVO',
-                                  style: SafeGoogleFont('Outfit'),
+                                  style: SafeGoogleFont('Open Sans'),
                                 ),
                               ),
                             ),
@@ -153,7 +153,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                                         Text(
                                           widget.aluno.nome,
                                           style: SafeGoogleFont(
-                                            'Outfit',
+                                            'Open Sans',
                                             textStyle: const TextStyle(
                                               fontSize: 32,
                                               fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                                             Text(
                                               widget.aluno.email,
                                               style: SafeGoogleFont(
-                                                'Readex Pro',
+                                                'Open Sans',
                                                 textStyle: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.green[400],
@@ -241,7 +241,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                                         child: Text(
                                           state.message,
                                           style: SafeGoogleFont(
-                                            'Readex Pro',
+                                            'Open Sans',
                                             textStyle: const TextStyle(
                                               color: Colors.red,
                                             ),
@@ -262,7 +262,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                                             child: Text(
                                               'Nenhuma avaliação encontrada',
                                               style: SafeGoogleFont(
-                                                'Readex Pro',
+                                                'Open Sans',
                                                 textStyle: const TextStyle(
                                                   color: Colors.grey,
                                                 ),
@@ -433,7 +433,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                 Text(
                   title,
                   style: SafeGoogleFont(
-                    'Outfit',
+                    'Open Sans',
                     textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -462,7 +462,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
           Text(
             label,
             style: SafeGoogleFont(
-              'Readex Pro',
+              'Open Sans',
               textStyle: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[400],
@@ -472,7 +472,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
           Text(
             value,
             style: SafeGoogleFont(
-              'Readex Pro',
+              'Open Sans',
               textStyle: const TextStyle(fontSize: 14),
             ),
           ),
@@ -495,7 +495,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                 Text(
                   label,
                   style: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     textStyle: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[400],
@@ -505,7 +505,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                 Text(
                   value,
                   style: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     textStyle: const TextStyle(fontSize: 14),
                   ),
                 ),
@@ -529,7 +529,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
       label: Text(
         label,
         style: SafeGoogleFont(
-          'Readex Pro',
+          'Open Sans',
           textStyle: const TextStyle(color: Colors.white),
         ),
       ),

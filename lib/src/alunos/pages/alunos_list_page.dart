@@ -261,7 +261,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                     child: Text(
                                       'Alunos',
                                       style: SafeGoogleFont(
-                                        'Outfit',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           fontSize: 24,
                                         ),
@@ -275,7 +275,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                     child: Text(
                                       'Gerencie seus alunos cadastrados.',
                                       style: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           fontSize: 14,
                                         ),
@@ -305,7 +305,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                       isDense: true,
                                       hintText: 'Procurar aluno...',
                                       hintStyle: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           fontSize: 12,
                                         ),
@@ -353,7 +353,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                       });
                                     },
                                     style: SafeGoogleFont(
-                                      'Readex Pro',
+                                      'Open Sans',
                                       textStyle: const TextStyle(
                                         fontSize: 14,
                                       ),
@@ -382,7 +382,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                         0, 0, 0, 0),
                                 color: Colors.green,
                                 textStyle: SafeGoogleFont(
-                                  'Readex Pro',
+                                  'Open Sans',
                                   textStyle: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.white,
@@ -429,7 +429,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                       child: Text(
                                         'ID',
                                         style: SafeGoogleFont(
-                                          'Readex Pro',
+                                          'Open Sans',
                                           textStyle: const TextStyle(
                                             fontSize: 12,
                                           ),
@@ -441,7 +441,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                     child: Text(
                                       'Dados do aluno',
                                       style: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           fontSize: 12,
                                         ),
@@ -457,7 +457,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                       child: Text(
                                         'Última atualização',
                                         style: SafeGoogleFont(
-                                          'Readex Pro',
+                                          'Open Sans',
                                           textStyle: const TextStyle(
                                             fontSize: 12,
                                           ),
@@ -468,7 +468,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                     child: Text(
                                       'Status',
                                       style: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           fontSize: 12,
                                         ),
@@ -480,7 +480,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                       'Ações',
                                       textAlign: TextAlign.end,
                                       style: SafeGoogleFont(
-                                        'Readex Pro',
+                                        'Open Sans',
                                         textStyle: const TextStyle(
                                           fontSize: 12,
                                         ),
@@ -544,7 +544,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                             child: Text(
                                               '#${aluno.uid.substring(0, 8)}',
                                               style: SafeGoogleFont(
-                                                'Readex Pro',
+                                                'Open Sans',
                                                 textStyle: const TextStyle(
                                                   fontSize: 14,
                                                 ),
@@ -632,7 +632,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                         Text(
                                                           aluno.nome,
                                                           style: SafeGoogleFont(
-                                                            'Readex Pro',
+                                                            'Open Sans',
                                                             textStyle:
                                                                 const TextStyle(
                                                               fontSize: 14,
@@ -651,7 +651,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                             aluno.email,
                                                             style:
                                                                 SafeGoogleFont(
-                                                              'Readex Pro',
+                                                              'Open Sans',
                                                               textStyle:
                                                                   const TextStyle(
                                                                       fontSize:
@@ -678,7 +678,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                             child: Text(
                                               formatarData(aluno.lastAtt),
                                               style: SafeGoogleFont(
-                                                'Readex Pro',
+                                                'Open Sans',
                                                 textStyle: const TextStyle(
                                                   fontSize: 14,
                                                 ),
@@ -709,7 +709,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                   child: Text(
                                                     ativo ? 'Ativo' : 'Inativo',
                                                     style: SafeGoogleFont(
-                                                      'Readex Pro',
+                                                      'Open Sans',
                                                       textStyle:
                                                           const TextStyle(
                                                         fontSize: 14,
@@ -829,7 +829,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                               Text(
                                 'Página $_paginaAtual de $totalPaginas',
                                 style: SafeGoogleFont(
-                                  'Readex Pro',
+                                  'Open Sans',
                                   textStyle: const TextStyle(fontSize: 14),
                                 ),
                               ),
@@ -872,7 +872,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
           Text(
             'Nenhum aluno encontrado',
             style: SafeGoogleFont(
-              'Readex Pro',
+              'Open Sans',
               textStyle: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[400],
@@ -898,7 +898,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
               iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
               color: Colors.green,
               textStyle: SafeGoogleFont(
-                'Readex Pro',
+                'Open Sans',
                 textStyle: const TextStyle(
                   fontSize: 16,
                   color: Colors.white,

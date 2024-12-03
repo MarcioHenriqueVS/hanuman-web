@@ -206,7 +206,7 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
                     Text(
                       'Adicionar Novo Aluno',
                       style: SafeGoogleFont(
-                        'Outfit',
+                        'Open Sans',
                         textStyle: const TextStyle(fontSize: 24),
                       ),
                     ),

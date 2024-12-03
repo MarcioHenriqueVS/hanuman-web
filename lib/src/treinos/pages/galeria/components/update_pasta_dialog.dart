@@ -87,7 +87,7 @@ class _UpdatePastaDialogState extends State<UpdatePastaDialog> {
                   Text(
                     'Editar Pasta',
                     style: SafeGoogleFont(
-                      'Outfit',
+                      'Open Sans',
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
@@ -100,7 +100,7 @@ class _UpdatePastaDialogState extends State<UpdatePastaDialog> {
                 decoration: InputDecoration(
                   labelText: 'Nome da Pasta',
                   labelStyle: SafeGoogleFont(
-                    'Readex Pro',
+                    'Open Sans',
                     color: Colors.grey[600],
                   ),
                   border: OutlineInputBorder(
@@ -118,7 +118,7 @@ class _UpdatePastaDialogState extends State<UpdatePastaDialog> {
               Text(
                 'Cor da Etiqueta',
                 style: SafeGoogleFont(
-                  'Outfit',
+                  'Open Sans',
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
@@ -158,7 +158,7 @@ class _UpdatePastaDialogState extends State<UpdatePastaDialog> {
                     child: Text(
                       'Cancelar',
                       style: SafeGoogleFont(
-                        'Readex Pro',
+                        'Open Sans',
                         color: Colors.grey,
                       ),
                     ),
@@ -226,7 +226,7 @@ class _UpdatePastaDialogState extends State<UpdatePastaDialog> {
                           const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                       color: Colors.green,
                       textStyle: SafeGoogleFont(
-                        'Readex Pro',
+                        'Open Sans',
                         textStyle: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,

@@ -54,7 +54,7 @@ class _StatsContainersState extends State<StatsContainers> {
                       Text(
                         widget.title,
                         style: SafeGoogleFont(
-                          'Outfit',
+                          'Open Sans',
                           fontSize: 16,
                           color: Colors.grey,
                         ),
@@ -87,7 +87,7 @@ class _StatsContainersState extends State<StatsContainers> {
                       ? Text(
                           widget.value!,
                           style: SafeGoogleFont(
-                            'Outfit',
+                            'Open Sans',
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
