@@ -14,6 +14,7 @@ import '../../bloc/get_pastas_personal/get_pastas_bloc.dart';
 import '../../bloc/get_pastas_personal/get_pastas_event.dart';
 import '../../bloc/get_pastas_personal/get_pastas_state.dart';
 import '../../bloc/get_treinos_criados/get_treinos_criados_bloc.dart';
+import 'test/criar_treino_personal_screen.dart';
 
 class TreinosListPage extends StatefulWidget {
   const TreinosListPage({super.key});
@@ -93,11 +94,11 @@ class _TreinosListPageState extends State<TreinosListPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => NovoTreinoPersonalScreen(
-                              pastaId: pasta['id'],
-                            ),
+                            builder: (context) => NovoTreinoPersonalScreen2(
+                                pastaId: pasta['id'],
+                                funcao: 'addTreinoPersonal'),
                           ),
-                        );
+                            );
                       },
                       icon: const Icon(
                         Icons.add,

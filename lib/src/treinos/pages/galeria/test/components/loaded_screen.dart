@@ -10,6 +10,10 @@ import '../../../../../exercicios/services/exercicios_services.dart';
 import '../../../../../utils.dart';
 import '../../../../../widgets_comuns/button_bloc/elevated_button_bloc.dart';
 import '../../../../../widgets_comuns/button_bloc/elevated_button_bloc_event.dart';
+import '../../../../bloc/get_pastas/get_pastas_bloc.dart';
+import '../../../../bloc/get_pastas/get_pastas_event.dart';
+import '../../../../bloc/get_pastas_personal/get_pastas_bloc.dart';
+import '../../../../bloc/get_pastas_personal/get_pastas_event.dart';
 import '../../../../bloc/get_treinos_criados/get_treinos_criados_bloc.dart';
 import '../../../../models/exercicio_treino_model.dart';
 import '../../../../models/serie_model.dart';
@@ -146,13 +150,19 @@ class _LoadedScreenState extends State<LoadedScreen> {
                     }
 
                     if (sucesso) {
-                      BlocProvider.of<GetTreinosCriadosBloc>(context).add(
-                        BuscarTreinosCriados(widget.pastaId),
-                      );
+                      // BlocProvider.of<GetTreinosCriadosBloc>(context).add(
+                      //   BuscarTreinosCriados(widget.pastaId),
+                      // );
+                      widget.funcao == 'addTreinoPersonal'
+                          ? BlocProvider.of<GetPastasPersonalBloc>(context)
+                              .add(BuscarPastasPersonal())
+                          : BlocProvider.of<GetPastasBloc>(context)
+                              .add(BuscarPastas(widget.alunoUid!));
                       MensagemDeSucesso().showSuccessSnackbar(
                           context, 'Treino criado com sucesso.');
                     } else {
-                      TratamentoDeErros().showErrorSnackbar(context, 'Erro ao criar treino, tente novamente');
+                      TratamentoDeErros().showErrorSnackbar(
+                          context, 'Erro ao criar treino, tente novamente');
                     }
                   },
                 ),

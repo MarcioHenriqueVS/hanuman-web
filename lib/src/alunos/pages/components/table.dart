@@ -1,11 +1,14 @@
 import 'package:diacritic/diacritic.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../flutter_flow/ff_button_options.dart';
 import '../../../utils.dart';
 import '../../../widgets_comuns/flutter_flow/flutter_flow_helpers.dart';
+import '../../bloc/delete_aluno/delete_aluno_bloc.dart';
 import '../../bloc/get_alunos/get_alunos_bloc.dart';
 import '../../models/aluno_model.dart';
+import '../../services/alunos_services.dart';
 import '../aluno_profile_page.dart';
 import 'add_aluno_dialog.dart';
 import 'edit_aluno_dialog.dart';
@@ -22,6 +25,8 @@ class _AlunosTableState extends State<AlunosTable> {
   final TextEditingController searchController = TextEditingController();
   List<AlunoModel> alunosFiltrados = [];
   final Map<String, bool> hoveredItems = {}; // Substitui o isHovered
+  final String uid = FirebaseAuth.instance.currentUser!.uid;
+  final _alunosServices = AlunosServices();
 
   @override
   void initState() {
@@ -76,6 +81,55 @@ class _AlunosTableState extends State<AlunosTable> {
     } catch (e) {
       return '30, Jan. 2023'; // Retorna o valor padrão em caso de erro
     }
+  }
+
+  void _showPopupMenu(
+      BuildContext context, AlunoModel aluno, RelativeRect position) {
+    showMenu(
+      context: context,
+      position: position,
+      items: [
+        const PopupMenuItem(
+          value: 'visualizar',
+          child: Row(
+            children: [
+              Icon(Icons.account_circle_outlined),
+              SizedBox(width: 8),
+              Text('Ver perfil'),
+            ],
+          ),
+        ),
+        const PopupMenuItem(
+          value: 'editar',
+          child: Row(
+            children: [
+              Icon(Icons.edit_outlined),
+              SizedBox(width: 8),
+              Text('Editar'),
+            ],
+          ),
+        ),
+      ],
+    ).then((value) {
+      if (value == null) return;
+
+      switch (value) {
+        case 'visualizar':
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AlunoProfilePage(aluno: aluno),
+            ),
+          );
+          break;
+        case 'editar':
+          showDialog(
+            context: context,
+            builder: (context) => EditAlunoDialog(aluno: aluno),
+          );
+          break;
+      }
+    });
   }
 
   @override
@@ -454,83 +508,81 @@ class _AlunosTableState extends State<AlunosTable> {
                           ),
                         ),
                       ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                        child: Container(
-                          width: 100,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 0,
-                                color: Colors.grey[900]!,
-                                offset: const Offset(
-                                  0,
-                                  1,
-                                ),
-                              )
-                            ],
-                          ),
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        onEnter: (_) =>
+                            setState(() => hoveredItems[aluno.uid] = true),
+                        onExit: (_) =>
+                            setState(() => hoveredItems[aluno.uid] = false),
+                        child: GestureDetector(
+                          onTapUp: (TapUpDetails details) {
+                            final RenderBox overlay = Overlay.of(context)
+                                .context
+                                .findRenderObject() as RenderBox;
+                            final position = RelativeRect.fromRect(
+                              details.globalPosition & const Size(40, 40),
+                              Offset.zero & overlay.size,
+                            );
+                            _showPopupMenu(context, aluno, position);
+                          },
                           child: Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
-                                16, 0, 16, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  flex: 4,
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            0, 8, 12, 8),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 8, 0),
-                                          child: CircleAvatar(
-                                            radius: 20,
-                                            backgroundImage: aluno.fotoUrl !=
-                                                    null
-                                                ? NetworkImage(aluno.fotoUrl!)
-                                                : null,
-                                            child: aluno.fotoUrl == null
-                                                ? const Icon(Icons.person)
-                                                : null,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .fromSTEB(4, 0, 0, 0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                MouseRegion(
-                                                  cursor:
-                                                      SystemMouseCursors.click,
-                                                  onEnter: (_) => setState(() =>
-                                                      hoveredItems[aluno.uid] =
-                                                          true),
-                                                  onExit: (_) => setState(() =>
-                                                      hoveredItems[aluno.uid] =
-                                                          false),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            PreviaAlunoDialog(
-                                                          aluno: aluno,
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Text(
+                                0, 5, 0, 5),
+                            child: Container(
+                              width: 100,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 0,
+                                    color: Colors.grey[900]!,
+                                    offset: const Offset(0, 1),
+                                  )
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16, 0, 16, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Expanded(
+                                      flex: 4,
+                                      child: Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 8, 12, 8),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 8, 0),
+                                              child: CircleAvatar(
+                                                radius: 20,
+                                                backgroundImage:
+                                                    aluno.fotoUrl != null
+                                                        ? NetworkImage(
+                                                            aluno.fotoUrl!)
+                                                        : null,
+                                                child: aluno.fotoUrl == null
+                                                    ? const Icon(Icons.person)
+                                                    : null,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(4, 0, 0, 0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
                                                       aluno.nome,
                                                       style: SafeGoogleFont(
                                                         'Open Sans',
@@ -546,165 +598,134 @@ class _AlunosTableState extends State<AlunosTable> {
                                                                   .underline
                                                               : TextDecoration
                                                                   .none,
+                                                          decorationThickness:
+                                                              2,
+                                                          decorationStyle:
+                                                              TextDecorationStyle
+                                                                  .solid,
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(0, 4, 0, 0),
-                                                  child: Text(
-                                                    aluno.email,
-                                                    style: SafeGoogleFont(
-                                                      'Open Sans',
-                                                      textStyle:
-                                                          const TextStyle(
-                                                              fontSize: 12,
-                                                              color:
-                                                                  Colors.green),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                              0, 4, 0, 0),
+                                                      child: Text(
+                                                        aluno.email,
+                                                        style: SafeGoogleFont(
+                                                          'Open Sans',
+                                                          textStyle: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.green,
+                                                            decoration: hoveredItems[
+                                                                        aluno
+                                                                            .uid] ==
+                                                                    true
+                                                                ? TextDecoration
+                                                                    .underline
+                                                                : TextDecoration
+                                                                    .none,
+                                                            decorationThickness:
+                                                                2,
+                                                            decorationStyle:
+                                                                TextDecorationStyle
+                                                                    .solid,
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                if (responsiveVisibility(
-                                  context: context,
-                                  phone: false,
-                                ))
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      formatarData(aluno.lastAtt),
-                                      style: SafeGoogleFont(
-                                        'Open Sans',
-                                        textStyle: const TextStyle(
-                                          fontSize: 14,
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  ),
-                                if (showExtraColumns)
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Container(
-                                          height: 32,
-                                          decoration: BoxDecoration(
-                                            color: ativo
-                                                ? Colors.green
-                                                : Colors.red,
-                                            borderRadius:
-                                                BorderRadius.circular(40),
+                                    if (responsiveVisibility(
+                                      context: context,
+                                      phone: false,
+                                    ))
+                                      Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          formatarData(aluno.lastAtt),
+                                          style: SafeGoogleFont(
+                                            'Open Sans',
+                                            textStyle: const TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
-                                          alignment:
-                                              const AlignmentDirectional(0, 0),
-                                          child: Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .fromSTEB(12, 0, 12, 0),
-                                            child: Text(
-                                              ativo ? 'Ativo' : 'Inativo',
-                                              style: SafeGoogleFont(
-                                                'Open Sans',
-                                                textStyle: const TextStyle(
-                                                  fontSize: 14,
+                                        ),
+                                      ),
+                                    if (showExtraColumns)
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Container(
+                                              height: 32,
+                                              decoration: BoxDecoration(
+                                                color: ativo
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                                borderRadius:
+                                                    BorderRadius.circular(40),
+                                              ),
+                                              alignment:
+                                                  const AlignmentDirectional(
+                                                      0, 0),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(12, 0, 12, 0),
+                                                child: Text(
+                                                  ativo ? 'Ativo' : 'Inativo',
+                                                  style: SafeGoogleFont(
+                                                    'Open Sans',
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                Expanded(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      if (responsiveVisibility(
-                                        context: context,
-                                        phone: false,
-                                      ))
-                                        PopupMenuButton<String>(
-                                          icon: const Icon(
-                                            Icons.more_vert,
-                                            color: Colors.white,
-                                            size: 20,
-                                          ),
-                                          itemBuilder: (context) => [
-                                            const PopupMenuItem(
-                                              value: 'visualizar',
-                                              child: Row(
-                                                children: [
-                                                  Icon(Icons
-                                                      .account_circle_outlined),
-                                                  SizedBox(width: 8),
-                                                  Text('Ver perfil'),
-                                                ],
-                                              ),
-                                            ),
-                                            const PopupMenuItem(
-                                              value: 'editar',
-                                              child: Row(
-                                                children: [
-                                                  Icon(Icons.edit_outlined),
-                                                  SizedBox(width: 8),
-                                                  Text('Editar'),
-                                                ],
-                                              ),
-                                            ),
-                                            // const PopupMenuItem(
-                                            //   value: 'excluir',
-                                            //   child: Row(
-                                            //     children: [
-                                            //       Icon(Icons.delete_outline,
-                                            //           color: Colors.red),
-                                            //       SizedBox(width: 8),
-                                            //       Text('Excluir',
-                                            //           style: TextStyle(
-                                            //               color: Colors.red)),
-                                            //     ],
-                                            //   ),
-                                            // ),
                                           ],
-                                          onSelected: (value) {
-                                            switch (value) {
-                                              case 'visualizar':
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AlunoProfilePage(
-                                                            aluno: aluno),
-                                                  ),
-                                                );
-                                                break;
-                                              case 'editar':
+                                        ),
+                                      ),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          if (responsiveVisibility(
+                                            context: context,
+                                            phone: false,
+                                          ))
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.more_vert,
+                                                color: Colors.white,
+                                                size: 20,
+                                              ),
+                                              onPressed: () {
                                                 showDialog(
                                                   context: context,
                                                   builder: (context) =>
-                                                      EditAlunoDialog(
-                                                          aluno: aluno),
+                                                      PreviaAlunoDialog(
+                                                    aluno: aluno,
+                                                  ),
                                                 );
-                                                break;
-                                              case 'excluir':
-                                                //_confirmarExclusao(context, aluno);
-                                                break;
-                                            }
-                                          },
-                                        ),
-                                    ],
-                                  ),
+                                              },
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
@@ -718,6 +739,88 @@ class _AlunosTableState extends State<AlunosTable> {
         } else {
           return const Center(child: Text('Erro desconhecido'));
         }
+      },
+    );
+  }
+
+  Future<void> _confirmarExclusao(
+      BuildContext context, AlunoModel aluno) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return BlocProvider(
+          create: (context) => DeleteAlunoBloc(_alunosServices),
+          child: BlocConsumer<DeleteAlunoBloc, DeleteAlunoState>(
+            listener: (context, state) {
+              if (state is DeleteAlunoSuccess) {
+                Navigator.of(dialogContext).pop();
+                context.read<GetAlunosBloc>().add(BuscarAlunos());
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Aluno excluído com sucesso'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+              if (state is DeleteAlunoError) {
+                Navigator.of(dialogContext).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Erro ao excluir aluno: ${state.message}'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              return AlertDialog(
+                backgroundColor: Colors.grey[900],
+                title: const Text(
+                  'Confirmar exclusão',
+                  style: TextStyle(color: Colors.white),
+                ),
+                content:
+                    Text('Deseja realmente excluir o aluno ${aluno.nome}?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: state is DeleteAlunoLoading
+                        ? null
+                        : () => Navigator.of(dialogContext).pop(),
+                    child: const Text(
+                      'Cancelar',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  state is DeleteAlunoLoading
+                      ? const ElevatedButton(
+                          onPressed: null,
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          ),
+                        )
+                      : TextButton(
+                          child: const Text(
+                            'Excluir',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () {
+                            context.read<DeleteAlunoBloc>().add(
+                                  DeleteAlunoStarted(aluno.uid, uid),
+                                );
+                          },
+                        ),
+                ],
+              );
+            },
+          ),
+        );
       },
     );
   }

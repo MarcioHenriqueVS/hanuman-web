@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../alunos/bloc/get_alunos/get_alunos_bloc.dart';
 import '../../../../alunos/pages/components/table.dart';
+import '../../../../autenticacao/services/user_services.dart';
 import '../../../../utils.dart';
-import 'components/alunos_recentes_list.dart';
 import 'components/atts.dart';
 import 'components/stats_containers.dart';
 
@@ -15,7 +15,26 @@ class InicioPage extends StatefulWidget {
 }
 
 class _InicioPageState extends State<InicioPage> {
-  // Remover a lista alunosRecentes aqui
+  final UserServices userServices = UserServices();
+  String firstName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getFirstName();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void getFirstName() async {
+    final name = userServices.getFirstName();
+    setState(() {
+      firstName = name;
+    });
+  }
 
   Widget _buildStatisticsContainers(
       double maxWidth, double maxHeight, bool isSmallScreen) {
@@ -181,7 +200,7 @@ class _InicioPageState extends State<InicioPage> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(2, 0, 0, 0),
                     child: Text(
-                      'Usuário',
+                      firstName,
                       style: SafeGoogleFont(
                         'Open Sans',
                         fontSize: 31,

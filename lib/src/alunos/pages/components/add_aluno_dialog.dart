@@ -172,11 +172,12 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
       backgroundColor: Colors.transparent,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.9,
-          maxWidth: 1600,
+          maxHeight: 900,
+          maxWidth: 1000,
         ),
         child: Container(
           width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.9,
           decoration: BoxDecoration(
             color: Colors.grey[900],
             borderRadius: BorderRadius.circular(12),
