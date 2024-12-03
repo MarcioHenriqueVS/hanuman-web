@@ -6,6 +6,7 @@ import '../dashboard/dashboard_view.dart';
 import '../login/reset_senha_screen.dart';
 import '../treinos/editar_treino/new_edit_treino_screen.dart';
 import '../treinos/pages/galeria/test/criar_treino_personal_screen.dart';
+import '../treinos/screens/treinos_criados/selecionar_aluno.dart';
 import '../treinos/teste/treinos_screen.dart';
 import '../web/checagem/checagem.dart';
 import '../login/cadastro_page.dart';
@@ -162,21 +163,21 @@ class Rotas {
           );
         },
       ),
-      // GoRoute(
-      //   name: '/personal/:uid/treinos/:pastaId/:treinoId/selecionar-aluno',
-      //   path: '/personal/:uid/treinos/:pastaId/:treinoId/selecionar-aluno',
-      //   builder: (context, state) {
-      //     final extra = state.extra as Map<String, dynamic>;
-      //     final pastaId = extra['pastaId']!;
-      //     final treino = extra['treino'];
-      //     final treinoId = extra['treinoId']!;
-      //     return SelecionarAluno(
-      //       treino: treino,
-      //       pastaId: pastaId,
-      //       treinoId: treinoId,
-      //     );
-      //   },
-      // ),
+      GoRoute(
+        name: '/personal/:uid/treinos/:pastaId/:treinoId/selecionar-aluno',
+        path: '/personal/:uid/treinos/:pastaId/:treinoId/selecionar-aluno',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final pastaId = extra['pastaId']!;
+          final treino = extra['treino'];
+          final treinoId = extra['treinoId']!;
+          return SelecionarAluno(
+            treino: treino,
+            pastaId: pastaId,
+            treinoId: treinoId,
+          );
+        },
+      ),
       //!
       // GoRoute(
       //   name: '/treinos/:uid',

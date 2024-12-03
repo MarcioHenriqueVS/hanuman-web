@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../models/exercicio_treino_model.dart';
 import '../../models/treino_model.dart';
+import 'selecionar_aluno.dart';
 
 class TreinoCriadoScreen extends StatefulWidget {
   final Treino treino;
@@ -101,13 +102,13 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                       ),
                       OutlinedButton.icon(
                         onPressed: () async {
-                          await context.push(
-                            '/personal/:$uid/treinos/:${widget.pastaId}/:${widget.treino.id}/selecionar-aluno',
-                            extra: {
-                              'pastaId': widget.pastaId,
-                              'treinoId': widget.treino.id!,
-                              'treino': widget.treino,
-                            },
+                          showDialog(
+                            context: context,
+                            builder: (context) => SelecionarAluno(
+                              treino: widget.treino,
+                              treinoId: widget.treino.id!,
+                              pastaId: widget.pastaId,
+                            ),
                           );
                         },
                         style: OutlinedButton.styleFrom(

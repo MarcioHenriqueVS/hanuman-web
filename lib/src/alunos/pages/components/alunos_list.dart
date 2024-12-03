@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:go_router/go_router.dart';
 import '../../../autenticacao/tratamento/error_snackbar.dart';
 import '../../../autenticacao/tratamento/success_snackbar.dart';
 import '../../../treinos/bloc/get_pastas/get_pastas_bloc.dart';
@@ -10,89 +9,9 @@ import '../../../treinos/bloc/get_pastas/get_pastas_event.dart';
 import '../../../treinos/bloc/get_pastas/get_pastas_state.dart';
 import '../../../treinos/models/treino_model.dart';
 import '../../../treinos/services/treino_services.dart';
-import '../../../utils.dart';
 import '../../../widgets_comuns/button_bloc/elevated_button_bloc.dart';
 import '../../../widgets_comuns/button_bloc/elevated_button_bloc_event.dart';
 import '../../../widgets_comuns/button_bloc/elevated_button_bloc_state.dart';
-import '../../models/aluno_model.dart';
-
-class AlunosCard extends StatefulWidget {
-  final AlunoModel aluno;
-  final bool choose;
-  final Treino? treino;
-  final String? pastaId;
-  final String? treinoId;
-  const AlunosCard(
-      {super.key,
-      required this.aluno,
-      required this.choose,
-      this.pastaId,
-      this.treino,
-      this.treinoId});
-
-  @override
-  State<AlunosCard> createState() => _AlunosCardState();
-}
-
-class _AlunosCardState extends State<AlunosCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0),
-      child: GFListTile(
-        avatar: GFAvatar(
-          backgroundColor: Colors.grey,
-          backgroundImage:
-              (widget.aluno.fotoUrl != null && widget.aluno.fotoUrl!.isNotEmpty)
-                  ? NetworkImage(widget.aluno.fotoUrl!) as ImageProvider<Object>
-                  : const AssetImage('assets/images/fotoDePerfilNull.jpg')
-                      as ImageProvider<Object>,
-        ),
-        onTap: () => !widget.choose
-            ? context.push('/aluno/:${widget.aluno.uid}', extra: widget.aluno)
-            : showModalBottomSheet(
-                context: context,
-                builder: (context) => SelecionarPasta(
-                  treinoId: widget.treinoId!,
-                  treino: widget.treino!,
-                  alunoUid: widget.aluno.uid,
-                  sexo: widget.aluno.sexo,
-                ),
-              ),
-        title: Text(
-          widget.aluno.nome,
-          style: SafeGoogleFont('Open Sans',
-              fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-        //subTitleText: list[index].descricao,
-        subTitle: Text(
-          widget.aluno.email,
-          style: SafeGoogleFont('Open Sans', fontSize: 12, color: Colors.grey),
-        ),
-        listItemTextColor: Colors.white,
-        color: Colors.grey[900],
-        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
-        padding: const EdgeInsets.all(10),
-        shadow: BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 0,
-            blurRadius: 1,
-            offset: const Offset(1, 1),
-            blurStyle: BlurStyle.normal),
-
-        //icon: Icon(Icons.favorite)
-      ),
-    );
-  }
-}
-
-class Aluno {
-  final String nome;
-  final String descricao;
-  final String uid;
-
-  Aluno({required this.nome, required this.descricao, required this.uid});
-}
 
 class SelecionarPasta extends StatefulWidget {
   final Treino treino;
@@ -127,119 +46,132 @@ class _SelecionarPastaState extends State<SelecionarPasta> {
     return BlocBuilder<GetPastasBloc, GetPastasState>(
       builder: (context, pastasState) {
         if (pastasState is GetPastasInitial) {
-          return const Center(
-            child: Text('Iniciando busca das pastas'),
-          );
+          return const Center(child: Text('Iniciando busca das pastas'));
         } else if (pastasState is GetPastasLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         } else if (pastasState is GetPastasError) {
           return const Center(
-            child: Text(
-              'Erro ao tentar buscar pastas, recarregue a tela',
-              textAlign: TextAlign.center,
-            ),
+            child: Text('Erro ao tentar buscar pastas, recarregue a tela'),
           );
         } else if (pastasState is GetPastasLoaded) {
           final pastasIds = pastasState.pastasIds;
           return Container(
             decoration: const BoxDecoration(
-              color: Colors.black,
+              color: Color(0xFF1A1A1A),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),
               ),
             ),
-            height: MediaQuery.of(context).size.height * 0.5,
-            width: MediaQuery.of(context).size.width,
             child: Column(
+              mainAxisSize:
+                  MainAxisSize.min, // Garante tamanho mínimo necessário
               children: [
+                // Indicador de arraste
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 12),
+                  width: 50,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[600],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+
+                // Cabeçalho
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  child: Row(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            child: Container(
-                              width: 50,
-                              height: 2,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.folder_copy_outlined,
-                              color: Colors.green,
-                            ),
-                          ),
-                        ],
+                      Icon(Icons.folder_copy_outlined, color: Colors.green),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Selecione uma pasta',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: pastasIds.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Row(
-                        children: [
-                          GestureDetector(
+                // Lista de pastas
+                Flexible(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFF1A1A1A),
+                    ),
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.5,
+                        minHeight: 250),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+                      itemCount: pastasIds.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: InkWell(
                             onTap: () {
                               showDialog(
                                 context: context,
                                 builder: (context) => EnviarTreino(
-                                    pastaId: pastasIds[index]['id'],
-                                    treino: widget.treino,
-                                    treinoId: widget.treinoId,
-                                    alunoUid: widget.alunoUid),
+                                  pastaId: pastasIds[index]['id'],
+                                  treino: widget.treino,
+                                  treinoId: widget.treinoId,
+                                  alunoUid: widget.alunoUid,
+                                ),
                               );
                             },
+                            borderRadius: BorderRadius.circular(8),
                             child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.grey[900]!.withOpacity(0.4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
                               ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(pastasIds[index]['id']),
-                                  ],
-                                ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Color(0xFF252525),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.folder_outlined,
+                                    color: Colors.grey[400],
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      pastasIds[index]['nome'],
+                                      style: TextStyle(
+                                        color: Colors.grey[300],
+                                        fontSize: 14,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.chevron_right,
+                                    color: Colors.grey[600],
+                                    size: 20,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),
           );
-        } else {
-          return const Center(
-            child: Text('Erro inesperado, tente novamente'),
-          );
         }
+        return const SizedBox();
       },
     );
   }
@@ -281,6 +213,7 @@ class _EnviarTreinoState extends State<EnviarTreino> {
       await _treinoServices.addTreino(
           uid, widget.alunoUid, widget.pastaId, widget.treino);
       BlocProvider.of<ElevatedButtonBloc>(context).add(ElevatedButtonReset());
+      Navigator.of(context).pop();
       MensagemDeSucesso()
           .showSuccessSnackbar(context, 'Treino enviado com sucesso');
       Navigator.of(context).pop();
@@ -301,62 +234,44 @@ class _EnviarTreinoState extends State<EnviarTreino> {
       onPopInvokedWithResult: (didPop, result) {
         BlocProvider.of<ElevatedButtonBloc>(context).add(ElevatedButtonReset());
       },
-      child: GFFloatingWidget(
-        verticalPosition: MediaQuery.of(context).size.height * 0.3,
-        child: GFAlert(
-          backgroundColor: Colors.grey[900],
-          titleTextStyle: const TextStyle(
-              color: Colors.red, fontSize: 18, decoration: TextDecoration.none),
-          title: 'Atenção!',
-          content: const Text(
-            'Deseja enviar este treino para o aluno?',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                decoration: TextDecoration.none),
-          ),
-          bottomBar: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: GFButton(
-                  color: Colors.grey,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  shape: GFButtonShape.pills,
-                  child: const Text(
-                    'Voltar',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ),
-              BlocBuilder<ElevatedButtonBloc, ElevatedButtonBlocState>(
-                builder: (context, buttonState) {
-                  return GFButton(
-                    onPressed: buttonState is ElevatedButtonBlocLoading
-                        ? null
-                        : () {
-                            enviarTreino();
-                          },
-                    shape: GFButtonShape.pills,
-                    color: Colors.green,
-                    icon: buttonState is ElevatedButtonBlocLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Icon(Icons.keyboard_arrow_right,
-                            color: GFColors.WHITE),
-                    position: GFPosition.end,
-                    text: 'Enviar',
-                    textStyle: const TextStyle(fontSize: 16),
-                  );
-                },
-              )
-            ],
-          ),
+      child: AlertDialog(
+        
+        title: Text(
+          'Atenção',
+          style: TextStyle(color: Colors.red),
         ),
+        content: Text(
+          'Deseja enviar este treino para o aluno?',
+        ),
+        backgroundColor: Colors.grey[900],
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Voltar',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          BlocBuilder<ElevatedButtonBloc, ElevatedButtonBlocState>(
+            builder: (context, buttonState) {
+              return TextButton(
+                onPressed: buttonState is ElevatedButtonBlocLoading
+                    ? null
+                    : () {
+                        enviarTreino();
+                      },
+                child: buttonState is ElevatedButtonBlocLoading
+                    ? const CircularProgressIndicator()
+                    : const Text(
+                        'Enviar',
+                        style: TextStyle(color: Colors.green),
+                      ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
