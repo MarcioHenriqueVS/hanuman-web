@@ -54,18 +54,18 @@ class Rotas {
       GoRoute(
         name: '/painel',
         path: '/painel',
-        //! builder: (context, state) => kIsWeb ? const Painel() : Container(),
+        builder: (context, state) => kIsWeb ? const Painel() : Container(),
         //builder: (context, state) => const AddAvaPrototipo(),
 
-        builder: (context, state) {
-          final TreinoServices treinoServices = TreinoServices();
-          Treino treino =
-              Treino.fromFirestore(treinoServices.treinoData, 'Treino A');
-          //return TreinoCriadoScreen(treino: treino, pastaId: 'pasta teste');
-          return NewEditarTreinoScreen(pastaId: 'pasta teste', treino: treino, treinoId: '0bea9041-84f9-4cf2-99d2-37157fab93f6',);
-          //return NovoTreinoPersonalScreen(pastaId: 'pasta teste',);
-          //return NovoTreinoPersonalScreen2(pastaId: 'pasta teste', funcao: 'addTreinoCriado');
-        },
+        // builder: (context, state) {
+        //   final TreinoServices treinoServices = TreinoServices();
+        //   Treino treino =
+        //       Treino.fromFirestore(treinoServices.treinoData, 'Treino A');
+        //   //return TreinoCriadoScreen(treino: treino, pastaId: 'pasta teste');
+        //   return NewEditarTreinoScreen(pastaId: 'pasta teste', treino: treino, treinoId: '0bea9041-84f9-4cf2-99d2-37157fab93f6',);
+        //   //return NovoTreinoPersonalScreen(pastaId: 'pasta teste',);
+        //   //return NovoTreinoPersonalScreen2(pastaId: 'pasta teste', funcao: 'addTreinoCriado');
+        // },
       ),
 
       // GoRoute(
