@@ -164,7 +164,7 @@ class TreinosPersonalServices {
           'uid': uid,
           'exercicios': treinoMap,
           'pastaId': pastaId,
-          'timestamp': dataFormatada
+          'timestamp': dataFormatada,
         },
       );
 
@@ -210,7 +210,7 @@ class TreinosPersonalServices {
   Future<void> deleteTreinoCriado(uid, pastaId, treinoId) async {
     var dio = Dio();
     String url =
-        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deleteTreinoPersonal';
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deleteTreinoPersonalv2';
 
     try {
       final response = await dio.post(url,
@@ -226,7 +226,7 @@ class TreinosPersonalServices {
   Future<bool> editTreinoCriado(uid, pastaId, treinoId, Treino treino) async {
     var dio = Dio();
     String url =
-        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/editTreinoPersonal';
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/editTreinoPersonalv2';
     //'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/newGetTreinos';
 
     Map<String, dynamic> treinoMap = treino.toMap();

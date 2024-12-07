@@ -88,19 +88,19 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
     try {
       final response = await _alunosServices.addAluno(
         uid, // uid será gerado pelo servidor
-        _nomeController.text,
-        _dataNascController.text,
-        _telefoneController.text,
-        _emailController.text,
-        _senhaController.text,
-        _obsController.text,
+        _nomeController.text.trim(),
+        _dataNascController.text.trim(),
+        _telefoneController.text.trim(),
+        _emailController.text.trim(),
+        _senhaController.text.trim(),
+        _obsController.text.trim(),
         _selectedSexo,
-        _cpfController.text,
+        _cpfController.text.trim(),
         _selectedFrequencia,
         _selectedObjetivo,
         _selectedFoco,
         _selectedNivel,
-        fotoUrl: _photoBase64, // Enviando a foto em base64
+        fotoUrl: _photoBase64,
       );
 
       if (response['status'] == 200) {
@@ -857,13 +857,13 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
                                               onPressed: state
                                                       is ElevatedButtonBlocLoading
                                                   ? null
-                                                  : () {
+                                                  : () async {
                                                       if (_formKey.currentState
                                                               ?.validate() ??
                                                           false) {
                                                         _buttonBloc.add(
                                                             ElevatedButtonPressed());
-                                                        _salvarAluno();
+                                                        await _salvarAluno();
                                                       }
                                                     },
                                               style: ElevatedButton.styleFrom(

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_test/src/treinos/pages/galeria/test/components/add_exercicio_button.dart';
 import '../../alunos/pages/avaliacoes/header_prototipo.dart';
@@ -64,10 +64,146 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
   final CriarTreinoServices criarTreinoServices = CriarTreinoServices();
   Map<String, String?> exerciseIntervalMap = {};
   String selectedInterval = "5 seg";
+  bool _isDeleting = false;
+  bool _isChanging = false;
+
+  void changeVisibility() async {
+    try {
+      setState(() {
+        _isChanging = true;
+      });
+      await treinoServices.alternarStatusDoTreino(
+          uid, widget.alunoUid!, widget.pastaId, widget.treinoId);
+      setState(() {
+        widget.treino!.habilitado = !widget.treino!.habilitado!;
+      });
+      if (mounted) {
+        GFToast.showToast('Status do treino alterado com sucesso', context,
+            backgroundColor: Colors.green);
+      }
+    } catch (e) {
+      if (mounted) {
+        GFToast.showToast('Erro ao alterar status do treino', context,
+            backgroundColor: Colors.red);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isChanging = false;
+        });
+      }
+    }
+  }
+
+  _showChangeDialog() {
+    final statuString = widget.treino!.habilitado! ? 'desativar' : 'ativar';
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF252525),
+          title: const Text(
+            'Confirmar alteração',
+            style: TextStyle(),
+          ),
+          content: Text(
+            'Deseja realmente $statuString este treino para o aluno?',
+            style: TextStyle(),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(null),
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.white70),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: _isChanging
+                  ? CircularProgressIndicator()
+                  : const Text(
+                      'Confirmar',
+                      style: TextStyle(color: Colors.green),
+                    ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showDeleteConfirmationDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF252525),
+          title: const Text(
+            'Confirmar exclusão',
+            style: TextStyle(),
+          ),
+          content: const Text(
+            'Tem certeza que deseja excluir este treino?',
+            style: TextStyle(),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.white70),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteTreino(widget.treino!.id!);
+              },
+              child: const Text(
+                'Excluir',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteTreino(String treinoId) async {
+    setState(() {
+      _isDeleting = true;
+    });
+
+    try {
+      await treinoServices.deleteTreino(
+          uid, widget.alunoUid, widget.pastaId, treinoId);
+      if (mounted) {
+        GFToast.showToast('Treino deletado com sucesso', context,
+            backgroundColor: Colors.green);
+        BlocProvider.of<GetTreinosCriadosBloc>(context)
+            .add(BuscarTreinosCriados(widget.pastaId));
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        GFToast.showToast('Erro ao deletar treino, tente novamente', context,
+            backgroundColor: Colors.red);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isDeleting = false;
+        });
+      }
+    }
+  }
 
   void getExercicios() {
     final state = context.read<ExercicioSelectionBloc>().state;
-
     state.selectedExercicios = [];
 
     final List<ExercicioSelecionado> exerciciosDoTreino =
@@ -246,6 +382,105 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                             constraints: const BoxConstraints(maxWidth: 800),
                             child: Column(
                               children: [
+                                if (widget.alunoUid != null)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      if (widget.alunoUid != null)
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 0),
+                                              child: TextButton(
+                                                onPressed: _isChanging
+                                                    ? null
+                                                    : () async {
+                                                        final result =
+                                                            await _showChangeDialog();
+                                                        if (result == true) {
+                                                          changeVisibility();
+                                                        }
+                                                      },
+                                                child: _isChanging
+                                                    ? const SizedBox(
+                                                        width: 16,
+                                                        height: 16,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          strokeWidth: 2,
+                                                          valueColor:
+                                                              AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                  Colors.green),
+                                                        ),
+                                                      )
+                                                    : Row(
+                                                        children: [
+                                                          Text(
+                                                            widget.treino!
+                                                                    .habilitado!
+                                                                ? 'Desativar treino'
+                                                                : 'Ativar treino',
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodySmall!
+                                                                    .color),
+                                                          ),
+                                                        ],
+                                                      ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      if (widget.alunoUid != null)
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 0),
+                                              child: TextButton(
+                                                onPressed: _isDeleting
+                                                    ? null
+                                                    : () async {
+                                                        _showDeleteConfirmationDialog();
+                                                      },
+                                                child: _isDeleting
+                                                    ? const SizedBox(
+                                                        width: 16,
+                                                        height: 16,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          strokeWidth: 2,
+                                                          valueColor:
+                                                              AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                  Colors.red),
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        'Excluir treino',
+                                                        style: TextStyle(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodySmall!
+                                                                .color),
+                                                      ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                    ],
+                                  ),
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),

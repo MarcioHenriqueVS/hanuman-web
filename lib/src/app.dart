@@ -19,10 +19,10 @@ import 'dashboard/dashboard_view.dart';
 import 'exercicios/bloc/exercicios_bloc.dart';
 import 'exercicios/services/exercicios_services.dart';
 import 'login/login_bloc.dart';
-import 'perfil_user/bloc/edit_foto/foto_bloc.dart';
-import 'perfil_user/bloc/foto/get_foto_bloc.dart';
-import 'perfil_user/bloc/get_user_data/get_user_data_bloc.dart';
-import 'perfil_user/bloc/nome/get_name_bloc.dart';
+import 'perfil_user/edit_foto/foto_bloc.dart';
+import 'perfil_user/foto/get_foto_bloc.dart';
+import 'perfil_user/get_user_data/get_user_data_bloc.dart';
+import 'perfil_user/nome/get_name_bloc.dart';
 import 'rotas/rotas.dart';
 import 'sample_feature/sample_item_details_view.dart';
 import 'sample_feature/sample_item_list_view.dart';
@@ -235,6 +235,7 @@ class MyApp extends StatelessWidget {
                   overlayColor: Colors.green.shade400.withOpacity(0.3),
                   valueIndicatorColor: Colors.green.shade400,
                 ),
+                dividerColor: Colors.grey[850],
                 // ...existing code...
               ),
               themeMode: settingsController.themeMode,

@@ -115,7 +115,7 @@ class PastasServices {
     try {
       var dio = Dio();
       String url =
-          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deletePasta';
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deletePastav2';
       final response = await dio.post(url,
           data: {'uid': uid, 'alunoUid': alunoUid, 'pastaId': pastaId});
       debugPrint(response.data.toString());

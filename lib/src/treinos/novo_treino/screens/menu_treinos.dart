@@ -58,6 +58,7 @@ class _NovoTreinoScreenState extends State<NovoTreinoScreen> {
   String? alunoUid;
     String dataFormatada =
       intl.DateFormat('dd/MM/yyyy', 'pt_BR').format(DateTime.now());
+  bool? habilitado;
 
   List<String> getIntervalos() {
     List<String> intervalos = [];
@@ -184,6 +185,14 @@ class _NovoTreinoScreenState extends State<NovoTreinoScreen> {
                                         is ElevatedButtonBlocLoading
                                     ? null
                                     : () async {
+                                                                  // Primeiro, exibe o diálogo de visibilidade
+                            final resposta = await treinoServices
+                                .showVisibilityDialog(context);
+                            if (resposta == null)
+                              return; // Usuário cancelou o diálogo
+
+                            habilitado =
+                                resposta; // Atualiza o valor de habilitado com base na resposta
                                         BlocProvider.of<ElevatedButtonBloc>(
                                                 context)
                                             .add(ElevatedButtonPressed());
@@ -233,7 +242,7 @@ class _NovoTreinoScreenState extends State<NovoTreinoScreen> {
                                                 uid,
                                                 alunoUid!,
                                                 widget.pastaId,
-                                                newTreino);
+                                                newTreino, habilitado!);
 
                                         if (sucesso) {
                                           BlocProvider.of<GetTreinosBloc>(

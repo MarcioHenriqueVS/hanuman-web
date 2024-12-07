@@ -19,6 +19,8 @@ class PastaDetalhes extends StatefulWidget {
 }
 
 class _PastaDetalhesState extends State<PastaDetalhes> {
+  List<String> titulosDosTreinosSalvos = [];
+
   @override
   void initState() {
     super.initState();
@@ -87,6 +89,7 @@ class _PastaDetalhesState extends State<PastaDetalhes> {
                           pastaId: widget.pasta['id'],
                           alunoUid: widget.alunoUid,
                           sexo: widget.sexo,
+                          titulosDosTreinosSalvos: titulosDosTreinosSalvos,
                         ),
                       ),
                     );
@@ -129,6 +132,10 @@ class _PastaDetalhesState extends State<PastaDetalhes> {
 
                   if (state is GetTreinosLoaded) {
                     final treinos = state.treinos;
+                    titulosDosTreinosSalvos = treinos
+                        .map((treino) => treino.titulo)
+                        .toList()
+                        .cast<String>();
 
                     if (treinos.isEmpty) {
                       return const Center(

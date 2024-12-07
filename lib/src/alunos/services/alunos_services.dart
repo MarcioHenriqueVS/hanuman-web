@@ -9,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../../autenticacao/tratamento/error_snackbar.dart';
 import '../../autenticacao/tratamento/success_snackbar.dart';
-import '../../perfil_user/bloc/foto/get_foto_bloc.dart';
-import '../../perfil_user/bloc/foto/get_foto_events.dart';
+import '../../perfil_user/foto/get_foto_bloc.dart';
+import '../../perfil_user/foto/get_foto_events.dart';
 import '../models/aluno_model.dart';
 
 class AlunosServices {

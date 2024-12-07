@@ -7,7 +7,6 @@ import '../../../flutter_flow/ff_button_options.dart';
 import '../../pastas/galeria/services/pastas_galeria_services.dart';
 import 'components/add_pasta_dialog.dart';
 import 'components/update_pasta_dialog.dart';
-import 'criar_treino_personal_screen.dart';
 import '../../screens/treinos_criados/personal_treinos_criados_screen.dart';
 import '../../../utils.dart';
 import '../../bloc/get_pastas_personal/get_pastas_bloc.dart';
@@ -26,6 +25,7 @@ class TreinosListPage extends StatefulWidget {
 class _TreinosListPageState extends State<TreinosListPage> {
   final PastasGaleriaServices _pastasGaleriaServices = PastasGaleriaServices();
   final uid = FirebaseAuth.instance.currentUser!.uid;
+  List<String> titulosDosTreinos = [];
 
   @override
   void initState() {
@@ -95,10 +95,12 @@ class _TreinosListPageState extends State<TreinosListPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => NovoTreinoPersonalScreen2(
-                                pastaId: pasta['id'],
-                                funcao: 'addTreinoPersonal'),
+                              pastaId: pasta['id'],
+                              funcao: 'addTreinoPersonal',
+                              titulosDosTreinosSalvos: titulosDosTreinos,
+                            ),
                           ),
-                            );
+                        );
                       },
                       icon: const Icon(
                         Icons.add,
@@ -139,6 +141,9 @@ class _TreinosListPageState extends State<TreinosListPage> {
 
                       if (state is GetTreinosCriadosLoaded) {
                         final treinos = state.treinos;
+                        titulosDosTreinos = treinos
+                            .map((treino) => treino.titulo)
+                            .toList();
 
                         if (treinos.isEmpty) {
                           return const Center(
@@ -190,7 +195,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
                                         builder: (context) =>
                                             TreinoCriadoScreen(
                                           treino: treino,
-                                          pastaId: pasta['nome'],
+                                          pastaId: pasta['id'],
                                         ),
                                       ),
                                     );

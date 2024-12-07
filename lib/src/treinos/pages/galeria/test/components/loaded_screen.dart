@@ -14,7 +14,6 @@ import '../../../../bloc/get_pastas/get_pastas_bloc.dart';
 import '../../../../bloc/get_pastas/get_pastas_event.dart';
 import '../../../../bloc/get_pastas_personal/get_pastas_bloc.dart';
 import '../../../../bloc/get_pastas_personal/get_pastas_event.dart';
-import '../../../../bloc/get_treinos_criados/get_treinos_criados_bloc.dart';
 import '../../../../models/exercicio_treino_model.dart';
 import '../../../../models/serie_model.dart';
 import '../../../../models/treino_model.dart';
@@ -33,12 +32,14 @@ class LoadedScreen extends StatefulWidget {
   final List<Exercicio>? exercicios;
   final String funcao;
   final String? alunoUid;
+  final List<String> titulosDosTreinosSalvos;
   const LoadedScreen(
       {super.key,
       required this.pastaId,
       required this.exercicios,
       required this.funcao,
-      this.alunoUid});
+      this.alunoUid,
+      required this.titulosDosTreinosSalvos});
 
   @override
   State<LoadedScreen> createState() => _LoadedScreenState();
@@ -61,6 +62,7 @@ class _LoadedScreenState extends State<LoadedScreen> {
   final TreinosPersonalServices _treinosPersonalServices =
       TreinosPersonalServices();
   final TreinoServices _treinoServices = TreinoServices();
+  bool? habilitado;
 
   String dataFormatada =
       DateFormat('dd/MM/yyyy', 'pt_BR').format(DateTime.now());
@@ -81,6 +83,111 @@ class _LoadedScreenState extends State<LoadedScreen> {
       controller.dispose();
     }
     super.dispose();
+  }
+
+  String getNextAvailableTitle(String baseTitle) {
+    // Lista para armazenar os números encontrados
+    List<int> numbersUsed = [];
+
+    // Procura por títulos que começam com o baseTitle
+    for (String savedTitle in widget.titulosDosTreinosSalvos) {
+      if (savedTitle == baseTitle) {
+        numbersUsed.add(1); // Considera o título base como número 1
+        continue;
+      }
+
+      // Verifica se o título salvo segue o padrão "baseTitle (n)"
+      if (savedTitle.startsWith('$baseTitle (')) {
+        final match = RegExp(r'\((\d+)\)$').firstMatch(savedTitle);
+        if (match != null) {
+          numbersUsed.add(int.parse(match.group(1)!));
+        }
+      }
+    }
+
+    // Se não houver números usados, retorna o título base
+    if (numbersUsed.isEmpty) {
+      return baseTitle;
+    }
+
+    // Encontra o próximo número disponível
+    numbersUsed.sort();
+    int nextNumber = numbersUsed.length + 1;
+
+    // Retorna o título com o próximo número
+    return '$baseTitle ($nextNumber)';
+  }
+
+  Future<void> _salvarTreino() async {
+    if (widget.funcao == 'addTreino') {
+      // Primeiro, exibe o diálogo de visibilidade
+      final resposta = await _treinoServices.showVisibilityDialog(context);
+      if (resposta == null) return; // Usuário cancelou o diálogo
+
+      habilitado =
+          resposta; // Atualiza o valor de habilitado com base na resposta
+    }
+
+    String tituloFinal = titulo.text.trim();
+
+    // Se o título já existe, pega o próximo disponível
+    if (widget.titulosDosTreinosSalvos.contains(tituloFinal)) {
+      tituloFinal = getNextAvailableTitle(tituloFinal);
+    }
+
+    // ...resto do código de _salvarTreino permanece igual, mas use tituloFinal ao invés de titulo.text.trim()...
+    final currentState = context.read<ExercicioSelectionBloc>().state;
+    final List<ExercicioSelecionado> selectedExerciciosList =
+        currentState.selectedExercicios;
+
+    final List<ExercicioTreino> convertedList =
+        selectedExerciciosList.map((exercicio) {
+      List<Serie> seriesForExercicio = criarTreinoPersonalServices
+          .getSeriesForExercicio(exercicio, exercicioSeriesMap);
+      Intervalo intervaloForExercicio = criarTreinoPersonalServices
+          .getIntervalForExercicio(exercicio, exerciseIntervalMap);
+
+      return ExercicioTreino(
+        id: exercicio.id,
+        newId: exercicio.newId,
+        nome: exercicio.nome,
+        grupoMuscular: exercicio.grupoMuscular,
+        agonista: exercicio.agonista,
+        antagonista: exercicio.antagonista,
+        sinergista: exercicio.sinergista,
+        mecanismo: exercicio.mecanismo,
+        fotoUrl: exercicio.fotoUrl,
+        videoUrl: exercicio.videoUrl,
+        series: seriesForExercicio,
+        intervalo: intervaloForExercicio,
+        notas: exercicioNotesMap[exercicio.newId] ?? "",
+      );
+    }).toList();
+
+    Treino newTreino = Treino(titulo: tituloFinal, exercicios: convertedList);
+
+    bool sucesso = false;
+
+    if (widget.funcao == 'addTreinoPersonal') {
+      sucesso = await _treinosPersonalServices.addTreinoCriado(
+          uid, widget.pastaId, newTreino);
+    } else if (widget.funcao == 'addTreino') {
+      sucesso = await _treinoServices.addTreino(
+          uid, widget.alunoUid!, widget.pastaId, newTreino, habilitado!);
+    }
+
+    if (sucesso) {
+      widget.funcao == 'addTreinoPersonal'
+          ? BlocProvider.of<GetPastasPersonalBloc>(context)
+              .add(BuscarPastasPersonal())
+          : BlocProvider.of<GetPastasBloc>(context)
+              .add(BuscarPastas(widget.alunoUid!));
+      MensagemDeSucesso()
+          .showSuccessSnackbar(context, 'Treino criado com sucesso.');
+    } else {
+      TratamentoDeErros()
+          .showErrorSnackbar(context, 'Erro ao criar treino, tente novamente');
+    }
   }
 
   @override
@@ -105,65 +212,7 @@ class _LoadedScreenState extends State<LoadedScreen> {
                   icon: false,
                   maxWidth: 815,
                   onSave: () async {
-                    final currentState =
-                        context.read<ExercicioSelectionBloc>().state;
-                    final List<ExercicioSelecionado> selectedExerciciosList =
-                        currentState.selectedExercicios;
-
-                    final List<ExercicioTreino> convertedList =
-                        selectedExerciciosList.map((exercicio) {
-                      List<Serie> seriesForExercicio =
-                          criarTreinoPersonalServices.getSeriesForExercicio(
-                              exercicio, exercicioSeriesMap);
-                      Intervalo intervaloForExercicio =
-                          criarTreinoPersonalServices.getIntervalForExercicio(
-                              exercicio, exerciseIntervalMap);
-
-                      return ExercicioTreino(
-                        id: exercicio.id,
-                        newId: exercicio.newId,
-                        nome: exercicio.nome,
-                        grupoMuscular: exercicio.grupoMuscular,
-                        agonista: exercicio.agonista,
-                        antagonista: exercicio.antagonista,
-                        sinergista: exercicio.sinergista,
-                        mecanismo: exercicio.mecanismo,
-                        fotoUrl: exercicio.fotoUrl,
-                        videoUrl: exercicio.videoUrl,
-                        series: seriesForExercicio,
-                        intervalo: intervaloForExercicio,
-                        notas: exercicioNotesMap[exercicio.newId] ?? "",
-                      );
-                    }).toList();
-
-                    Treino newTreino = Treino(
-                        titulo: titulo.text.trim(), exercicios: convertedList);
-
-                    bool sucesso = false;
-
-                    if (widget.funcao == 'addTreinoPersonal') {
-                      sucesso = await _treinosPersonalServices.addTreinoCriado(
-                          uid, widget.pastaId, newTreino);
-                    } else if (widget.funcao == 'addTreino') {
-                      sucesso = await _treinoServices.addTreino(
-                          uid, widget.alunoUid!, widget.pastaId, newTreino);
-                    }
-
-                    if (sucesso) {
-                      // BlocProvider.of<GetTreinosCriadosBloc>(context).add(
-                      //   BuscarTreinosCriados(widget.pastaId),
-                      // );
-                      widget.funcao == 'addTreinoPersonal'
-                          ? BlocProvider.of<GetPastasPersonalBloc>(context)
-                              .add(BuscarPastasPersonal())
-                          : BlocProvider.of<GetPastasBloc>(context)
-                              .add(BuscarPastas(widget.alunoUid!));
-                      MensagemDeSucesso().showSuccessSnackbar(
-                          context, 'Treino criado com sucesso.');
-                    } else {
-                      TratamentoDeErros().showErrorSnackbar(
-                          context, 'Erro ao criar treino, tente novamente');
-                    }
+                    await _salvarTreino();
                   },
                 ),
                 const SizedBox(

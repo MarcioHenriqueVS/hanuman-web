@@ -60,7 +60,7 @@ class FirebaseMessagingService {
   Future<void> enviarNotificacao(
       String token, String title, String body, String? rota, data) async {
     const postUrl =
-        "https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/enviarNotificacao";
+        "https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/enviarNotificacaov2";
 
     Dio dio = Dio();
 
@@ -88,7 +88,7 @@ class FirebaseMessagingService {
   Future<void> enviarNotificacaoParaAluno(
       String alunoUid, String title, String body, data) async {
     const postUrl =
-        "https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/enviarNotificacaoParaAluno2";
+        "https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/enviarNotificacaoParaAluno2v2";
 
     Dio dio = Dio();
 

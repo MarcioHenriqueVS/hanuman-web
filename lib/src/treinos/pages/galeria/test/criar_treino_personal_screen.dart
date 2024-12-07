@@ -12,12 +12,14 @@ class NovoTreinoPersonalScreen2 extends StatefulWidget {
   final String funcao;
   final String? alunoUid;
   final String? sexo;
+  final List<String> titulosDosTreinosSalvos;
   const NovoTreinoPersonalScreen2({
     super.key,
     required this.pastaId,
     required this.funcao,
     this.alunoUid,
     this.sexo,
+    required this.titulosDosTreinosSalvos,
   });
 
   @override
@@ -31,6 +33,17 @@ class _NovoTreinoPersonalScreen2State extends State<NovoTreinoPersonalScreen2> {
     BlocProvider.of<ExercicioBloc>(context).add(
       LoadExercicios(),
     );
+
+    //debugPrint de cada string do widget.titulosDosTreinosSalvos
+    if (widget.titulosDosTreinosSalvos.isNotEmpty) {
+      debugPrint('Lista de titulos dos treinos salvos:');
+      for (var element in widget.titulosDosTreinosSalvos) {
+        debugPrint(element);
+      }
+    } else {
+      debugPrint('Lista vazia');
+    }
+
     super.initState();
   }
 
@@ -53,6 +66,7 @@ class _NovoTreinoPersonalScreen2State extends State<NovoTreinoPersonalScreen2> {
             pastaId: widget.pastaId,
             funcao: widget.funcao,
             alunoUid: widget.alunoUid,
+            titulosDosTreinosSalvos: widget.titulosDosTreinosSalvos,
           );
         } else {
           return const Center(

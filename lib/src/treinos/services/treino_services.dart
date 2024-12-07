@@ -145,8 +145,8 @@ class TreinoServices {
   //   }
   // }
 
-  Future<bool> addTreino(
-      String uid, String alunoUid, String pastaId, Treino treino) async {
+  Future<bool> addTreino(String uid, String alunoUid, String pastaId,
+      Treino treino, bool habilitado) async {
     var dio = Dio();
     String url =
         'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/addTreinov2';
@@ -167,7 +167,8 @@ class TreinoServices {
           'alunoUid': alunoUid,
           'exercicios': treinoMap,
           'pastaId': pastaId,
-          'timestamp': dataFormatada
+          'timestamp': dataFormatada,
+          'habilitado': habilitado
         },
       );
 
@@ -217,10 +218,71 @@ class TreinoServices {
     }
   }
 
+  //alternar status de visibilidade do treino
+  Future<bool> alternarStatusDoTreino(
+      String uid, String alunoUid, String pastaId, String treinoId) async {
+    var dio = Dio();
+    String url =
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/alternarStatusTreinov2';
+
+    try {
+      final response = await dio.post(url, data: {
+        'uid': uid,
+        'alunoUid': alunoUid,
+        'pastaId': pastaId,
+        'treinoId': treinoId
+      });
+
+      debugPrint(response.data);
+      return true;
+    } on FirebaseFunctionsException catch (e) {
+      debugPrint('Erro na requisicao: ${e.code}\n${e.message}');
+      return false;
+    }
+  }
+
+  Future<bool?> showVisibilityDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Visibilidade do Treino'),
+          content: Text('Deseja tornar este treino visível para o aluno?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.grey),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(null); // Retorna null para cancelar
+              },
+            ),
+            TextButton(
+              child: Text(
+                'Não',
+                style: TextStyle(color: Colors.grey),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text('Sim'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> deleteTreino(uid, alunoUid, pastaId, treinoId) async {
     var dio = Dio();
     String url =
-        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deleteTreino';
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deleteTreinov2';
 
     try {
       final response = await dio.post(url, data: {
@@ -241,8 +303,7 @@ class TreinoServices {
       uid, alunoUid, pastaId, treinoId, Treino treino) async {
     var dio = Dio();
     String url =
-        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/editTreino';
-    //'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/newGetTreinos';
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/editTreinov2';
 
     Map<String, dynamic> treinoMap = treino.toMap();
 
@@ -391,7 +452,7 @@ class TreinoServices {
     try {
       var dio = Dio();
       String url =
-          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getTreinosFinalizados';
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getTreinosFinalizadosv2';
 
       final response = await dio.post(url, data: {
         'personalUid': uid,
@@ -508,7 +569,7 @@ class TreinoServices {
     try {
       var dio = Dio();
       String url =
-          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deletePasta';
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deletePastav2';
       final response = await dio.post(url,
           data: {'uid': uid, 'alunoUid': alunoUid, 'pastaId': pastaId});
       debugPrint(response.data.toString());
@@ -788,7 +849,7 @@ class TreinoServices {
       debugPrint(grupamentosMuscularesString);
       var dio = Dio();
       String url =
-          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getTrainingPlan7';
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getTrainingPlan7v2';
       //'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/getTrainingPlan';
 
       final response = await dio.post(
@@ -901,12 +962,11 @@ class TreinoServices {
             [];
 
     return Treino(
-      id: const UuidV4().generate(),
-      titulo: trainingSheet.day ?? 'Treino Sem Título',
-      exercicios: exerciciosTreino,
-      duracao: trainingSheet.durationMinutes?.toString(),
-      nota: trainingSheet.notes,
-    );
+        id: const UuidV4().generate(),
+        titulo: trainingSheet.day ?? 'Treino Sem Título',
+        exercicios: exerciciosTreino,
+        duracao: trainingSheet.durationMinutes?.toString(),
+        nota: trainingSheet.notes);
   }
 
   ExercicioSelecionado transformExerciseToExercicioSelecionado(
@@ -968,7 +1028,7 @@ class TreinoServices {
       String uid, String messageId, int index, TrainingSheet treino) async {
     var dio = Dio();
     String url =
-        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/editMessage';
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/editMessagev2';
 
     // debugPrint('----------- TrainingSheet ---------');
     // debugPrintTrainingSheet(treino);
@@ -1018,5 +1078,16 @@ class TreinoServices {
   void debugPrintTrainingSheet(TrainingSheet trainingSheet) {
     final jsonString = jsonEncode(trainingSheet.toJson());
     debugPrint(jsonString, wrapWidth: 1024); // wrapWidth para evitar truncagem
+  }
+
+  String intervaloTipoParaString(IntervaloTipo tipo) {
+    switch (tipo) {
+      case IntervaloTipo.segundos:
+        return 'segundos';
+      case IntervaloTipo.minutos:
+        return 'minutos';
+      default:
+        return '';
+    }
   }
 }

@@ -2,17 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../autenticacao/tratamento/success_snackbar.dart';
+import 'package:getwidget/getwidget.dart';
+import '../../alunos/pages/avaliacoes/header_prototipo.dart';
 import '../../exercicios/bloc/event.dart';
 import '../../exercicios/bloc/exercicios_bloc.dart';
 import '../../exercicios/bloc/state.dart';
 import '../../exercicios/model/exercicio_model.dart';
 import '../../exercicios/screens/exercicio_screen.dart';
 import '../../exercicios/services/exercicios_services.dart';
-import '../../utils.dart';
 import '../../widgets_comuns/button_bloc/elevated_button_bloc.dart';
 import '../../widgets_comuns/button_bloc/elevated_button_bloc_event.dart';
-import '../../widgets_comuns/button_bloc/elevated_button_bloc_state.dart';
 import '../models/exercicio_treino_model.dart';
 import '../models/serie_model.dart';
 import '../models/treino_model.dart';
@@ -54,14 +53,12 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
   final Map<String, String> exercicioNotesMap = {};
   TextEditingController titulo = TextEditingController();
   List<String> intervalos = [];
-  //String? alunoUid;
   List<TextEditingController> seriesPesoControllers = [];
   List<TextEditingController> seriesRepsControllers = [];
   final CriarTreinoServices criarTreinoServices = CriarTreinoServices();
   final Map<String, bool> exercicioExpandido = {};
-
   Map<String, String?> exerciseIntervalMap = {};
-
+    bool habilitado = false;
   String selectedInterval = "5 seg";
 
   void getExercicios() {
@@ -127,598 +124,691 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                 FocusScope.of(context).unfocus();
               },
               child: Scaffold(
-                appBar: AppBar(
-                  automaticallyImplyLeading: false,
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Cancelar'),
-                      ),
-                      Text(
-                        'Editar treino',
-                        style: SafeGoogleFont('Open Sans',
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      ),
-                      BlocBuilder<ElevatedButtonBloc, ElevatedButtonBlocState>(
-                        builder: (context, buttonState) {
-                          return TextButton(
-                            onPressed: buttonState is ElevatedButtonBlocLoading
-                                ? null
-                                : () async {
-                                    BlocProvider.of<ElevatedButtonBloc>(context)
-                                        .add(ElevatedButtonPressed());
-                                    final currentState = context
-                                        .read<ExercicioSelectionBloc>()
-                                        .state;
+                // appBar:
+                // AppBar(
+                //   automaticallyImplyLeading: false,
+                //   title: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       TextButton(
+                //         onPressed: () {
+                //           Navigator.pop(context);
+                //         },
+                //         child: const Text('Cancelar'),
+                //       ),
+                //       Text(
+                //         'Editar treino',
+                //         style: SafeGoogleFont('Open Sans',
+                //             fontSize: 25, fontWeight: FontWeight.bold),
+                //       ),
+                //       BlocBuilder<ElevatedButtonBloc, ElevatedButtonBlocState>(
+                //         builder: (context, buttonState) {
+                //           return TextButton(
+                //             onPressed: buttonState is ElevatedButtonBlocLoading
+                //                 ? null
+                //                 : () async {
+                //                     BlocProvider.of<ElevatedButtonBloc>(context)
+                //                         .add(ElevatedButtonPressed());
+                //                     final currentState = context
+                //                         .read<ExercicioSelectionBloc>()
+                //                         .state;
 
-                                    final List<ExercicioSelecionado>
-                                        selectedExerciciosList =
-                                        currentState.selectedExercicios;
+                //                     final List<ExercicioSelecionado>
+                //                         selectedExerciciosList =
+                //                         currentState.selectedExercicios;
 
-                                    final List<ExercicioTreino> convertedList =
-                                        selectedExerciciosList.map((exercicio) {
-                                      List<Serie> seriesForExercicio =
-                                          criarTreinoServices
-                                              .getSeriesForExercicio(exercicio,
-                                                  exercicioSeriesMap);
-                                      Intervalo intervaloForExercicio =
-                                          criarTreinoServices
-                                              .getIntervalForExercicio(
-                                                  exercicio,
-                                                  exerciseIntervalMap);
+                //                     final List<ExercicioTreino> convertedList =
+                //                         selectedExerciciosList.map((exercicio) {
+                //                       List<Serie> seriesForExercicio =
+                //                           criarTreinoServices
+                //                               .getSeriesForExercicio(exercicio,
+                //                                   exercicioSeriesMap);
+                //                       Intervalo intervaloForExercicio =
+                //                           criarTreinoServices
+                //                               .getIntervalForExercicio(
+                //                                   exercicio,
+                //                                   exerciseIntervalMap);
 
-                                      return ExercicioTreino(
-                                        id: exercicio.id,
-                                        newId: exercicio.newId,
-                                        nome: exercicio.nome,
-                                        grupoMuscular: exercicio.grupoMuscular,
-                                        agonista: exercicio.agonista,
-                                        antagonista: exercicio.antagonista,
-                                        sinergista: exercicio.sinergista,
-                                        mecanismo: exercicio.mecanismo,
-                                        fotoUrl: exercicio.fotoUrl,
-                                        videoUrl: exercicio.videoUrl,
-                                        series: seriesForExercicio,
-                                        intervalo: intervaloForExercicio,
-                                        notas: exercicioNotesMap[
-                                                exercicio.newId] ??
-                                            "",
-                                      );
-                                    }).toList();
+                //                       return ExercicioTreino(
+                //                         id: exercicio.id,
+                //                         newId: exercicio.newId,
+                //                         nome: exercicio.nome,
+                //                         grupoMuscular: exercicio.grupoMuscular,
+                //                         agonista: exercicio.agonista,
+                //                         antagonista: exercicio.antagonista,
+                //                         sinergista: exercicio.sinergista,
+                //                         mecanismo: exercicio.mecanismo,
+                //                         fotoUrl: exercicio.fotoUrl,
+                //                         videoUrl: exercicio.videoUrl,
+                //                         series: seriesForExercicio,
+                //                         intervalo: intervaloForExercicio,
+                //                         notas: exercicioNotesMap[
+                //                                 exercicio.newId] ??
+                //                             "",
+                //                       );
+                //                     }).toList();
 
-                                    for (var exercicio in convertedList) {
-                                      for (var serie in exercicio.series) {
-                                        debugPrint(
-                                            ' reps ---> ${serie.reps.toString()}');
-                                        debugPrint(
-                                            ' rep controller ---> ${serie.repsController!.text}');
-                                      }
-                                    }
+                //                     for (var exercicio in convertedList) {
+                //                       for (var serie in exercicio.series) {
+                //                         debugPrint(
+                //                             ' reps ---> ${serie.reps.toString()}');
+                //                         debugPrint(
+                //                             ' rep controller ---> ${serie.repsController!.text}');
+                //                       }
+                //                     }
 
-                                    Treino newTreino = Treino(
-                                        titulo: titulo.text,
-                                        exercicios: convertedList);
+                //                     Treino newTreino = Treino(
+                //                         titulo: titulo.text,
+                //                         exercicios: convertedList);
 
-                                    for (var exercicio
-                                        in newTreino.exercicios) {
-                                      for (var serie in exercicio.series) {
-                                        debugPrint(
-                                            ' reps ---> ${serie.reps.toString()}');
-                                        debugPrint(
-                                            ' rep controller ---> ${serie.repsController!.text}');
-                                      }
-                                    }
+                //                     for (var exercicio
+                //                         in newTreino.exercicios) {
+                //                       for (var serie in exercicio.series) {
+                //                         debugPrint(
+                //                             ' reps ---> ${serie.reps.toString()}');
+                //                         debugPrint(
+                //                             ' rep controller ---> ${serie.repsController!.text}');
+                //                       }
+                //                     }
 
-                                    TrainingSheet treinoEditado =
-                                        newTreino.toTrainingSheet(newTreino);
+                //                     TrainingSheet treinoEditado =
+                //                         newTreino.toTrainingSheet(newTreino);
 
-                                    debugPrint('editando treino...');
+                //                     debugPrint('editando treino...');
 
-                                    final sucesso =
-                                        await _treinoServices.editTreinoMessage(
-                                            uid,
-                                            widget.messageId!,
-                                            widget.index!,
-                                            treinoEditado);
+                //                     final sucesso =
+                //                         await _treinoServices.editTreinoMessage(
+                //                             uid,
+                //                             widget.messageId!,
+                //                             widget.index!,
+                //                             treinoEditado);
 
-                                    if (sucesso) {
-                                      MensagemDeSucesso().showSuccessSnackbar(
-                                          context,
-                                          'Treino editado com sucesso.');
-                                      BlocProvider.of<ElevatedButtonBloc>(
-                                              context)
-                                          .add(ElevatedButtonReset());
-                                      Navigator.of(context).pop({
-                                        'titulo': newTreino.titulo,
-                                        'exercicios': newTreino.exercicios
-                                      });
-                                      Navigator.of(context).pop();
-                                    } else {
-                                      BlocProvider.of<ElevatedButtonBloc>(
-                                              context)
-                                          .add(ElevatedButtonReset());
-                                    }
-                                  },
-                            child: buttonState is ElevatedButtonBlocLoading
-                                ? const CircularProgressIndicator()
-                                : const Text('Salvar'),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                //                     if (sucesso) {
+                //                       MensagemDeSucesso().showSuccessSnackbar(
+                //                           context,
+                //                           'Treino editado com sucesso.');
+                //                       BlocProvider.of<ElevatedButtonBloc>(
+                //                               context)
+                //                           .add(ElevatedButtonReset());
+                //                       Navigator.of(context).pop({
+                //                         'titulo': newTreino.titulo,
+                //                         'exercicios': newTreino.exercicios
+                //                       });
+                //                       Navigator.of(context).pop();
+                //                     } else {
+                //                       BlocProvider.of<ElevatedButtonBloc>(
+                //                               context)
+                //                           .add(ElevatedButtonReset());
+                //                     }
+                //                   },
+                //             child: buttonState is ElevatedButtonBlocLoading
+                //                 ? const CircularProgressIndicator()
+                //                 : const Text('Salvar'),
+                //           );
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 body: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 1000),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Form(
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints(maxWidth: 1000),
+                  child: Column(
+                    children: [
+                      HeaderPrototipo(
+                        title: widget.title.isEmpty
+                            ? 'Treino sem nome'
+                            : widget.title,
+                        subtitle: 'Detalhes do treino',
+                        button: 'Salvar',
+                        maxWidth: 820,
+                        onSave: () async {
+                          // BlocProvider.of<ElevatedButtonBloc>(context)
+                          //     .add(ElevatedButtonPressed());
+                          final currentState =
+                              context.read<ExercicioSelectionBloc>().state;
+
+                          final List<ExercicioSelecionado>
+                              selectedExerciciosList =
+                              currentState.selectedExercicios;
+
+                          final List<ExercicioTreino> convertedList =
+                              selectedExerciciosList.map((exercicio) {
+                            List<Serie> seriesForExercicio =
+                                criarTreinoServices.getSeriesForExercicio(
+                                    exercicio, exercicioSeriesMap);
+                            Intervalo intervaloForExercicio =
+                                criarTreinoServices.getIntervalForExercicio(
+                                    exercicio, exerciseIntervalMap);
+
+                            return ExercicioTreino(
+                              id: exercicio.id,
+                              newId: exercicio.newId,
+                              nome: exercicio.nome,
+                              grupoMuscular: exercicio.grupoMuscular,
+                              agonista: exercicio.agonista,
+                              antagonista: exercicio.antagonista,
+                              sinergista: exercicio.sinergista,
+                              mecanismo: exercicio.mecanismo,
+                              fotoUrl: exercicio.fotoUrl,
+                              videoUrl: exercicio.videoUrl,
+                              series: seriesForExercicio,
+                              intervalo: intervaloForExercicio,
+                              notas: exercicioNotesMap[exercicio.newId] ?? "",
+                            );
+                          }).toList();
+
+                          for (var exercicio in convertedList) {
+                            for (var serie in exercicio.series) {
+                              debugPrint(' reps ---> ${serie.reps.toString()}');
+                              debugPrint(
+                                  ' rep controller ---> ${serie.repsController!.text}');
+                            }
+                          }
+
+                          Treino newTreino = Treino(
+                              titulo: titulo.text, exercicios: convertedList);
+
+                          for (var exercicio in newTreino.exercicios) {
+                            for (var serie in exercicio.series) {
+                              debugPrint(' reps ---> ${serie.reps.toString()}');
+                              debugPrint(
+                                  ' rep controller ---> ${serie.repsController!.text}');
+                            }
+                          }
+
+                          TrainingSheet treinoEditado =
+                              newTreino.toTrainingSheet(newTreino);
+
+                          debugPrint('editando treino...');
+
+                          final sucesso =
+                              await _treinoServices.editTreinoMessage(
+                                  uid,
+                                  widget.messageId!,
+                                  widget.index!,
+                                  treinoEditado);
+
+                          if (sucesso) {
+                            GFToast.showToast(
+                                'Treino editado com sucesso.', context,
+                                backgroundColor: Colors.green);
+                            // BlocProvider.of<ElevatedButtonBloc>(context)
+                            //     .add(ElevatedButtonReset());
+                            Navigator.of(context).pop({
+                              'titulo': newTreino.titulo,
+                              'exercicios': newTreino.exercicios
+                            });
+                            Navigator.of(context).pop();
+                          } else {
+                            // BlocProvider.of<ElevatedButtonBloc>(context)
+                            //     .add(ElevatedButtonReset());
+                            GFToast.showToast(
+                                'Erro ao editar treino. Tente novamente.',
+                                context,
+                                backgroundColor: Colors.red);
+                          }
+                        },
+                        icon: false,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 800),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
                                   child: Form(
-                                    child: TextFormField(
-                                      controller: titulo,
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.grey[900],
-                                        labelText: 'Nome do treino',
-                                        labelStyle:
-                                            const TextStyle(color: Colors.grey),
-                                        prefixIcon: const Icon(
-                                          Icons.edit,
-                                          color: Colors.grey,
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              25), // Raio da borda arredondada
-                                          borderSide:
-                                              BorderSide.none, // Remove a borda
+                                    child: ConstrainedBox(
+                                      constraints:
+                                          BoxConstraints(maxWidth: 800),
+                                      child: Form(
+                                        child: TextFormField(
+                                          controller: titulo,
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.grey[900],
+                                            labelText: 'Nome do treino',
+                                            labelStyle: const TextStyle(
+                                                color: Colors.grey),
+                                            prefixIcon: const Icon(
+                                              Icons.edit,
+                                              color: Colors.grey,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                  25), // Raio da borda arredondada
+                                              borderSide: BorderSide
+                                                  .none, // Remove a borda
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            BlocBuilder<ExercicioSelectionBloc,
-                                ExercicioSelectionState>(
-                              builder: (BuildContext context, state) {
-                                while (notasControllers.length <
-                                    state.selectedExercicios.length) {
-                                  notasControllers.add(TextEditingController());
-                                }
-                                while (notasControllers.length >
-                                    state.selectedExercicios.length) {
-                                  notasControllers.removeLast().dispose();
-                                }
-                                if (state.selectedExercicios.isEmpty) {
-                                  return Column(
-                                    children: [
-                                      const FaIcon(
-                                        FontAwesomeIcons.dumbbell,
-                                        color: Colors.green,
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.all(20),
-                                        child: Center(
-                                          child: Text(
-                                            'Adicione um exercício e monte o treino',
-                                            style: TextStyle(fontSize: 16),
-                                            textAlign: TextAlign.center,
-                                            textDirection: TextDirection.ltr,
-                                          ),
-                                        ),
-                                      ),
-                                      AddExercicioButton(exercicios: exercicios)
-                                    ],
-                                  );
-                                } else {
-                                  return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: state.selectedExercicios.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      final exercicio =
-                                          state.selectedExercicios[index];
-
-                                      exercicioSeriesMap.putIfAbsent(
-                                        exercicio.newId,
-                                        () {
-                                          List<Serie> series = [];
-                                          if (exercicio.series != null) {
-                                            debugPrint(
-                                                'series lenght = ${series.length.toString()}');
-                                            for (var serie
-                                                in exercicio.series!) {
-                                              debugPrint(
-                                                  'add serie <-------------');
-                                              series.add(
-                                                Serie(
-                                                  reps: serie.reps,
-                                                  kg: serie.kg,
-                                                  tipo: serie.tipo,
-                                                  pesoController:
-                                                      TextEditingController(
-                                                          text: serie.kg
-                                                              .toString()),
-                                                  repsController:
-                                                      TextEditingController(
-                                                          text: serie.reps
-                                                              .toString()),
-                                                ),
-                                              );
-                                            }
-                                          } else {
-                                            series.add(
-                                              Serie(
-                                                reps: 0,
-                                                kg: 0,
-                                                tipo: 'Normal',
-                                                pesoController:
-                                                    TextEditingController(
-                                                        text: '0'),
-                                                repsController:
-                                                    TextEditingController(
-                                                        text: '0'),
-                                              ),
-                                            );
-                                          }
-                                          return series;
-                                        },
-                                      );
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                BlocBuilder<ExercicioSelectionBloc,
+                                    ExercicioSelectionState>(
+                                  builder: (BuildContext context, state) {
+                                    while (notasControllers.length <
+                                        state.selectedExercicios.length) {
+                                      notasControllers
+                                          .add(TextEditingController());
+                                    }
+                                    while (notasControllers.length >
+                                        state.selectedExercicios.length) {
+                                      notasControllers.removeLast().dispose();
+                                    }
+                                    if (state.selectedExercicios.isEmpty) {
                                       return Column(
                                         children: [
-                                          Container(
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                          const FaIcon(
+                                            FontAwesomeIcons.dumbbell,
+                                            color: Colors.green,
+                                          ),
+                                          const Padding(
+                                            padding: EdgeInsets.all(20),
+                                            child: Center(
+                                              child: Text(
+                                                'Adicione um exercício e monte o treino',
+                                                style: TextStyle(fontSize: 16),
+                                                textAlign: TextAlign.center,
+                                                textDirection:
+                                                    TextDirection.ltr,
+                                              ),
+                                            ),
+                                          ),
+                                          AddExercicioButton(
+                                              exercicios: exercicios)
+                                        ],
+                                      );
+                                    } else {
+                                      return ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount:
+                                            state.selectedExercicios.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          final exercicio =
+                                              state.selectedExercicios[index];
+
+                                          exercicioSeriesMap.putIfAbsent(
+                                            exercicio.newId,
+                                            () {
+                                              List<Serie> series = [];
+                                              if (exercicio.series != null) {
+                                                debugPrint(
+                                                    'series lenght = ${series.length.toString()}');
+                                                for (var serie
+                                                    in exercicio.series!) {
+                                                  debugPrint(
+                                                      'add serie <-------------');
+                                                  series.add(
+                                                    Serie(
+                                                      reps: serie.reps,
+                                                      kg: serie.kg,
+                                                      tipo: serie.tipo,
+                                                      pesoController:
+                                                          TextEditingController(
+                                                              text: serie.kg
+                                                                  .toString()),
+                                                      repsController:
+                                                          TextEditingController(
+                                                              text: serie.reps
+                                                                  .toString()),
+                                                    ),
+                                                  );
+                                                }
+                                              } else {
+                                                series.add(
+                                                  Serie(
+                                                    reps: 0,
+                                                    kg: 0,
+                                                    tipo: 'Normal',
+                                                    pesoController:
+                                                        TextEditingController(
+                                                            text: '0'),
+                                                    repsController:
+                                                        TextEditingController(
+                                                            text: '0'),
+                                                  ),
+                                                );
+                                              }
+                                              return series;
+                                            },
+                                          );
+                                          return Column(
+                                            children: [
+                                              Container(
+                                                color: Colors.transparent,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       vertical: 15,
                                                       horizontal: 1),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                  child: Column(
                                                     children: [
                                                       Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         children: [
-                                                          CircleAvatar(
-                                                            radius: 20,
-                                                            backgroundImage:
-                                                                NetworkImage(
-                                                                    exercicio
-                                                                        .fotoUrl),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          TextButton(
-                                                            child: Text(
-                                                              '${exercicio.nome} (${exercicio.mecanismo})',
-                                                              style:
-                                                                  const TextStyle(
+                                                          Row(
+                                                            children: [
+                                                              CircleAvatar(
+                                                                radius: 20,
+                                                                backgroundImage:
+                                                                    NetworkImage(
+                                                                        exercicio
+                                                                            .fotoUrl),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              TextButton(
+                                                                child: Text(
+                                                                  '${exercicio.nome} (${exercicio.mecanismo})',
+                                                                  style: const TextStyle(
                                                                       fontSize:
                                                                           17),
-                                                            ),
-                                                            onPressed: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          ExercicioScreen(
-                                                                    exercicio: Exercicio(
-                                                                        id: exercicio
-                                                                            .id,
-                                                                        nome: exercicio
-                                                                            .nome,
-                                                                        grupoMuscular:
-                                                                            exercicio
-                                                                                .grupoMuscular,
-                                                                        agonista:
-                                                                            exercicio
-                                                                                .agonista,
-                                                                        antagonista:
-                                                                            exercicio
-                                                                                .antagonista,
-                                                                        sinergista:
-                                                                            exercicio
-                                                                                .sinergista,
-                                                                        mecanismo:
-                                                                            exercicio
-                                                                                .mecanismo,
-                                                                        fotoUrl:
-                                                                            exercicio
-                                                                                .fotoUrl,
-                                                                        videoUrl:
-                                                                            exercicio.videoUrl),
-                                                                  ),
                                                                 ),
-                                                              );
-                                                            },
+                                                                onPressed: () {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              ExercicioScreen(
+                                                                        exercicio: Exercicio(
+                                                                            id: exercicio
+                                                                                .id,
+                                                                            nome:
+                                                                                exercicio.nome,
+                                                                            grupoMuscular: exercicio.grupoMuscular,
+                                                                            agonista: exercicio.agonista,
+                                                                            antagonista: exercicio.antagonista,
+                                                                            sinergista: exercicio.sinergista,
+                                                                            mecanismo: exercicio.mecanismo,
+                                                                            fotoUrl: exercicio.fotoUrl,
+                                                                            videoUrl: exercicio.videoUrl),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ],
                                                           ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          IconButton(
-                                                            onPressed: () {
-                                                              BlocProvider.of<
-                                                                          ExercicioSelectionBloc>(
-                                                                      context)
-                                                                  .add(
-                                                                (RemoveSingleExercicioSelection(
-                                                                  state.selectedExercicios[
-                                                                      index],
-                                                                )),
-                                                              );
-                                                              state
-                                                                  .selectedExercicios
-                                                                  .removeWhere((exercicio) =>
+                                                          Row(
+                                                            children: [
+                                                              IconButton(
+                                                                onPressed: () {
+                                                                  BlocProvider.of<
+                                                                              ExercicioSelectionBloc>(
+                                                                          context)
+                                                                      .add(
+                                                                    (RemoveSingleExercicioSelection(
+                                                                      state.selectedExercicios[
+                                                                          index],
+                                                                    )),
+                                                                  );
+                                                                  state.selectedExercicios.removeWhere((exercicio) =>
                                                                       exercicio
                                                                           .newId ==
                                                                       state
                                                                           .selectedExercicios[
                                                                               index]
                                                                           .newId);
-                                                            },
-                                                            icon: const Icon(
-                                                              Icons.delete,
-                                                              color: Colors.red,
-                                                            ),
-                                                          ),
-                                                          IconButton(
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                exercicioExpandido[
+                                                                },
+                                                                icon:
+                                                                    const Icon(
+                                                                  Icons.delete,
+                                                                  color: Colors
+                                                                      .red,
+                                                                ),
+                                                              ),
+                                                              IconButton(
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    exercicioExpandido[
                                                                         exercicio
-                                                                            .newId] =
-                                                                    !(exercicioExpandido[
-                                                                            exercicio.newId] ??
+                                                                            .newId] = !(exercicioExpandido[exercicio.newId] ??
                                                                         true);
-                                                              });
-                                                            },
-                                                            icon: Icon(
-                                                              exercicioExpandido[
-                                                                          exercicio
+                                                                  });
+                                                                },
+                                                                icon: Icon(
+                                                                  exercicioExpandido[exercicio
                                                                               .newId] ??
-                                                                      true
-                                                                  ? Icons
-                                                                      .expand_less
-                                                                  : Icons
-                                                                      .expand_more,
-                                                              color:
-                                                                  Colors.grey,
-                                                            ),
+                                                                          true
+                                                                      ? Icons
+                                                                          .expand_less
+                                                                      : Icons
+                                                                          .expand_more,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  AnimatedCrossFade(
-                                                    firstChild:
-                                                        const SizedBox.shrink(),
-                                                    secondChild: Column(
-                                                      children: [
-                                                        const SizedBox(
-                                                            height: 10),
-                                                        Row(
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      AnimatedCrossFade(
+                                                        firstChild:
+                                                            const SizedBox
+                                                                .shrink(),
+                                                        secondChild: Column(
                                                           children: [
-                                                            Expanded(
-                                                              child: TextField(
-                                                                maxLines: 3,
-                                                                minLines: 1,
-                                                                onChanged:
-                                                                    (value) {
-                                                                  setState(() {
-                                                                    exercicioNotesMap[
-                                                                        exercicio
-                                                                            .newId] = value;
-                                                                  });
-                                                                },
-                                                                controller: notasControllers
-                                                                        .isNotEmpty
-                                                                    ? notasControllers[
-                                                                        index]
-                                                                    : null,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  fillColor:
-                                                                      Colors.grey[
-                                                                          900],
-                                                                  filled: true,
-                                                                  labelText:
-                                                                      'Notas sobre o exercício',
-                                                                  labelStyle:
-                                                                      const TextStyle(
-                                                                          color:
-                                                                              Colors.grey),
-                                                                  border:
-                                                                      OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            25),
-                                                                    borderSide:
-                                                                        BorderSide
-                                                                            .none,
+                                                            const SizedBox(
+                                                                height: 10),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child:
+                                                                      TextField(
+                                                                    maxLines: 3,
+                                                                    minLines: 1,
+                                                                    onChanged:
+                                                                        (value) {
+                                                                      setState(
+                                                                          () {
+                                                                        exercicioNotesMap[exercicio.newId] =
+                                                                            value;
+                                                                      });
+                                                                    },
+                                                                    controller: notasControllers
+                                                                            .isNotEmpty
+                                                                        ? notasControllers[
+                                                                            index]
+                                                                        : null,
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      fillColor:
+                                                                          Colors
+                                                                              .grey[900],
+                                                                      filled:
+                                                                          true,
+                                                                      labelText:
+                                                                          'Notas sobre o exercício',
+                                                                      labelStyle:
+                                                                          const TextStyle(
+                                                                              color: Colors.grey),
+                                                                      border:
+                                                                          OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(25),
+                                                                        borderSide:
+                                                                            BorderSide.none,
+                                                                      ),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
+                                                              ],
                                                             ),
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 10),
-                                                        Row(
-                                                          children: [
-                                                            TextButton(
-                                                              onPressed: () {
-                                                                debugPrint(
-                                                                    exercicio
-                                                                        .newId);
-                                                                criarTreinoServices
-                                                                    .showIntervalPicker(
+                                                            const SizedBox(
+                                                                height: 10),
+                                                            Row(
+                                                              children: [
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    debugPrint(
+                                                                        exercicio
+                                                                            .newId);
+                                                                    criarTreinoServices.showIntervalPicker(
                                                                         context,
                                                                         intervalos,
                                                                         exercicio
                                                                             .newId,
                                                                         exerciseIntervalMap);
-                                                              },
-                                                              child: Text(
-                                                                  'Tempo de descanso: ${exerciseIntervalMap[exercicio.newId] ?? '0 seg'}'),
+                                                                  },
+                                                                  child: Text(
+                                                                      'Tempo de descanso: ${exerciseIntervalMap[exercicio.newId] ?? '0 seg'}'),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 10),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          0),
+                                                              child: Column(
+                                                                children: [
+                                                                  const Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [],
+                                                                  ),
+                                                                  BuildSeriesInput(
+                                                                    seriesList:
+                                                                        exercicioSeriesMap[
+                                                                            exercicio.newId]!,
+                                                                    exercicioSeriesMap:
+                                                                        exercicioSeriesMap,
+                                                                    newId: exercicio
+                                                                        .newId,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                      height:
+                                                                          10),
+                                                                  ElevatedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      setState(
+                                                                          () {
+                                                                        exercicioSeriesMap.putIfAbsent(
+                                                                            exercicio
+                                                                                .newId,
+                                                                            () =>
+                                                                                []);
+                                                                        exercicioSeriesMap[exercicio.newId]!
+                                                                            .add(
+                                                                          Serie(
+                                                                            reps:
+                                                                                0,
+                                                                            kg: 0,
+                                                                            tipo:
+                                                                                'Normal',
+                                                                            pesoController:
+                                                                                TextEditingController(text: '0'),
+                                                                            repsController:
+                                                                                TextEditingController(text: '0'),
+                                                                          ),
+                                                                        );
+                                                                      });
+                                                                    },
+                                                                    style:
+                                                                        ButtonStyle(
+                                                                      backgroundColor:
+                                                                          WidgetStatePropertyAll(
+                                                                        Colors.grey[
+                                                                            700],
+                                                                      ),
+                                                                    ),
+                                                                    child:
+                                                                        const Padding(
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              25),
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        children: [
+                                                                          Icon(Icons
+                                                                              .add),
+                                                                          SizedBox(
+                                                                              width: 5),
+                                                                          Text(
+                                                                            'Adicionar série',
+                                                                            style:
+                                                                                TextStyle(fontSize: 16),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
-                                                        const SizedBox(
-                                                            height: 10),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      0),
-                                                          child: Column(
-                                                            children: [
-                                                              const Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [],
-                                                              ),
-                                                              BuildSeriesInput(
-                                                                seriesList:
-                                                                    exercicioSeriesMap[
+                                                        crossFadeState:
+                                                            exercicioExpandido[
                                                                         exercicio
-                                                                            .newId]!,
-                                                                exercicioSeriesMap:
-                                                                    exercicioSeriesMap,
-                                                                newId: exercicio
-                                                                    .newId,
-                                                              ),
-                                                              const SizedBox(
-                                                                  height: 10),
-                                                              ElevatedButton(
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    exercicioSeriesMap.putIfAbsent(
-                                                                        exercicio
-                                                                            .newId,
-                                                                        () =>
-                                                                            []);
-                                                                    exercicioSeriesMap[
-                                                                            exercicio.newId]!
-                                                                        .add(
-                                                                      Serie(
-                                                                        reps: 0,
-                                                                        kg: 0,
-                                                                        tipo:
-                                                                            'Normal',
-                                                                        pesoController:
-                                                                            TextEditingController(text: '0'),
-                                                                        repsController:
-                                                                            TextEditingController(text: '0'),
-                                                                      ),
-                                                                    );
-                                                                  });
-                                                                },
-                                                                style:
-                                                                    ButtonStyle(
-                                                                  backgroundColor:
-                                                                      WidgetStatePropertyAll(
-                                                                    Colors.grey[
-                                                                        700],
-                                                                  ),
-                                                                ),
-                                                                child:
-                                                                    const Padding(
-                                                                  padding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              25),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Icon(Icons
-                                                                          .add),
-                                                                      SizedBox(
-                                                                          width:
-                                                                              5),
-                                                                      Text(
-                                                                        'Adicionar série',
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                16),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    crossFadeState:
-                                                        exercicioExpandido[
-                                                                    exercicio
-                                                                        .newId] ??
-                                                                true
-                                                            ? CrossFadeState
-                                                                .showSecond
-                                                            : CrossFadeState
-                                                                .showFirst,
-                                                    duration: const Duration(
-                                                        milliseconds: 300),
+                                                                            .newId] ??
+                                                                    true
+                                                                ? CrossFadeState
+                                                                    .showSecond
+                                                                : CrossFadeState
+                                                                    .showFirst,
+                                                        duration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    300),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        ],
+                                            ],
+                                          );
+                                        },
                                       );
-                                    },
-                                  );
-                                }
-                              },
+                                    }
+                                  },
+                                ),
+                                BlocBuilder<ExercicioSelectionBloc,
+                                        ExercicioSelectionState>(
+                                    builder:
+                                        (selectionContext, selectionState) {
+                                  if (selectionState
+                                      .selectedExercicios.isNotEmpty) {
+                                    return AddExercicioButton(
+                                        exercicios: exercicios);
+                                  } else {
+                                    return const SizedBox.shrink();
+                                  }
+                                })
+                              ],
                             ),
-                            BlocBuilder<ExercicioSelectionBloc,
-                                    ExercicioSelectionState>(
-                                builder: (selectionContext, selectionState) {
-                              if (selectionState
-                                  .selectedExercicios.isNotEmpty) {
-                                return AddExercicioButton(
-                                    exercicios: exercicios);
-                              } else {
-                                return const SizedBox.shrink();
-                              }
-                            })
-                          ],
+                          ),
                         ),
+                        // ),
                       ),
-                    ),
-                    // ),
+                    ],
                   ),
                 ),
               ),

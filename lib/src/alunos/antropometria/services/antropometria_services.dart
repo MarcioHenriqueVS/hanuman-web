@@ -98,7 +98,7 @@ class AntropometriaServices {
     try {
       var dio = Dio();
       String url =
-          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deleteAvaliacao';
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/deleteAvaliacaov2';
       final response = await dio.post(url, data: {
         'personalUid': uid,
         'alunoUid': alunoUid,
@@ -139,7 +139,7 @@ class AntropometriaServices {
     try {
       var dio = Dio();
       String url =
-          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getAvaliacoes';
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getAvaliacoesv2';
       final response =
           await dio.post(url, data: {'uid': uid, 'alunoUid': alunoUid});
       debugPrint(response.data.toString());
@@ -186,7 +186,7 @@ class AntropometriaServices {
     try {
       var dio = Dio();
       String url =
-          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getAvaliacao';
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getAvaliacaov2';
 
       final response = await dio.post(url, data: {
         'personalUid': personalUid,

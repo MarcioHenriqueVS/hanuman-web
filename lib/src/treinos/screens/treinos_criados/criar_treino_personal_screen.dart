@@ -44,7 +44,6 @@ class NovoTreinoPersonalScreen extends StatefulWidget {
 
 class _NovoTreinoPersonalScreenState extends State<NovoTreinoPersonalScreen> {
   final ExerciciosServices exerciciosServices = ExerciciosServices();
-  final TreinoServices _treinoServices = TreinoServices();
   final TreinosPersonalServices _treinosPersonalServices =
       TreinosPersonalServices();
   String uid = FirebaseAuth.instance.currentUser!.uid;
@@ -55,6 +54,7 @@ class _NovoTreinoPersonalScreenState extends State<NovoTreinoPersonalScreen> {
   final TextEditingController titulo = TextEditingController();
   List<String> intervalos = [];
   String? alunoUid;
+  bool habilitado = true;
 
   List<String> getIntervalos() {
     List<String> intervalos = [];

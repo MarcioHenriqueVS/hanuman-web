@@ -27,6 +27,7 @@ class EnviarTreinoDialog extends StatefulWidget {
 
 class _EnviarTreinoDialogState extends State<EnviarTreinoDialog> {
   final TreinoServices _treinoServices = TreinoServices();
+  bool? habilitado;
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +158,15 @@ class _EnviarTreinoDialogState extends State<EnviarTreinoDialog> {
                   onPressed: buttonState is ElevatedButtonBlocLoading
                       ? null
                       : () async {
+                          // Primeiro, exibe o diálogo de visibilidade
+                          final resposta = await _treinoServices
+                              .showVisibilityDialog(context);
+                          if (resposta == null)
+                            return; // Usuário cancelou o diálogo
+
+                          habilitado =
+                              resposta; // Atualiza o valor de habilitado com base na resposta
+                              
                           BlocProvider.of<ElevatedButtonBloc>(context)
                               .add(ElevatedButtonPressed());
                           for (var treino in widget.trainingSheets) {
@@ -166,7 +176,8 @@ class _EnviarTreinoDialogState extends State<EnviarTreinoDialog> {
                                 widget.uid,
                                 widget.alunoUid!,
                                 widget.pastaId,
-                                newTreino);
+                                newTreino,
+                                habilitado!);
                             if (sucesso) {
                               BlocProvider.of<ElevatedButtonBloc>(context)
                                   .add(ElevatedButtonReset());

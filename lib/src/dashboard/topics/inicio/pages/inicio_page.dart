@@ -175,7 +175,7 @@ class _InicioPageState extends State<InicioPage> {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isSmallScreen ? maxWidth * 0.05 : maxWidth * 0.025,
+            horizontal: isSmallScreen ? maxWidth * 0.025 : maxWidth * 0.025,
           ),
           child: Column(
             crossAxisAlignment: isSmallScreen

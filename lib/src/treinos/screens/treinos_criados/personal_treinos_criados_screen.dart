@@ -1,9 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:go_router/go_router.dart';
 import '../../../alunos/pages/avaliacoes/header_prototipo.dart';
+import '../../bloc/get_treinos_criados/get_treinos_criados_bloc.dart';
 import '../../models/exercicio_treino_model.dart';
 import '../../models/treino_model.dart';
+import '../../services/treino_services.dart';
+import '../../services/treinos_personal_service.dart';
 import 'selecionar_aluno.dart';
 
 class TreinoCriadoScreen extends StatefulWidget {
@@ -18,65 +23,82 @@ class TreinoCriadoScreen extends StatefulWidget {
 
 class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
   String uid = FirebaseAuth.instance.currentUser!.uid;
+  final TreinosPersonalServices _treinosPersonalServices =
+      TreinosPersonalServices();
+  final TreinoServices _treinoServices = TreinoServices();
+  bool _isDeleting = false;
+
+  void deleteTreino(treinoId) async {
+    setState(() {
+      _isDeleting = true;
+    });
+
+    try {
+      await _treinosPersonalServices.deleteTreinoCriado(
+          uid, widget.pastaId, treinoId);
+      if (mounted) {
+        GFToast.showToast('Treino deletado com sucesso', context,
+            backgroundColor: Colors.green);
+        BlocProvider.of<GetTreinosCriadosBloc>(context)
+            .add(BuscarTreinosCriados(widget.pastaId));
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        GFToast.showToast('Erro ao deletar treino, tente novamente', context,
+            backgroundColor: Colors.red);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isDeleting = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _showDeleteConfirmationDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF252525),
+          title: const Text(
+            'Confirmar exclusão',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: const Text(
+            'Tem certeza que deseja excluir este treino?',
+            style: TextStyle(color: Colors.white70),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.white70),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                deleteTreino(widget.treino.id);
+              },
+              child: const Text(
+                'Excluir',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A1A),
-      // appBar: AppBar(
-      //   backgroundColor: const Color(0xFF252525),
-      //   elevation: 0,
-      //   automaticallyImplyLeading: false,
-      //   toolbarHeight: 70,
-      //   title: Row(
-      //     children: [
-      //       MouseRegion(
-      //         cursor: SystemMouseCursors.click,
-      //         child: IconButton(
-      //           onPressed: () => Navigator.of(context).pop(),
-      //           icon: const Icon(Icons.arrow_back,
-      //               size: 20, color: Colors.white70),
-      //         ),
-      //       ),
-      //       const Spacer(),
-      //       MouseRegion(
-      //         cursor: SystemMouseCursors.click,
-      //         child: OutlinedButton.icon(
-      //           onPressed: () async {
-      //             final result = await context.push(
-      //               '/personal/:$uid/treinos/:${widget.pastaId}/editar-treino/:${widget.treino.id}',
-      //               extra: {
-      //                 'pastaId': widget.pastaId,
-      //                 'treinoId': widget.treino.id!,
-      //                 'treino': widget.treino,
-      //               },
-      //             );
-      //             if (result != null) {
-      //               setState(() {
-      //                 result as Map<String, dynamic>;
-      //                 widget.treino.titulo = result['titulo'];
-      //                 widget.treino.exercicios = result['exercicios'];
-      //               });
-      //             }
-      //           },
-      //           style: OutlinedButton.styleFrom(
-      //             padding:
-      //                 const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      //             side: const BorderSide(color: Colors.green, width: 1),
-      //             shape: RoundedRectangleBorder(
-      //                 borderRadius: BorderRadius.circular(4)),
-      //           ),
-      //           icon: const Icon(Icons.edit_outlined,
-      //               size: 18, color: Colors.green),
-      //           label: const Text(
-      //             'Editar treino',
-      //             style: TextStyle(color: Colors.green, fontSize: 14),
-      //           ),
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -108,54 +130,49 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              final result = await context.push(
+                                '/personal/:$uid/treinos/:${widget.pastaId}/editar-treino/:${widget.treino.id}',
+                                extra: {
+                                  'pastaId': widget.pastaId,
+                                  'treinoId': widget.treino.id!,
+                                  'treino': widget.treino,
+                                },
+                              );
+                              if (result != null) {
+                                setState(() {
+                                  result as Map<String, dynamic>;
+                                  widget.treino.titulo = result['titulo'];
+                                  widget.treino.exercicios =
+                                      result['exercicios'];
+                                });
+                              }
+                            },
                             child: Text('Editar'),
+                          ),
+                          TextButton(
+                            onPressed: _isDeleting
+                                ? null
+                                : () async {
+                                    _showDeleteConfirmationDialog();
+                                  },
+                            child: _isDeleting
+                                ? const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.red),
+                                    ),
+                                  )
+                                : const Text(
+                                    'Excluir',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
                           ),
                         ],
                       ),
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: Text(
-                      //         widget.treino.titulo.isEmpty
-                      //             ? 'Sem título'
-                      //             : widget.treino.titulo,
-                      //         style: const TextStyle(
-                      //           fontSize: 32,
-                      //           fontWeight: FontWeight.w600,
-                      //           color: Colors.white,
-                      //           letterSpacing: -0.5,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     OutlinedButton.icon(
-                      //       onPressed: () async {
-                      //         showDialog(
-                      //           context: context,
-                      //           builder: (context) => SelecionarAluno(
-                      //             treino: widget.treino,
-                      //             treinoId: widget.treino.id!,
-                      //             pastaId: widget.pastaId,
-                      //           ),
-                      //         );
-                      //       },
-                      //       style: OutlinedButton.styleFrom(
-                      //         padding: const EdgeInsets.symmetric(
-                      //             horizontal: 20, vertical: 12),
-                      //         side: const BorderSide(color: Colors.green, width: 1),
-                      //         shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(4)),
-                      //       ),
-                      //       icon: const Icon(Icons.send_outlined,
-                      //           size: 16, color: Colors.green),
-                      //       label: const Text(
-                      //         'Enviar treino',
-                      //         style: TextStyle(color: Colors.green, fontSize: 14),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(height: 50),
                       ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -249,13 +266,11 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                     ],
                                   ),
                                 ),
-
                                 // Divisor
                                 Container(
                                   height: 1,
                                   color: const Color(0xFF2F2F2F),
                                 ),
-
                                 // Corpo do exercício
                                 Padding(
                                   padding: const EdgeInsets.all(32),
@@ -280,7 +295,7 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                                 color: Colors.green.shade400),
                                             const SizedBox(width: 8),
                                             Text(
-                                              'Intervalo: ${exercicio.intervalo.valor} ${intervaloTipoParaString(exercicio.intervalo.tipo)}',
+                                              'Intervalo: ${exercicio.intervalo.valor} ${_treinoServices.intervaloTipoParaString(exercicio.intervalo.tipo)}',
                                               style: TextStyle(
                                                 color: Colors.green.shade400,
                                                 fontSize: 13,
@@ -445,16 +460,5 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
         ),
       ),
     );
-  }
-
-  String intervaloTipoParaString(IntervaloTipo tipo) {
-    switch (tipo) {
-      case IntervaloTipo.segundos:
-        return 'segundos';
-      case IntervaloTipo.minutos:
-        return 'minutos';
-      default:
-        return '';
-    }
   }
 }

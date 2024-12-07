@@ -235,7 +235,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                     ],
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: Colors.grey[800]!,
+                      color: Theme.of(context).dividerColor,
                       width: 1,
                     ),
                   ),

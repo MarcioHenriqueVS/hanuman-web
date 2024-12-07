@@ -1,11 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../antropometria/bloc/get_avaliacao_recente/get_avaliacao_recente_bloc.dart';
 import '../antropometria/bloc/get_avaliacao_recente/get_avaliacao_recente_event.dart';
 import '../antropometria/bloc/get_avaliacao_recente/get_avaliacao_recente_state.dart';
 import '../antropometria/models/avaliacao_model.dart';
+import '../bloc/delete_aluno/delete_aluno_bloc.dart';
+import '../bloc/get_alunos/get_alunos_bloc.dart';
 import '../models/aluno_model.dart';
 import '../../utils.dart';
+import '../services/alunos_services.dart';
 import 'avaliacoes/avaliacoes_list_page.dart';
 import 'treinos/aluno_pastas_list_page.dart';
 
@@ -18,6 +22,10 @@ class AlunoProfilePage extends StatefulWidget {
 }
 
 class _AlunoProfilePageState extends State<AlunoProfilePage> {
+
+  final _alunosServices = AlunosServices();
+  final String uid = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   void initState() {
     BlocProvider.of<GetAvaliacaoMaisRecenteBloc>(context).add(
@@ -391,7 +399,10 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                                             'Excluir Aluno',
                                             Icons.delete_outline,
                                             Colors.red,
-                                            () {},
+                                            () {
+                                              _confirmarExclusao(
+                                                  context, widget.aluno);
+                                            },
                                           ),
                                         ],
                                       ),
@@ -540,6 +551,88 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
+    );
+  }
+
+  Future<void> _confirmarExclusao(
+      BuildContext context, AlunoModel aluno) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return BlocProvider(
+          create: (context) => DeleteAlunoBloc(_alunosServices),
+          child: BlocConsumer<DeleteAlunoBloc, DeleteAlunoState>(
+            listener: (context, state) {
+              if (state is DeleteAlunoSuccess) {
+                Navigator.of(dialogContext).pop();
+                context.read<GetAlunosBloc>().add(BuscarAlunos());
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Aluno excluído com sucesso'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+              if (state is DeleteAlunoError) {
+                Navigator.of(dialogContext).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Erro ao excluir aluno: ${state.message}'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              return AlertDialog(
+                backgroundColor: Colors.grey[900],
+                title: const Text(
+                  'Confirmar exclusão',
+                  style: TextStyle(color: Colors.white),
+                ),
+                content:
+                    Text('Deseja realmente excluir o aluno ${aluno.nome}?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: state is DeleteAlunoLoading
+                        ? null
+                        : () => Navigator.of(dialogContext).pop(),
+                    child: const Text(
+                      'Cancelar',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  state is DeleteAlunoLoading
+                      ? const ElevatedButton(
+                          onPressed: null,
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          ),
+                        )
+                      : TextButton(
+                          child: const Text(
+                            'Excluir',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () {
+                            context.read<DeleteAlunoBloc>().add(
+                                  DeleteAlunoStarted(aluno.uid, uid),
+                                );
+                          },
+                        ),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

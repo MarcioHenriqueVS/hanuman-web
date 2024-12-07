@@ -85,7 +85,7 @@ class UserServices {
       var dio = Dio();
       final uid = FirebaseAuth.instance.currentUser!.uid;
       String url =
-          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/setPersonalClaim';
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/setPersonalClaimv2';
       final response = await dio.post(url, data: {'uid': uid});
       debugPrint(response.data.toString());
     } on FirebaseFunctionsException catch (e) {
@@ -208,7 +208,7 @@ class UserServices {
   Future<void> updateUserName(uid, nome) async {
     var dio = Dio();
     String url =
-        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/newUpdateUserName';
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/newUpdateUserNamev2';
 
     try {
       final response = await dio.post(url, data: {
@@ -226,7 +226,7 @@ class UserServices {
   Future<void> updateUserPhoto(uid, foto) async {
     var dio = Dio();
     String url =
-        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/newUpdateUserPhoto';
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/newUpdateUserPhotov2';
 
     try {
       final response = await dio.post(url, data: {
@@ -292,7 +292,7 @@ class UserServices {
   Future<void> updateFcmToken(uid, token) async {
     var dio = Dio();
     String url =
-        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/updateFcmToken';
+        'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/updateFcmTokenv2';
 
     try {
       final response = await dio.post(url, data: {
@@ -309,7 +309,7 @@ class UserServices {
 
   Future<String?> getSavedFcmToken(String uid) async {
     const postUrl =
-        "https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getFcmToken";
+        "https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/getFcmTokenv2";
 
     Dio dio = Dio();
 

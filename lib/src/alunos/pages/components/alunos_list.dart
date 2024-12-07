@@ -196,6 +196,7 @@ class EnviarTreino extends StatefulWidget {
 class _EnviarTreinoState extends State<EnviarTreino> {
   final TreinoServices _treinoServices = TreinoServices();
   String uid = FirebaseAuth.instance.currentUser!.uid;
+  bool? habilitado;
 
   @override
   void initState() {
@@ -209,9 +210,16 @@ class _EnviarTreinoState extends State<EnviarTreino> {
 
   void enviarTreino() async {
     try {
+      // Primeiro, exibe o diálogo de visibilidade
+      final resposta = await _treinoServices.showVisibilityDialog(context);
+      if (resposta == null) return; // Usuário cancelou o diálogo
+
+      habilitado =
+          resposta; // Atualiza o valor de habilitado com base na resposta
+
       BlocProvider.of<ElevatedButtonBloc>(context).add(ElevatedButtonPressed());
       await _treinoServices.addTreino(
-          uid, widget.alunoUid, widget.pastaId, widget.treino);
+          uid, widget.alunoUid, widget.pastaId, widget.treino, habilitado!);
       BlocProvider.of<ElevatedButtonBloc>(context).add(ElevatedButtonReset());
       Navigator.of(context).pop();
       MensagemDeSucesso()
@@ -235,7 +243,6 @@ class _EnviarTreinoState extends State<EnviarTreino> {
         BlocProvider.of<ElevatedButtonBloc>(context).add(ElevatedButtonReset());
       },
       child: AlertDialog(
-        
         title: Text(
           'Atenção',
           style: TextStyle(color: Colors.red),

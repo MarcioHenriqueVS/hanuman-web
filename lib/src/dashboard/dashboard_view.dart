@@ -8,6 +8,8 @@ import '../alunos/pages/alunos_list_page.dart';
 import '../atualizacoes/atts_bloc/qtd_missoes_pendentes_bloc.dart';
 import '../atualizacoes/atts_bloc/qtd_missoes_pendentes_event.dart';
 import '../chat/chat_screen.dart';
+import '../perfil_user/get_user_data/get_user_data_bloc.dart';
+import '../perfil_user/pages/personal_profile_page.dart';
 import '../treinos/bloc/get_pastas_personal/get_pastas_bloc.dart';
 import '../treinos/bloc/get_pastas_personal/get_pastas_event.dart';
 import 'topics/inicio/pages/inicio_page.dart';
@@ -30,13 +32,16 @@ class _PainelState extends State<Painel> {
     super.initState();
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
-       context.go('/');
+        context.go('/');
       }
     });
     _scrollController.addListener(_onScroll);
     BlocProvider.of<GetPastasPersonalBloc>(context).add(BuscarPastasPersonal());
     BlocProvider.of<GetAlunosBloc>(context).add(BuscarAlunos());
     BlocProvider.of<AttsHomeBloc>(context).add(BuscarAttsHome());
+    BlocProvider.of<GetUserDataBloc>(context).add(
+      GetUserData(),
+    );
   }
 
   @override
@@ -65,9 +70,9 @@ class _PainelState extends State<Painel> {
     const Center(
       child: TreinosListPage(),
     ),
-    // const Center(
-    //   child: Text('Tela Financeiro'),
-    // ),
+    const Center(
+      child: PersonalProfilePage(),
+    ),
   ];
 
   @override
@@ -375,40 +380,40 @@ class _PainelState extends State<Painel> {
                       ),
                     ),
                   ),
-                  // const SizedBox(width: 50),
-                  // MouseRegion(
-                  //   cursor: SystemMouseCursors.click,
-                  //   child: GestureDetector(
-                  //     onTap: () => setState(() => _selectedIndex = 3),
-                  //     child: Container(
-                  //       decoration: BoxDecoration(
-                  //         border: Border(
-                  //           bottom: BorderSide(
-                  //             color: _selectedIndex == 3
-                  //                 ? Colors.green
-                  //                 : Colors.transparent,
-                  //             width: 1,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.only(bottom: 5),
-                  //         child: Text(
-                  //           'Financeiro',
-                  //           style: TextStyle(
-                  //             fontSize: 14,
-                  //             fontWeight: _selectedIndex == 3
-                  //                 ? FontWeight.bold
-                  //                 : FontWeight.w400,
-                  //             color: _selectedIndex == 3
-                  //                 ? Colors.green
-                  //                 : Colors.white,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  const SizedBox(width: 50),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () => setState(() => _selectedIndex = 3),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: _selectedIndex == 3
+                                  ? Colors.green
+                                  : Colors.transparent,
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: Text(
+                            'Perfil',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: _selectedIndex == 3
+                                  ? FontWeight.bold
+                                  : FontWeight.w400,
+                              color: _selectedIndex == 3
+                                  ? Colors.green
+                                  : Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -421,7 +426,12 @@ class _PainelState extends State<Painel> {
           padding: screenWidth > 1200
               ? const EdgeInsets.symmetric(horizontal: 40, vertical: 20)
               : const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-          child: Center(child: ConstrainedBox(constraints: BoxConstraints(maxWidth: 1400), child: _telas[_selectedIndex],),),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 1400),
+              child: _telas[_selectedIndex],
+            ),
+          ),
         ),
       ),
     );

@@ -16,6 +16,7 @@ class Treino {
   String? duracao;
   String? nota;
   String? foto;
+  bool? habilitado;
 
   Treino(
       {this.id,
@@ -26,10 +27,13 @@ class Treino {
       this.series,
       this.duracao,
       this.nota,
-      this.foto});
+      this.foto,
+      this.habilitado});
 
   factory Treino.fromFirestore(Map<String, dynamic> dataMap, String id) {
     var exerciciosList = dataMap['Exercícios'] as List;
+
+    bool habilitado = dataMap['habilitado'] ?? true;
 
     List<ExercicioTreino> exercicios = exerciciosList.map((e) {
       var seriesList = e['series'] as List;
@@ -67,7 +71,10 @@ class Treino {
     }).toList();
 
     return Treino(
-        id: id, titulo: dataMap['Titulo'] ?? '', exercicios: exercicios);
+        id: id,
+        titulo: dataMap['Titulo'] ?? '',
+        exercicios: exercicios,
+        habilitado: habilitado);
   }
 
   Map<String, dynamic> toMap() {
@@ -95,7 +102,7 @@ class Treino {
                 },
                 'notas': e.notas,
               })
-          .toList()
+          .toList(),
     };
   }
 
@@ -348,8 +355,7 @@ class TreinoFinalizado {
     List<ExercicioTreino>? exercicios,
   }) {
     return Treino(
-      titulo: titulo ?? this.titulo,
-      exercicios: exercicios ?? this.exercicios,
-    );
+        titulo: titulo ?? this.titulo,
+        exercicios: exercicios ?? this.exercicios);
   }
 }

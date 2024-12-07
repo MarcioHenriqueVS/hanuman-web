@@ -58,6 +58,7 @@ class _NovoTreinoPersonalScreenState extends State<NovoTreinoPersonalScreen> {
   bool isEmpty = true;
   final Map<String, bool> exercicioExpandido = {};
   //String? alunoUid;
+  bool habilitado = false;
 
   String dataFormatada =
       intl.DateFormat('dd/MM/yyyy', 'pt_BR').format(DateTime.now());
@@ -218,7 +219,8 @@ class _NovoTreinoPersonalScreenState extends State<NovoTreinoPersonalScreen> {
 
                                     Treino newTreino = Treino(
                                         titulo: titulo.text,
-                                        exercicios: convertedList);
+                                        exercicios: convertedList
+                                        );
 
                                     final sucesso =
                                         await _treinosPersonalServices

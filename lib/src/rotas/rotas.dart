@@ -101,8 +101,10 @@ class Rotas {
         name: '/novotreino/treinos-personal/:pastaId',
         path: '/novotreino/treinos-personal/:pastaId',
         builder: (context, state) {
-          final pastaId = state.extra as String;
-          return NovoTreinoPersonalScreen2(pastaId: pastaId, funcao: 'addTreinoCriado',);
+          final extra = state.extra as Map<String, dynamic>;
+          final pastaId = extra['pastaId']!;
+          final titulosDosTreinos = extra['titulosDosTreinos']!;
+          return NovoTreinoPersonalScreen2(pastaId: pastaId, funcao: 'addTreinoCriado', titulosDosTreinosSalvos: titulosDosTreinos);
         },
       ),
       // GoRoute(
@@ -200,8 +202,9 @@ class Rotas {
           final alunoUid = extra['alunoUid']!;
           final pastaId = extra['pastaId']!;
           final sexo = extra['sexo']!;
+          final titulosDosTreinos = extra['titulosDosTreinos']!;
           return NovoTreinoPersonalScreen2(
-              alunoUid: alunoUid, pastaId: pastaId, sexo: sexo, funcao: 'addTreino',);
+              alunoUid: alunoUid, pastaId: pastaId, sexo: sexo, funcao: 'addTreino', titulosDosTreinosSalvos: titulosDosTreinos);
         },
       ),
       // GoRoute(
