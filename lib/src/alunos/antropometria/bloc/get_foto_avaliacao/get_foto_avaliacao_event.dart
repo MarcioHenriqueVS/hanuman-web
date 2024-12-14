@@ -16,3 +16,10 @@ class RestartFotoEvent extends GetFotoAvaliacaoEvent {
   RestartFotoEvent(this.fotoIndex);
 }
 
+// Adicionar novo evento
+class CarregarFotoExistenteEvent extends GetFotoAvaliacaoEvent {
+  final int fotoIndex;
+  final Uint8List fotoBytes;
+
+  CarregarFotoExistenteEvent(this.fotoIndex, this.fotoBytes);
+}

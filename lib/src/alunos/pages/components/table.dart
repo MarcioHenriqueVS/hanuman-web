@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../flutter_flow/ff_button_options.dart';
 import '../../../utils.dart';
 import '../../../widgets_comuns/flutter_flow/flutter_flow_helpers.dart';
-import '../../bloc/delete_aluno/delete_aluno_bloc.dart';
 import '../../bloc/get_alunos/get_alunos_bloc.dart';
 import '../../models/aluno_model.dart';
-import '../../services/alunos_services.dart';
 import '../aluno_profile_page.dart';
 import 'add_aluno_dialog.dart';
 import 'edit_aluno_dialog.dart';
@@ -24,18 +23,13 @@ class AlunosTable extends StatefulWidget {
 class _AlunosTableState extends State<AlunosTable> {
   final TextEditingController searchController = TextEditingController();
   List<AlunoModel> alunosFiltrados = [];
-  final Map<String, bool> hoveredItems = {}; // Substitui o isHovered
+  final Map<String, bool> hoveredItems = {};
   final String uid = FirebaseAuth.instance.currentUser!.uid;
-  final _alunosServices = AlunosServices();
 
   @override
   void initState() {
     super.initState();
-    alunosFiltrados = [];
-  }
-
-  bool shouldShowExtraColumns(double width) {
-    return width < 710 || width > 1460;
+    hoveredItems.clear(); // Limpar o estado inicial
   }
 
   List<AlunoModel> filtrarAlunos(List<AlunoModel> alunos, String searchText) {
@@ -52,15 +46,11 @@ class _AlunosTableState extends State<AlunosTable> {
     return resultados;
   }
 
-  String formatarData(String? dataString) {
-    if (dataString == null) return '30, Jan. 2023';
+  String formatarData(Timestamp? data) {
+    if (data == null) return '30, Jan. 2023';
 
     try {
-      // Converte a string da data para DateTime
-      DateTime data =
-          DateFormat('dd/MM/yyyy HH:mm:ss', 'pt_BR').parse(dataString);
-
-      // Lista de meses abreviados em português
+      DateTime dateTime = data.toDate();
       List<String> meses = [
         'Jan',
         'Fev',
@@ -75,11 +65,9 @@ class _AlunosTableState extends State<AlunosTable> {
         'Nov',
         'Dez'
       ];
-
-      // Formata a data no padrão desejado
-      return '${data.day}, ${meses[data.month - 1]}. ${data.year}';
+      return '${dateTime.day}, ${meses[dateTime.month - 1]}. ${dateTime.year}';
     } catch (e) {
-      return '30, Jan. 2023'; // Retorna o valor padrão em caso de erro
+      return '30, Jan. 2023';
     }
   }
 
@@ -130,6 +118,10 @@ class _AlunosTableState extends State<AlunosTable> {
           break;
       }
     });
+  }
+
+  bool shouldShowExtraColumns(double width) {
+    return width < 710 || width > 1460;
   }
 
   @override
@@ -248,15 +240,20 @@ class _AlunosTableState extends State<AlunosTable> {
         }
 
         if (state is GetAlunosLoaded) {
-          List<AlunoModel> alunos = state.alunos;
-          alunos.sort((a, b) => (b.lastAtt ?? '').compareTo(a.lastAtt ?? ''));
-          if (alunos.length > 5) {
-            alunos = alunos.take(5).toList();
-          }
+          final List<AlunoModel> alunos = state.alunos;
+          // Ordenar alunos por data
+          alunos.sort((a, b) {
+            if (a.lastAtt == null) return 1;
+            if (b.lastAtt == null) return -1;
+            return b.lastAtt!.compareTo(a.lastAtt!);
+          });
 
-          // Inicializa a lista filtrada com todos os alunos apenas se o campo de busca estiver vazio
-          if (searchController.text.trim().isEmpty) {
-            alunosFiltrados = alunos;
+          // Pegar os 5 primeiros
+          final exibicaoAlunos = alunos.take(5).toList();
+
+          // Atualizar lista filtrada apenas quando necessário
+          if (searchController.text.trim().isEmpty && alunosFiltrados.isEmpty) {
+            alunosFiltrados = exibicaoAlunos;
           }
 
           return Padding(
@@ -498,6 +495,7 @@ class _AlunosTableState extends State<AlunosTable> {
                   itemBuilder: (context, index) {
                     final aluno = alunosFiltrados[index]; // Usar lista filtrada
                     final ativo = aluno.status ?? false;
+                    final hoverKey = '${aluno.uid}_$index'; // Criar chave única
 
                     return Container(
                       decoration: BoxDecoration(
@@ -741,5 +739,11 @@ class _AlunosTableState extends State<AlunosTable> {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    hoveredItems.clear();
+    super.dispose();
   }
 }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../autenticacao/checagem/checagem.dart';
 import '../dashboard/dashboard_view.dart';
 import '../login/reset_senha_screen.dart';
+import '../stripe/stripe_test.dart';
 import '../treinos/editar_treino/new_edit_treino_screen.dart';
 import '../treinos/models/treino_model.dart';
 import '../treinos/pages/galeria/test/criar_treino_personal_screen.dart';
@@ -55,6 +56,7 @@ class Rotas {
         name: '/painel',
         path: '/painel',
         builder: (context, state) => kIsWeb ? const Painel() : Container(),
+        //builder: (context, state) => const StripeTest(),
         //builder: (context, state) => const AddAvaPrototipo(),
 
         // builder: (context, state) {

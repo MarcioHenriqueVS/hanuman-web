@@ -6,9 +6,13 @@ list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_linux
   emoji_picker_flutter
   file_selector_linux
+  gtk
   open_file_linux
   record_linux
+  screen_retriever_linux
   url_launcher_linux
+  window_manager
+  yaru_window_linux
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

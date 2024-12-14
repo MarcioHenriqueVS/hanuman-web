@@ -473,12 +473,16 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
                                           style: const TextStyle(
                                               color: Colors.white),
                                           items: ['Masculino', 'Feminino']
-                                              .map((e) => DropdownMenuItem(
+                                              .map(
+                                                (e) => DropdownMenuItem(
                                                   value: e,
-                                                  child: Text(e,
-                                                      style: const TextStyle(
-                                                          color:
-                                                              Colors.white))))
+                                                  child: Text(
+                                                    e,
+                                                    style: const TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              )
                                               .toList(),
                                           onChanged: (value) {
                                             setState(

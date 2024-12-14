@@ -9,6 +9,8 @@ class HeaderPrototipo extends StatelessWidget {
   final String? button;
   final bool? icon;
   final double? maxWidth;
+  final VoidCallback? onBack;
+
   const HeaderPrototipo({
     super.key,
     this.onSave,
@@ -17,6 +19,7 @@ class HeaderPrototipo extends StatelessWidget {
     this.button,
     this.icon = true,
     this.maxWidth,
+    this.onBack,
   });
 
   @override
@@ -45,7 +48,7 @@ class HeaderPrototipo extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: onBack ?? () => Navigator.of(context).pop(),
                   ),
                   const SizedBox(width: 16),
                   Column(

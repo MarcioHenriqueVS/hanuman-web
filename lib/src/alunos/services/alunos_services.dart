@@ -317,6 +317,52 @@ class AlunosServices {
     }
   }
 
+  // update status do aluno
+  Future<void> updateStatusAluno(String uid, String alunoUid) async {
+    try {
+      var dio = Dio();
+      String url =
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/alternarStatusAlunov2';
+      final response = await dio.post(url, data: {
+        'uid': uid,
+        'alunoUid': alunoUid,
+      });
+      debugPrint(response.data.toString());
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        debugPrint("Erro ao tentar editar dados do aluno.");
+        throw Exception('Erro ao tentar editar dados aluno.');
+      }
+    } on FirebaseFunctionsException catch (e) {
+      // Verifica se há detalhes adicionais na exceção
+      if (e.details != null) {
+        debugPrint("Error details: ${e.details}");
+      }
+      debugPrint("FirebaseFunctionsException: ${e.code}, ${e.message}");
+      debugPrint(e.stackTrace.toString());
+      rethrow;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        debugPrint(
+            'Erro no servidor: ${e.response!.statusCode}, ${e.response!.data}');
+        rethrow;
+      } else {
+        debugPrint('Erro de rede ou configuração: ${e.message}');
+        rethrow;
+      }
+    } on Exception catch (e) {
+      debugPrint("General Exception: $e, ${e.toString()}");
+      rethrow;
+      //e.toString();
+    } catch (e, s) {
+      debugPrint("Unknown error: $e");
+      debugPrint("Stack trace: $s");
+      rethrow;
+      //e.toString();
+    }
+  }
+
   Map<String, dynamic> safeMapCast(Map<Object?, Object?>? data) {
     if (data == null) return {};
 

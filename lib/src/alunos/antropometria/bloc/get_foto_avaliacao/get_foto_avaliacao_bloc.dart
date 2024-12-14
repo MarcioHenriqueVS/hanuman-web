@@ -33,5 +33,13 @@ class GetFotoAvaliacaoBloc
         emit(GetFotoAvaliacaoLoaded(updatedFotos));
       },
     );
+
+    on<CarregarFotoExistenteEvent>(
+      (event, emit) {
+        final updatedFotos = List<Uint8List?>.from(state.fotos);
+        updatedFotos[event.fotoIndex] = event.fotoBytes;
+        emit(GetFotoAvaliacaoLoaded(updatedFotos));
+      },
+    );
   }
 }

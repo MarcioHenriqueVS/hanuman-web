@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../alunos/pages/avaliacoes/header_prototipo.dart';
-import '../../utils.dart';
 import '../models/exercicio_treino_model.dart';
 import '../models/treino_model.dart';
 
@@ -32,42 +31,16 @@ class _TreinoFinalizadoDetailsScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A1A),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF252525),
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        toolbarHeight: 70,
-        title: Row(
-          children: [
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.arrow_back,
-                    size: 20, color: Colors.white70),
-              ),
-            ),
-            // const SizedBox(width: 16),
-            // Text(
-            //   'Detalhes do treino',
-            //   style: const TextStyle(
-            //     fontSize: 20,
-            //     fontWeight: FontWeight.w600,
-            //     color: Colors.white,
-            //   ),
-            // )
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // HeaderPrototipo(
-            //   title: widget.treino.titulo.isEmpty
-            //                 ? 'Sem título'
-            //                 : widget.treino.titulo,
-            //   subtitle: 'Detalhes do treino',
-            // ),
+            HeaderPrototipo(
+              title: widget.treino.titulo.isEmpty
+                            ? 'Sem título'
+                            : widget.treino.titulo,
+              subtitle: 'Detalhes do treino',
+              maxWidth: 1150,
+            ),
             Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 1200),
@@ -76,19 +49,6 @@ class _TreinoFinalizadoDetailsScreenState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.treino.titulo.isEmpty
-                            ? 'Sem título'
-                            : widget.treino.titulo,
-                        style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      // Estatísticas do treino
                       Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(

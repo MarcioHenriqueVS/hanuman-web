@@ -8,7 +8,6 @@ import '../../antropometria/models/avaliacao_model.dart';
 import '../../../utils.dart';
 import '../../models/aluno_model.dart';
 import 'add_ava_prototipo.dart';
-import 'add_avaliacao_page.dart';
 import 'avaliacao_page.dart';
 import '../../../flutter_flow/ff_button_options.dart';
 
@@ -186,12 +185,22 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
         onEnter: (_) => setState(() => hoveredItems[index] = true),
         onExit: (_) => setState(() => hoveredItems[index] = false),
         child: GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AvaliacaoPage(avaliacao: avaliacao),
-            ),
-          ),
+          onTap: () async {
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AvaliacaoPage(
+                  avaliacao: avaliacao,
+                  aluno: widget.aluno,
+                ),
+              ),
+            );
+            if (result != null && result is AvaliacaoModel) {
+              BlocProvider.of<GetAvaliacoesDataBloc>(context).add(
+                AtualizarAvaliacaoData(result),
+              );
+            }
+          },
           child: Container(
             decoration: BoxDecoration(
               color: Colors.grey[900],

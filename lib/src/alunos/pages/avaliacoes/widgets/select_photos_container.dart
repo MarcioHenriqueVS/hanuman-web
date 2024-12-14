@@ -24,6 +24,12 @@ class SelectPhotosContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('SelectPhotosContainer');
+    debugPrint('foto1: $foto1');
+    debugPrint('foto2: $foto2');
+    debugPrint('foto3: $foto3');
+    debugPrint('foto4: $foto4');
+    
     final isSmallScreen = MediaQuery.of(context).size.width < 1200;
     return Container(
       width: isSmallScreen ? MediaQuery.of(context).size.width * 0.55 : 600,

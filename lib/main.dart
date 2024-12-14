@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 import 'src/app.dart';
-import 'src/dashboard/topics/inicio/components/chat_bar.dart';
 import 'src/notificacoes/fcm.dart';
 import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
@@ -17,6 +17,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Stripe.publishableKey = 'pk_test_51QUiLJGDBCf7us1AHzCj0ffQvJnJsnUGf8o04tll26q9kzu4iwVwVXKxmAxyfo05AJFv8H1fBTs5MLGLokGFS3ui00ywUSwZb9';
   await initializeDateFormatting('pt_BR', null);
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('America/Sao_Paulo'));

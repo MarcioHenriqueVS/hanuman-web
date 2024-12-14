@@ -120,6 +120,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
     antebracoDir.dispose();
     antebracoEsq.dispose();
     cintura.dispose();
+    abdome.dispose();
     quadril.dispose();
     torax.dispose();
     cinturaEscapular.dispose();
@@ -227,6 +228,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
 
         await _antropometriaServices.addAvaliacao(
           AvaliacaoModel(
+            id: null,
             alunoUid: widget.aluno.uid,
             timestamp: dataFormatada,
             titulo: titulo.text.trim(),
@@ -237,6 +239,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
             coxaEsq: double.tryParse(coxaEsq.text.trim()),
             coxaDir: double.tryParse(coxaDir.text.trim()),
             quadril: double.tryParse(quadril.text.trim()),
+            abdome: double.tryParse(abdome.text.trim()),
             cintura: double.tryParse(cintura.text.trim()),
             cintEscapular: double.tryParse(cinturaEscapular.text.trim()),
             torax: double.tryParse(torax.text.trim()),
@@ -261,6 +264,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
             mm: massaMagra,
             mg: massaGorda,
             rce: rce,
+            pesoIdeal: pesoIdeal,
             classificacaoRce: classificacaoRce,
             fotos: fotos,
             obs: obs.text.trim(),

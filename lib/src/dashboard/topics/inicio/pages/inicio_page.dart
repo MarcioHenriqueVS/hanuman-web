@@ -79,30 +79,11 @@ class _InicioPageState extends State<InicioPage> {
           final alunos = state.alunos;
           String totalAlunos = alunos.length.toString();
 
-          DateTime parseLastAtt(String? dateStr) {
-            if (dateStr == null) return DateTime(1900);
-            try {
-              List<String> parts = dateStr.split(' ');
-              List<String> dateParts = parts[0].split('/');
-              List<String> timeParts = parts[1].split(':');
-              return DateTime(
-                int.parse(dateParts[2]), // ano
-                int.parse(dateParts[1]), // mes
-                int.parse(dateParts[0]), // dia
-                int.parse(timeParts[0]), // hora
-                int.parse(timeParts[1]), // minuto
-                int.parse(timeParts[2]), // segundo
-              );
-            } catch (e) {
-              return DateTime(1900);
-            }
-          }
-
           String alunosAtivos = alunos
               .where((aluno) =>
-                  aluno.lastAtt != null &&
+                  aluno.lastActivity != null &&
                   DateTime.now()
-                          .difference(parseLastAtt(aluno.lastAtt))
+                          .difference(aluno.lastActivity!.toDate())
                           .inDays <=
                       7)
               .toList()
@@ -111,9 +92,9 @@ class _InicioPageState extends State<InicioPage> {
 
           String alunosInativos = alunos
               .where((aluno) =>
-                  aluno.lastAtt == null ||
+                  aluno.lastActivity == null ||
                   DateTime.now()
-                          .difference(parseLastAtt(aluno.lastAtt))
+                          .difference(aluno.lastActivity!.toDate())
                           .inDays >
                       7)
               .toList()

@@ -148,7 +148,14 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                 });
                               }
                             },
-                            child: Text('Editar'),
+                            child: Text(
+                              'Editar',
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .color),
+                            ),
                           ),
                           TextButton(
                             onPressed: _isDeleting
@@ -166,9 +173,13 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                           Colors.red),
                                     ),
                                   )
-                                : const Text(
+                                : Text(
                                     'Excluir',
-                                    style: TextStyle(color: Colors.red),
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .color),
                                   ),
                           ),
                         ],

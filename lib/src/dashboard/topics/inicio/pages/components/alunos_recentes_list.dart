@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import '../../../../../alunos/bloc/get_alunos/get_alunos_bloc.dart';
 import '../../../../../alunos/models/aluno_model.dart';
 import '../../../../../alunos/pages/aluno_profile_page.dart';
@@ -13,6 +15,11 @@ class AlunosRecentesList extends StatefulWidget {
 }
 
 class _AlunosRecentesListState extends State<AlunosRecentesList> {
+  String formatarData(Timestamp? data) {
+    if (data == null) return 'Não registrado';
+    return DateFormat('dd/MM/yyyy HH:mm:ss', 'pt_BR').format(data.toDate());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetAlunosBloc, GetAlunosState>(
@@ -31,7 +38,14 @@ class _AlunosRecentesListState extends State<AlunosRecentesList> {
 
         if (state is GetAlunosLoaded) {
           List<AlunoModel> alunos = state.alunos;
-          alunos.sort((a, b) => (b.lastAtt ?? '').compareTo(a.lastAtt ?? ''));
+
+          // Ordenação usando DateTime
+          alunos.sort((a, b) {
+            if (a.lastAtt == null) return 1;
+            if (b.lastAtt == null) return -1;
+            return b.lastAtt!.compareTo(a.lastAtt!);
+          });
+
           if (alunos.length > 5) {
             alunos = alunos.take(5).toList();
           }
@@ -112,7 +126,7 @@ class _AlunosRecentesListState extends State<AlunosRecentesList> {
                                   ),
                                 ),
                                 Text(
-                                  aluno.lastAtt ?? 'Não registrado',
+                                  formatarData(aluno.lastAtt),
                                   style: SafeGoogleFont(
                                     'Open Sans',
                                     textStyle: const TextStyle(

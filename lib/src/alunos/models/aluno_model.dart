@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AlunoModel {
   final String uid;
@@ -15,7 +15,8 @@ class AlunoModel {
   final String? foco;
   final String? nivel;
   bool? status;
-  String? lastAtt;
+  Timestamp? lastAtt;
+  Timestamp? lastActivity;
   String? personalUid;
 
   AlunoModel(
@@ -34,53 +35,80 @@ class AlunoModel {
       this.nivel,
       this.status,
       this.lastAtt,
+      this.lastActivity,
       this.personalUid});
 
   factory AlunoModel.fromFirestore(Map<String, dynamic> dataMap) {
     var data = dataMap['data'] as Map<String, dynamic>;
 
-    // Converter lastAtt de DateTime para String formatada
-    String? formattedLastAtt;
-    if (data['lastAtt'] is DateTime) {
-      formattedLastAtt = DateFormat('dd/MM/yyyy HH:mm:ss', 'pt_BR')
-          .format(data['lastAtt'] as DateTime);
-    } else if (data['lastAtt'] is String) {
-      formattedLastAtt = data['lastAtt'];
-    } else {
-      formattedLastAtt =
-          null; // Alterado para retornar null quando não houver data
+    // Converter lastAtt de Map para Timestamp
+    Timestamp? lastAtt;
+    if (data['lastAtt'] != null) {
+      var lastAttMap = data['lastAtt'] as Map<String, dynamic>;
+      lastAtt = Timestamp(
+        lastAttMap['_seconds'] as int,
+        lastAttMap['_nanoseconds'] as int,
+      );
+    }
+
+    // Converter lastActivity de Map para Timestamp
+    Timestamp? lastActivity;
+    if (data['lastActivity'] != null) {
+      var lastActivityMap = data['lastActivity'] as Map<String, dynamic>;
+      lastActivity = Timestamp(
+        lastActivityMap['_seconds'] as int,
+        lastActivityMap['_nanoseconds'] as int,
+      );
     }
 
     return AlunoModel(
-        uid: data['alunoUid'],
-        nome: data['nome'],
-        sexo: data['sexo'],
-        dataDeNascimento: data['dataDeNascimento'],
-        email: data['email'],
-        telefone: data['telefone'],
-        fotoUrl: data['fotoUrl'],
-        obs: data['obs'],
-        cpf: data['cpf'],
-        frequencia: data['frequencia'],
-        objetivo: data['objetivo'],
-        foco: data['foco'],
-        nivel: data['nivel'],
-        status: data['status'],
-        lastAtt: formattedLastAtt,
-        personalUid: data['personalUid']);
+      uid: data['alunoUid'],
+      nome: data['nome'],
+      sexo: data['sexo'],
+      dataDeNascimento: data['dataDeNascimento'],
+      email: data['email'],
+      telefone: data['telefone'],
+      fotoUrl: data['fotoUrl'],
+      obs: data['obs'],
+      cpf: data['cpf'],
+      frequencia: data['frequencia'],
+      objetivo: data['objetivo'],
+      foco: data['foco'],
+      nivel: data['nivel'],
+      status: data['status'],
+      lastAtt: lastAtt,
+      lastActivity: lastActivity,
+      personalUid: data['personalUid'],
+    );
   }
 
   factory AlunoModel.fromFirestoreNew(Map<String, dynamic> data) {
-    // Converter lastAtt de DateTime para String formatada
-    String? formattedLastAtt;
-    if (data['lastAtt'] is DateTime) {
-      formattedLastAtt = DateFormat('dd/MM/yyyy HH:mm:ss', 'pt_BR')
-          .format(data['lastAtt'] as DateTime);
-    } else if (data['lastAtt'] is String) {
-      formattedLastAtt = data['lastAtt'];
-    } else {
-      formattedLastAtt =
-          null; // Alterado para retornar null quando não houver data
+    // Converter lastAtt de Map para Timestamp
+    Timestamp? lastAtt;
+    if (data['lastAtt'] != null) {
+      if (data['lastAtt'] is Map) {
+        var lastAttMap = data['lastAtt'] as Map<String, dynamic>;
+        lastAtt = Timestamp(
+          lastAttMap['_seconds'] as int,
+          lastAttMap['_nanoseconds'] as int,
+        );
+      } else if (data['lastAtt'] is Timestamp) {
+        lastAtt = data['lastAtt'] as Timestamp;
+      }
+    }
+
+    // Converter lastActivity de Map para Timestamp
+    Timestamp? lastActivity;
+    if (data['lastActivity'] != null) {
+      if (data['lastActivity'] is Map) {
+        var lastActivityMap = data['lastActivity'] as Map<String, dynamic>;
+        lastActivity = Timestamp(
+          lastActivityMap['_seconds'] as int,
+          lastActivityMap['_nanoseconds'] as int,
+        );
+      } else if (data['lastActivity'] is Timestamp) {
+        lastActivity = data['lastActivity'] as Timestamp;
+      }
     }
 
     return AlunoModel(
@@ -98,7 +126,8 @@ class AlunoModel {
         foco: data['foco'],
         nivel: data['nivel'],
         status: data['status'],
-        lastAtt: formattedLastAtt,
+        lastAtt: lastAtt,
+        lastActivity: lastActivity,
         personalUid: data['personalUid']);
   }
 }

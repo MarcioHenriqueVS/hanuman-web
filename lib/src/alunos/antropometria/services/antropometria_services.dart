@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import '../models/avaliacao_model.dart';
 import '../../../database/database_helper.dart';
+import 'package:http/http.dart' as http;
 
 class AntropometriaServices {
   final uid = FirebaseAuth.instance.currentUser!.uid;
@@ -34,6 +35,16 @@ class AntropometriaServices {
     }
     return bytes;
   }
+
+  Future<Uint8List> urlToUint8List(String imageUrl) async {
+    debugPrint('URL: $imageUrl');
+  final response = await http.get(Uri.parse(imageUrl));
+  if (response.statusCode == 200) {
+    debugPrint(' --------> Image loaded <--------');
+    return response.bodyBytes;
+  }
+  throw Exception('Failed to load image');
+}
 
   Future<void> _saveAvaliacaoOffline(AvaliacaoModel avaliacao) async {
     try {
@@ -90,6 +101,50 @@ class AntropometriaServices {
     } catch (e) {
       debugPrint("Erro inesperado ao salvar avaliação: $e");
       await _saveAvaliacaoOffline(avaliacao);
+    }
+  }
+
+  // update avaliacao
+  Future<void> updateAvaliacao(AvaliacaoModel avaliacao) async {
+    try {
+      var dio = Dio();
+      String url =
+          'https://southamerica-east1-hanuman-4e9f4.cloudfunctions.net/editarAvaliacaov2';
+          //'http://127.0.0.1:5001/hanuman-4e9f4/southamerica-east1/editarAvaliacaov2';
+
+      // Validações básicas
+      if (avaliacao.alunoUid.isEmpty) {
+        throw Exception('ID do aluno inválido');
+      }
+
+      final response = await dio.post(
+        url,
+        data: {'uid': uid, 'avaliacao': avaliacao.toJson()},
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(
+            'Erro ao atualizar avaliação: ${response.statusMessage}');
+      }
+
+      debugPrint("Avaliação atualizada com sucesso: ${response.data}");
+    } on DioException catch (e) {
+      debugPrint("Erro de conexão ao atualizar avaliação: ${e.message}");
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.sendTimeout) {
+        // await _saveAvaliacaoOffline(avaliacao);
+        debugPrint("Avaliação salva offline após timeout");
+        rethrow;
+      } else {
+        //await _saveAvaliacaoOffline(avaliacao);
+        debugPrint("Avaliação salva offline após erro de conexão");
+        rethrow;
+      }
+    } catch (e) {
+      debugPrint("Erro inesperado ao atualizar avaliação: $e");
+      rethrow;
+      //await _saveAvaliacaoOffline(avaliacao);
     }
   }
 
@@ -195,7 +250,7 @@ class AntropometriaServices {
       });
       debugPrint(response.data.toString());
       if (response.data != null && response.statusCode != 204) {
-        final avaliacao = AvaliacaoModel.fromJson(response.data);
+        final avaliacao = AvaliacaoModel.fromJson(response.data, avaliacaoId);
         debugPrint('timestamp -------> ${avaliacao.timestamp}');
         return avaliacao;
       } else {
@@ -256,7 +311,7 @@ class AntropometriaServices {
           if (data is Map) {
             debugPrint(data['id']);
             return AvaliacaoModel.fromJson(
-                data['avaliacao'] as Map<String, dynamic>);
+                data['avaliacao'] as Map<String, dynamic>, data['id']);
           }
           throw Exception('Data format is not correct');
         }).toList();
@@ -302,7 +357,8 @@ class AntropometriaServices {
       });
       debugPrint(response.data.toString());
       if (response.data != null && response.statusCode != 204) {
-        final avaliacao = AvaliacaoModel.fromJson(response.data);
+        final avaliacao =
+            AvaliacaoModel.fromJson(response.data, response.data['id']);
         debugPrint('timestamp -------> ${avaliacao.timestamp}');
         return avaliacao;
       } else {
@@ -367,6 +423,7 @@ class AntropometriaServices {
           }
 
           final avaliacao = AvaliacaoModel(
+            id: null,
             alunoUid: avaliacaoMap['alunoUid'],
             timestamp: avaliacaoMap['timestamp'],
             titulo: avaliacaoMap['titulo'],

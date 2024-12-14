@@ -642,6 +642,7 @@ class _AddAvaliacaoPageState extends State<AddAvaliacaoPage> {
 
       await _antropometriaServices.addAvaliacao(
         AvaliacaoModel(
+          id: null,
           alunoUid: widget.aluno.uid,
           timestamp: dataFormatada,
           titulo: titulo.text.trim(),
@@ -1669,6 +1670,7 @@ class _AddAvaliacaoPageState extends State<AddAvaliacaoPage> {
 
                                   // Criar o modelo de avaliação com todos os dados
                                   final avaliacaoAtual = AvaliacaoModel(
+                                    id: null,
                                     alunoUid: widget.aluno.uid,
                                     titulo: titulo.text,
                                     timestamp: DateFormat(

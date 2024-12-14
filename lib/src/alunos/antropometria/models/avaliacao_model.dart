@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 class AvaliacaoModel {
+  String? id;
   String alunoUid;
   String timestamp;
   String titulo;
@@ -11,6 +12,7 @@ class AvaliacaoModel {
   double? coxaEsq;
   double? coxaDir;
   double? quadril;
+  double? abdome;
   double? cintura;
   double? cintEscapular;
   double? torax;
@@ -35,12 +37,14 @@ class AvaliacaoModel {
   double? mm;
   double? mg;
   double? rce;
+  double? pesoIdeal;
   String? classificacaoRce;
   List<String>? fotos;
   String? obs;
   String? sexo;
 
   AvaliacaoModel({
+    required this.id,
     required this.alunoUid,
     required this.timestamp,
     required this.titulo,
@@ -51,6 +55,7 @@ class AvaliacaoModel {
     this.coxaEsq,
     this.coxaDir,
     this.quadril,
+    this.abdome,
     this.cintura,
     this.cintEscapular,
     this.torax,
@@ -75,6 +80,7 @@ class AvaliacaoModel {
     this.mm,
     this.mg,
     this.rce,
+    this.pesoIdeal,
     this.classificacaoRce,
     this.fotos,
     this.obs,
@@ -82,7 +88,7 @@ class AvaliacaoModel {
   });
 
   // Método fromJson para criar uma instância de AvaliacaoModel a partir de um JSON
-  factory AvaliacaoModel.fromJson(Map<String, dynamic> json) {
+  factory AvaliacaoModel.fromJson(Map<String, dynamic> json, String id) {
     // Extraindo o timestamp do formato Firestore
     final seconds = json['timestamp']['_seconds'];
     final nanoseconds = json['timestamp']['_nanoseconds'];
@@ -95,6 +101,7 @@ class AvaliacaoModel {
     String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
 
     return AvaliacaoModel(
+      id: id,
       alunoUid: json['alunoUid'],
       timestamp: formattedDate, // String formatada
       titulo: json['titulo'],
@@ -105,6 +112,7 @@ class AvaliacaoModel {
       coxaEsq: json['coxaEsq']?.toDouble(),
       coxaDir: json['coxaDir']?.toDouble(),
       quadril: json['quadril']?.toDouble(),
+      abdome: json['abdome']?.toDouble(),
       cintura: json['cintura']?.toDouble(),
       cintEscapular: json['cintEscapular']?.toDouble(),
       torax: json['torax']?.toDouble(),
@@ -129,6 +137,7 @@ class AvaliacaoModel {
       mm: json['mm']?.toDouble(),
       mg: json['mg']?.toDouble(),
       rce: json['rce']?.toDouble(),
+      pesoIdeal: json['pesoIdeal']?.toDouble(),
       classificacaoRce: json['classificacaoRce'],
       fotos: List<String>.from(json['fotos'] ?? []),
       obs: json['obs'],
@@ -139,6 +148,7 @@ class AvaliacaoModel {
   // Modificar o método toJson para formatar o timestamp corretamente para o Firestore
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'alunoUid': alunoUid,
       'timestamp':
           timestamp, // Enviamos diretamente a string no formato dd/MM/yyyy HH:mm:ss
@@ -150,6 +160,7 @@ class AvaliacaoModel {
       'coxaEsq': coxaEsq,
       'coxaDir': coxaDir,
       'quadril': quadril,
+      'abdome': abdome,
       'cintura': cintura,
       'cintEscapular': cintEscapular,
       'torax': torax,
@@ -174,6 +185,7 @@ class AvaliacaoModel {
       'mm': mm,
       'mg': mg,
       'rce': rce,
+      'pesoIdeal': pesoIdeal,
       'classificacaoRce': classificacaoRce,
       'fotos': fotos,
       'obs': obs,
@@ -194,6 +206,7 @@ class AvaliacaoModel {
       'coxaEsq': coxaEsq,
       'coxaDir': coxaDir,
       'quadril': quadril,
+      'abdome': abdome,
       'cintura': cintura,
       'cintEscapular': cintEscapular,
       'torax': torax,
@@ -218,6 +231,7 @@ class AvaliacaoModel {
       'mm': mm,
       'mg': mg,
       'rce': rce,
+      'pesoIdeal': pesoIdeal,
       'classificacaoRce': classificacaoRce,
       'fotos': fotos,
       'obs': obs,

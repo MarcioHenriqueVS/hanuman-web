@@ -1,17 +1,34 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../../antropometria/models/avaliacao_model.dart';
 import '../../../utils.dart';
+import '../../models/aluno_model.dart';
+import 'edit_ava_page.dart';
 
 class AvaliacaoPage extends StatefulWidget {
   final AvaliacaoModel avaliacao;
-
-  const AvaliacaoPage({super.key, required this.avaliacao});
+  final AlunoModel aluno;
+  const AvaliacaoPage(
+      {super.key, required this.avaliacao, required this.aluno});
 
   @override
   State<AvaliacaoPage> createState() => _AvaliacaoPageState();
 }
 
 class _AvaliacaoPageState extends State<AvaliacaoPage> {
+  AvaliacaoModel? newAvaliacao;
+  @override
+  void initState() {
+    newAvaliacao = widget.avaliacao;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,11 +62,15 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
                         _buildBodyComposition(),
                         const Divider(height: 48),
                         _buildMeasurements(),
-                        if (widget.avaliacao.fotos?.isNotEmpty ?? false) ...[
+                        const Divider(height: 48),
+                        _buildSkinFolds(),
+                        const Divider(height: 48),
+                        _buildAdditionalMeasurements(),
+                        if (newAvaliacao!.fotos?.isNotEmpty ?? false) ...[
                           const Divider(height: 48),
                           _buildPhotosSection(),
                         ],
-                        if (widget.avaliacao.obs?.isNotEmpty ?? false) ...[
+                        if (newAvaliacao!.obs?.isNotEmpty ?? false) ...[
                           const Divider(height: 48),
                           _buildObservations(),
                         ],
@@ -81,7 +102,7 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             children: [
               IconButton(
                 icon: const Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.of(context).pop(newAvaliacao),
               ),
               Text(
                 'RELATÓRIO DE AVALIAÇÃO FÍSICA',
@@ -95,12 +116,18 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
                   ),
                 ),
               ),
-              const SizedBox(width: 40),
+              //baixar
+              IconButton(
+                icon: const Icon(Icons.download, color: Colors.white),
+                onPressed: () {
+                  //TODO: Implementar download do relatório
+                },
+              ),
             ],
           ),
           const SizedBox(height: 24),
           Text(
-            widget.avaliacao.titulo,
+            newAvaliacao!.titulo,
             style: SafeGoogleFont(
               'Open Sans',
               textStyle: const TextStyle(
@@ -111,12 +138,40 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            'Data da avaliação: ${widget.avaliacao.timestamp}',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[400],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Data da avaliação: ${newAvaliacao!.timestamp}',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[400],
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditarAvaliacaoPage(
+                        aluno: widget.aluno,
+                        avaliacao: newAvaliacao!,
+                      ),
+                    ),
+                  );
+                  if (result != null) {
+                    setState(() {
+                      newAvaliacao = result;
+                    });
+                  }
+                },
+                child: Text(
+                  'Editar',
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodySmall!.color),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -137,8 +192,8 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             Expanded(
               child: _buildMetricCard(
                 'IMC',
-                '${widget.avaliacao.imc?.toStringAsFixed(2) ?? "-"}',
-                widget.avaliacao.classificacaoImc ?? 'Não classificado',
+                '${newAvaliacao!.imc?.toStringAsFixed(2) ?? "-"}',
+                newAvaliacao!.classificacaoImc ?? 'Não classificado',
                 Icons.monitor_weight_outlined,
               ),
             ),
@@ -146,7 +201,7 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             Expanded(
               child: _buildMetricCard(
                 'Gordura Corporal',
-                '${widget.avaliacao.bf?.toStringAsFixed(2) ?? "-"}%',
+                '${newAvaliacao!.bf?.toStringAsFixed(2) ?? "-"}%',
                 'Percentual de gordura',
                 Icons.percent_outlined,
               ),
@@ -155,8 +210,8 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             Expanded(
               child: _buildMetricCard(
                 'RCE',
-                '${widget.avaliacao.rce?.toStringAsFixed(2) ?? "-"}',
-                widget.avaliacao.classificacaoRce ?? 'Não classificado',
+                '${newAvaliacao!.rce?.toStringAsFixed(2) ?? "-"}',
+                newAvaliacao!.classificacaoRce ?? 'Não classificado',
                 Icons.accessibility_new_outlined,
               ),
             ),
@@ -233,33 +288,51 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
     return _buildSection(
       'Composição Corporal',
       [
-        _buildDataRow('Peso', widget.avaliacao.peso?.toStringAsFixed(2), 'kg'),
-        _buildDataRow(
-            'Altura', widget.avaliacao.altura?.toStringAsFixed(2), 'm'),
-        _buildDataRow(
-            'Massa Magra', widget.avaliacao.mm?.toStringAsFixed(2), 'kg'),
-        _buildDataRow(
-            'Massa Gorda', widget.avaliacao.mg?.toStringAsFixed(2), 'kg'),
+        Wrap(
+          spacing: 32,
+          runSpacing: 16,
+          children: [
+            _buildDataRow('Peso', newAvaliacao!.peso?.toStringAsFixed(2), 'kg'),
+            _buildDataRow(
+                'Altura', newAvaliacao!.altura?.toStringAsFixed(2), 'm'),
+            _buildDataRow(
+                'Massa Magra', newAvaliacao!.mm?.toStringAsFixed(2), 'kg'),
+            _buildDataRow(
+                'Massa Gorda', newAvaliacao!.mg?.toStringAsFixed(2), 'kg'),
+            _buildDataRow('Peso Ideal',
+                newAvaliacao!.pesoIdeal?.toStringAsFixed(2), 'kg'),
+          ],
+        ),
       ],
     );
   }
 
   Widget _buildMeasurements() {
     return _buildSection(
-      'Medidas Corporais',
+      'Medidas dos Membros',
       [
-        _buildDataRow('Braço Esquerdo',
-            widget.avaliacao.bracoEsq?.toStringAsFixed(2), 'cm'),
-        _buildDataRow('Braço Direito',
-            widget.avaliacao.bracoDir?.toStringAsFixed(2), 'cm'),
-        _buildDataRow(
-            'Cintura', widget.avaliacao.cintura?.toStringAsFixed(2), 'cm'),
-        _buildDataRow(
-            'Quadril', widget.avaliacao.quadril?.toStringAsFixed(2), 'cm'),
-        _buildDataRow('Coxa Esquerda',
-            widget.avaliacao.coxaEsq?.toStringAsFixed(2), 'cm'),
-        _buildDataRow(
-            'Coxa Direita', widget.avaliacao.coxaDir?.toStringAsFixed(2), 'cm'),
+        Wrap(
+          spacing: 32,
+          runSpacing: 16,
+          children: [
+            _buildDataRow('Braço Esquerdo',
+                newAvaliacao!.bracoEsq?.toStringAsFixed(2), 'cm'),
+            _buildDataRow('Braço Direito',
+                newAvaliacao!.bracoDir?.toStringAsFixed(2), 'cm'),
+            _buildDataRow('Antebraço Esquerdo',
+                newAvaliacao!.antebracoEsq?.toStringAsFixed(2), 'cm'),
+            _buildDataRow('Antebraço Direito',
+                newAvaliacao!.antebracoDir?.toStringAsFixed(2), 'cm'),
+            _buildDataRow('Panturrilha Esquerda',
+                newAvaliacao!.pantEsq?.toStringAsFixed(2), 'cm'),
+            _buildDataRow('Panturrilha Direita',
+                newAvaliacao!.pantDir?.toStringAsFixed(2), 'cm'),
+            _buildDataRow('Coxa Esquerda',
+                newAvaliacao!.coxaEsq?.toStringAsFixed(2), 'cm'),
+            _buildDataRow('Coxa Direita',
+                newAvaliacao!.coxaDir?.toStringAsFixed(2), 'cm'),
+          ],
+        ),
       ],
     );
   }
@@ -291,6 +364,62 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
     );
   }
 
+  Widget _buildSkinFolds() {
+    return _buildSection(
+      'Dobras Cutâneas',
+      [
+        Wrap(
+          spacing: 32,
+          runSpacing: 16,
+          children: [
+            _buildDataRow(
+                'Abdominal', newAvaliacao!.abdominal?.toStringAsFixed(2), 'mm'),
+            _buildDataRow('Suprailíaca',
+                newAvaliacao!.suprailiaca?.toStringAsFixed(2), 'mm'),
+            _buildDataRow('Supraespinal',
+                newAvaliacao!.supraespinal?.toStringAsFixed(2), 'mm'),
+            _buildDataRow(
+                'Torácica', newAvaliacao!.toracica?.toStringAsFixed(2), 'mm'),
+            _buildDataRow(
+                'Biciptal', newAvaliacao!.biciptal?.toStringAsFixed(2), 'mm'),
+            _buildDataRow(
+                'Triciptal', newAvaliacao!.triciptal?.toStringAsFixed(2), 'mm'),
+            _buildDataRow('Axilar Média',
+                newAvaliacao!.axilarMedia?.toStringAsFixed(2), 'mm'),
+            _buildDataRow('Subescapular',
+                newAvaliacao!.subescapular?.toStringAsFixed(2), 'mm'),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAdditionalMeasurements() {
+    return _buildSection(
+      'Medidas Corporais Adicionais',
+      [
+        Wrap(
+          spacing: 32,
+          runSpacing: 16,
+          children: [
+            _buildDataRow(
+                'Cintura', newAvaliacao!.cintura?.toStringAsFixed(2), 'cm'),
+            _buildDataRow(
+                'Abdome', newAvaliacao!.abdome?.toStringAsFixed(2), 'cm'),
+            _buildDataRow(
+                'Quadril', newAvaliacao!.quadril?.toStringAsFixed(2), 'cm'),
+            _buildDataRow(
+                'Tórax', newAvaliacao!.torax?.toStringAsFixed(2), 'cm'),
+            _buildDataRow('Cintura Escapular',
+                newAvaliacao!.cintEscapular?.toStringAsFixed(2), 'cm'),
+            if (newAvaliacao!.formula != null)
+              _buildDataRow('Fórmula Utilizada', newAvaliacao!.formula, ''),
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget _buildPhotosSection() {
     return _buildSection(
       'Registros Fotográficos',
@@ -301,7 +430,7 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
           crossAxisCount: MediaQuery.of(context).size.width > 1000 ? 4 : 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          children: widget.avaliacao.fotos?.map((url) {
+          children: newAvaliacao!.fotos?.map((imageData) {
                 return MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Container(
@@ -309,7 +438,7 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: Colors.grey[800]!, width: 1),
                       image: DecorationImage(
-                        image: NetworkImage(url),
+                        image: _getImageProvider(imageData),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -322,12 +451,30 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
     );
   }
 
+  ImageProvider _getImageProvider(String imageData) {
+    // Verifica se a string começa com 'data:image' ou 'http'/'https'
+    if (imageData.startsWith('data:image') ||
+        imageData.startsWith('data:application')) {
+      return MemoryImage(Uri.parse(imageData).data!.contentAsBytes());
+    } else if (imageData.startsWith('http')) {
+      return NetworkImage(imageData);
+    } else {
+      // Caso a string seja apenas base64 sem o prefixo data:image
+      try {
+        return MemoryImage(base64Decode(imageData));
+      } catch (e) {
+        // Em caso de erro, retorna uma imagem de placeholder
+        return const AssetImage('assets/images/placeholder.png');
+      }
+    }
+  }
+
   Widget _buildObservations() {
     return _buildSection(
       'Observações',
       [
         Text(
-          widget.avaliacao.obs ?? '',
+          newAvaliacao!.obs ?? '',
           style: SafeGoogleFont(
             'Open Sans',
             textStyle: const TextStyle(fontSize: 14, color: Colors.white),

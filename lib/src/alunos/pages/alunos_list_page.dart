@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -134,15 +135,11 @@ class _AlunosListPageState extends State<AlunosListPage> {
     super.dispose();
   }
 
-  String formatarData(String? dataString) {
-    if (dataString == null) return '30, Jan. 2023';
+  String formatarData(Timestamp? data) {
+    if (data == null) return '30, Jan. 2023';
 
     try {
-      // Converte a string da data para DateTime
-      DateTime data =
-          DateFormat('dd/MM/yyyy HH:mm:ss', 'pt_BR').parse(dataString);
-
-      // Lista de meses abreviados em português
+      DateTime dateTime = data.toDate();
       List<String> meses = [
         'Jan',
         'Fev',
@@ -157,11 +154,9 @@ class _AlunosListPageState extends State<AlunosListPage> {
         'Nov',
         'Dez'
       ];
-
-      // Formata a data no padrão desejado
-      return '${data.day}, ${meses[data.month - 1]}. ${data.year}';
+      return '${dateTime.day}, ${meses[dateTime.month - 1]}. ${dateTime.year}';
     } catch (e) {
-      return '30, Jan. 2023'; // Retorna o valor padrão em caso de erro
+      return '30, Jan. 2023';
     }
   }
 
@@ -182,14 +177,21 @@ class _AlunosListPageState extends State<AlunosListPage> {
           return _buildEmptyState();
         }
 
-        if (state is GetAlunosLoaded) {
-          alunos = state.alunos;
-          alunosFiltrados = filtrarAlunos(alunos, searchController.text);
-        }
+        if (state is GetAlunosLoaded || state is GetAlunosLoadedMore) {
+          if (state is GetAlunosLoaded) {
+            alunos = state.alunos;
+          } else if (state is GetAlunosLoadedMore) {
+            alunos = (state as GetAlunosLoadedMore).alunos;
+          }
 
-        if (state is GetAlunosLoadedMore) {
-          alunos = state.alunos;
           alunosFiltrados = filtrarAlunos(alunos, searchController.text);
+
+          // Ordenar por data usando DateTime
+          alunosFiltrados.sort((a, b) {
+            if (a.lastAtt == null) return 1;
+            if (b.lastAtt == null) return -1;
+            return b.lastAtt!.compareTo(a.lastAtt!);
+          });
         }
 
         alunosFiltrados.sort(

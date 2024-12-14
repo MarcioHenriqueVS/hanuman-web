@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:web_test/src/flutter_flow/ff_button_options.dart';
 import '../antropometria/bloc/get_avaliacao_recente/get_avaliacao_recente_bloc.dart';
 import '../antropometria/bloc/get_avaliacao_recente/get_avaliacao_recente_event.dart';
 import '../antropometria/bloc/get_avaliacao_recente/get_avaliacao_recente_state.dart';
@@ -22,9 +23,9 @@ class AlunoProfilePage extends StatefulWidget {
 }
 
 class _AlunoProfilePageState extends State<AlunoProfilePage> {
-
   final _alunosServices = AlunosServices();
   final String uid = FirebaseAuth.instance.currentUser!.uid;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -168,7 +169,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(height: 8),
+                                        const SizedBox(height: 1),
                                         Row(
                                           children: [
                                             Icon(Icons.email_outlined,
@@ -182,6 +183,32 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                                                 textStyle: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.green[400],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            MouseRegion(
+                                              cursor: SystemMouseCursors.click,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  _confirmarMudancaStatus(
+                                                      context, widget.aluno);
+                                                },
+                                                child: Text(
+                                                  widget.aluno.status != null
+                                                      ? widget.aluno.status!
+                                                          ? 'Desativar aluno'
+                                                          : 'Ativar aluno'
+                                                      : 'Ativar aluno',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall!
+                                                          .color),
                                                 ),
                                               ),
                                             ),
@@ -631,6 +658,115 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
               );
             },
           ),
+        );
+      },
+    );
+  }
+
+  // dialogo de confirmação de mudança de status
+  Future<void> _confirmarMudancaStatus(
+      BuildContext context, AlunoModel aluno) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        bool status = aluno.status ?? false;
+        String msgDeAtivacao =
+            'Ao ativar o aluno, ele terá acesso ao aplicativo e a todos os treinos e avaliações físicas disponíveis.';
+        String msgDeDesativacao =
+            'Ao desativar o aluno, ele não terá mais acesso ao aplicativo.';
+
+        String mensagemAviso = status ? msgDeDesativacao : msgDeAtivacao;
+
+        return AlertDialog(
+          backgroundColor: Colors.grey[900],
+          title: const Text(
+            'Confirmar mudança de status',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                  'Deseja realmente ${status ? 'desativar' : 'ativar'} o aluno ${aluno.nome}?'),
+              const SizedBox(height: 16),
+              Text(
+                mensagemAviso,
+                style: TextStyle(
+                  color: Colors.grey[400],
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            // TextButton(
+            //   onPressed: _isLoading == true
+            //       ? null
+            //       : () async {
+            //           try {
+            //             setState(() {
+            //               _isLoading = true;
+            //             });
+            //             await _alunosServices.updateStatusAluno(uid, aluno.uid);
+            //             setState(() {
+            //               aluno.status = !status;
+            //             });
+            //           } catch (e) {
+            //             // deu ruim
+            //           } finally {
+            //             setState(() {
+            //               _isLoading = false;
+            //             });
+            //             context.mounted
+            //                 ? Navigator.of(dialogContext).pop()
+            //                 : null;
+            //           }
+            //         },
+            //   child: !_isLoading
+            //       ? Text(
+            //           status ? 'Desativar' : 'Ativar',
+            //           style:
+            //               TextStyle(color: status ? Colors.red : Colors.green),
+            //         )
+            //       : const SizedBox(
+            //           width: 20,
+            //           height: 20,
+            //           child: CircularProgressIndicator(
+            //             valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+            //           ),
+            //         ),
+            // ),
+            FFButtonWidget(
+              text: status ? 'Desativar' : 'Ativar',
+              onPressed: () async {
+                try {
+                  await _alunosServices.updateStatusAluno(uid, aluno.uid);
+                  setState(() {
+                    aluno.status = !status;
+                  });
+                } catch (e) {
+                  // deu ruim
+                } finally {
+                  context.mounted ? Navigator.of(dialogContext).pop() : null;
+                }
+              },
+              options: FFButtonOptions(
+                width: 100,
+                height: 35,
+                color: status ? Colors.red : Colors.green,
+                textStyle: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
         );
       },
     );
