@@ -101,21 +101,28 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF252525),
-          title: const Text(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: Text(
             'Confirmar alteração',
-            style: TextStyle(),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           content: Text(
             'Deseja realmente $statuString este treino para o aluno?',
-            style: TextStyle(),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(null),
-              child: const Text(
+              child: Text(
                 'Cancelar',
-                style: TextStyle(color: Colors.white70),
+                style: TextStyle(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                ),
               ),
             ),
             TextButton(
@@ -123,10 +130,13 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                 Navigator.of(context).pop(true);
               },
               child: _isChanging
-                  ? CircularProgressIndicator()
-                  : const Text(
+                  ? CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).primaryColor),
+                    )
+                  : Text(
                       'Confirmar',
-                      style: TextStyle(color: Colors.green),
+                      style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
             ),
           ],
@@ -140,21 +150,28 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF252525),
-          title: const Text(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: Text(
             'Confirmar exclusão',
-            style: TextStyle(),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
-          content: const Text(
+          content: Text(
             'Tem certeza que deseja excluir este treino?',
-            style: TextStyle(),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text(
+              child: Text(
                 'Cancelar',
-                style: TextStyle(color: Colors.white70),
+                style: TextStyle(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                ),
               ),
             ),
             TextButton(
@@ -280,6 +297,7 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                 FocusScope.of(context).unfocus();
               },
               child: Scaffold(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -406,7 +424,7 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                                         }
                                                       },
                                                 child: _isChanging
-                                                    ? const SizedBox(
+                                                    ? SizedBox(
                                                         width: 16,
                                                         height: 16,
                                                         child:
@@ -414,8 +432,9 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                                           strokeWidth: 2,
                                                           valueColor:
                                                               AlwaysStoppedAnimation<
-                                                                      Color>(
-                                                                  Colors.green),
+                                                                  Color>(Theme.of(
+                                                                      context)
+                                                                  .primaryColor),
                                                         ),
                                                       )
                                                     : Row(
@@ -426,11 +445,11 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                                                 ? 'Desativar treino'
                                                                 : 'Ativar treino',
                                                             style: TextStyle(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .bodySmall!
-                                                                    .color),
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onSurface,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -492,18 +511,28 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                         labelStyle: SafeGoogleFont(
                                           'Open Sans',
                                           textStyle: TextStyle(
-                                              color: Colors.white70,
-                                              fontSize: 14),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface
+                                                .withOpacity(0.7),
+                                            fontSize: 14,
+                                          ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white30),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface
+                                                .withOpacity(0.3),
+                                          ),
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.green),
+                                          borderSide: BorderSide(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
@@ -644,11 +673,12 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                                                               index]
                                                                           .newId);
                                                                 },
-                                                                icon:
-                                                                    const Icon(
+                                                                icon: Icon(
                                                                   Icons.delete,
-                                                                  color: Colors
-                                                                      .red,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .error,
                                                                 ),
                                                               ),
                                                               IconButton(
@@ -668,8 +698,12 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                                                           .expand_less
                                                                       : Icons
                                                                           .expand_more,
-                                                                  color: Colors
-                                                                      .grey,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurface
+                                                                      .withOpacity(
+                                                                          0.6),
                                                                 ),
                                                               ),
                                                             ],
@@ -716,20 +750,20 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                                                             SafeGoogleFont(
                                                                           'Open Sans',
                                                                           textStyle: TextStyle(
-                                                                              color: Colors.white70,
+                                                                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                                                                               fontSize: 14),
                                                                         ),
                                                                         enabledBorder:
                                                                             OutlineInputBorder(
                                                                           borderSide:
-                                                                              BorderSide(color: Colors.white30),
+                                                                              BorderSide(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3)),
                                                                           borderRadius:
                                                                               BorderRadius.circular(8),
                                                                         ),
                                                                         focusedBorder:
                                                                             OutlineInputBorder(
                                                                           borderSide:
-                                                                              BorderSide(color: Colors.green),
+                                                                              BorderSide(color: Theme.of(context).primaryColor),
                                                                           borderRadius:
                                                                               BorderRadius.circular(8),
                                                                         ),
@@ -823,14 +857,16 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                                                     style:
                                                                         ButtonStyle(
                                                                       backgroundColor:
-                                                                          WidgetStatePropertyAll(
-                                                                        Colors.grey[
-                                                                            700],
+                                                                          MaterialStatePropertyAll(
+                                                                        Theme.of(context)
+                                                                            .colorScheme
+                                                                            .surface,
                                                                       ),
                                                                     ),
                                                                     child:
-                                                                        const Padding(
-                                                                      padding: EdgeInsets.symmetric(
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
                                                                           horizontal:
                                                                               25),
                                                                       child:
@@ -838,16 +874,20 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                                                         mainAxisAlignment:
                                                                             MainAxisAlignment.center,
                                                                         children: [
-                                                                          Icon(Icons
-                                                                              .add),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
+                                                                          Icon(
+                                                                            Icons.add,
+                                                                            color:
+                                                                                Theme.of(context).colorScheme.onSurface,
                                                                           ),
+                                                                          const SizedBox(
+                                                                              width: 5),
                                                                           Text(
                                                                             'Adicionar série',
                                                                             style:
-                                                                                TextStyle(fontSize: 16),
+                                                                                TextStyle(
+                                                                              fontSize: 16,
+                                                                              color: Theme.of(context).colorScheme.onSurface,
+                                                                            ),
                                                                           )
                                                                         ],
                                                                       ),
@@ -884,7 +924,8 @@ class _NewEditarTreinoScreenState extends State<NewEditarTreinoScreen> {
                                               ),
                                               Divider(
                                                 height: 2,
-                                                color: Colors.grey[800],
+                                                color: Theme.of(context)
+                                                    .dividerColor,
                                               ),
                                             ],
                                           );

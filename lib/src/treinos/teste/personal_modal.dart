@@ -52,9 +52,9 @@ class _PersonalModalState extends State<PersonalModal> {
         } else if (pastasState is GetPastasPersonalLoaded) {
           final pastasIds = pastasState.pastasIds;
           return Container(
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),
               ),
@@ -70,16 +70,16 @@ class _PersonalModalState extends State<PersonalModal> {
                     children: [
                       IconButton(
                         onPressed: () {},
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.folder_copy_outlined,
-                          color: Colors.green,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
                       SizedBox(
                         child: Container(
                           width: 50,
                           height: 2,
-                          color: Colors.grey,
+                          color: Theme.of(context).dividerColor,
                         ),
                       ),
                       IconButton(
@@ -90,17 +90,15 @@ class _PersonalModalState extends State<PersonalModal> {
                                 AddPastaDialog(pastaAluno: false),
                           );
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.add,
-                          color: Colors.green,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
+                const SizedBox(height: 15),
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount: pastasIds.length,
@@ -119,7 +117,10 @@ class _PersonalModalState extends State<PersonalModal> {
                               height: 50,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Colors.grey[900]!.withOpacity(0.4),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surface
+                                    .withOpacity(0.4),
                               ),
                               child: Padding(
                                 padding:
@@ -127,7 +128,14 @@ class _PersonalModalState extends State<PersonalModal> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(pastasIds[index]['nome']),
+                                    Text(
+                                      pastasIds[index]['nome'],
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),

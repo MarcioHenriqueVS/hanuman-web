@@ -14,6 +14,7 @@ import '../treinos/bloc/get_pastas_personal/get_pastas_bloc.dart';
 import '../treinos/bloc/get_pastas_personal/get_pastas_event.dart';
 import 'topics/inicio/pages/inicio_page.dart';
 import '../treinos/pages/galeria/pastas_list_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Painel extends StatefulWidget {
   const Painel({super.key});
@@ -118,10 +119,16 @@ class _PainelState extends State<Painel> {
                           begin: Alignment.bottomLeft,
                           end: Alignment.topRight,
                           colors: [
-                            Color(0xFF121212),
-                            Color(0xFF121212),
-                            Color(0xFF1E1E1E),
-                            Color(0xFF2A2A2A),
+                            Theme.of(context).colorScheme.surface,
+                            Theme.of(context).colorScheme.surface,
+                            Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.9),
+                            Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.8),
                           ],
                           stops: [0.0, 0.6, 0.8, 1.0],
                         ),
@@ -137,15 +144,23 @@ class _PainelState extends State<Painel> {
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
                                   colors: [
-                                    Colors.green.shade900,
-                                    Colors.green.shade800,
-                                    Colors.green.shade700,
-                                    Colors.green.shade600,
+                                    Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.9),
+                                    Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.8),
+                                    Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.7),
+                                    Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.6),
                                   ],
                                 ),
                                 border: Border(
                                   bottom: BorderSide(
-                                    color: Colors.grey[800]!,
+                                    color: Theme.of(context).dividerColor,
                                     width: 1,
                                   ),
                                 ),
@@ -189,7 +204,7 @@ class _PainelState extends State<Painel> {
                   const Duration(milliseconds: 100), // Duração da animação.
             );
           },
-          label: const Row(
+          label: Row(
             children: [
               Icon(
                 Bootstrap.chat,
@@ -197,7 +212,7 @@ class _PainelState extends State<Painel> {
               ),
               SizedBox(width: 10),
               Text(
-                'Inteligência artificial',
+                AppLocalizations.of(context)!.artificialIntelligence,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -205,7 +220,7 @@ class _PainelState extends State<Painel> {
               ),
             ],
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: Theme.of(context).primaryColor,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(5),
@@ -218,7 +233,7 @@ class _PainelState extends State<Painel> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Theme.of(context).colorScheme.surface,
         //backgroundColor: const Color.fromARGB(255, 16, 16, 16),
         toolbarHeight: _isFirstRowVisible ? 120 : 80,
         title: Column(
@@ -231,17 +246,18 @@ class _PainelState extends State<Painel> {
                     children: [
                       IconButton(
                         onPressed: () {},
-                        icon: const Icon(
+                        icon: Icon(
                           Bootstrap.menu_app,
-                          color: Colors.green,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
                       const SizedBox(width: 5),
-                      const Text(
+                      Text(
                         'VirtueFit',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w400,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                     ],
@@ -288,7 +304,7 @@ class _PainelState extends State<Painel> {
                           border: Border(
                             bottom: BorderSide(
                               color: _selectedIndex == 0
-                                  ? Colors.green
+                                  ? Theme.of(context).primaryColor
                                   : Colors.transparent,
                               width: 1,
                             ),
@@ -297,15 +313,15 @@ class _PainelState extends State<Painel> {
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            'Início',
+                            AppLocalizations.of(context)!.start,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: _selectedIndex == 0
                                   ? FontWeight.bold
                                   : FontWeight.w400,
                               color: _selectedIndex == 0
-                                  ? Colors.green
-                                  : Colors.white,
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),
@@ -322,7 +338,7 @@ class _PainelState extends State<Painel> {
                           border: Border(
                             bottom: BorderSide(
                               color: _selectedIndex == 1
-                                  ? Colors.green
+                                  ? Theme.of(context).primaryColor
                                   : Colors.transparent,
                               width: 1,
                             ),
@@ -331,15 +347,15 @@ class _PainelState extends State<Painel> {
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            'Alunos',
+                            AppLocalizations.of(context)!.students,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: _selectedIndex == 1
                                   ? FontWeight.bold
                                   : FontWeight.w400,
                               color: _selectedIndex == 1
-                                  ? Colors.green
-                                  : Colors.white,
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),
@@ -356,7 +372,7 @@ class _PainelState extends State<Painel> {
                           border: Border(
                             bottom: BorderSide(
                               color: _selectedIndex == 2
-                                  ? Colors.green
+                                  ? Theme.of(context).primaryColor
                                   : Colors.transparent,
                               width: 1,
                             ),
@@ -365,15 +381,15 @@ class _PainelState extends State<Painel> {
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            'Treinos',
+                            AppLocalizations.of(context)!.workouts,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: _selectedIndex == 2
                                   ? FontWeight.bold
                                   : FontWeight.w400,
                               color: _selectedIndex == 2
-                                  ? Colors.green
-                                  : Colors.white,
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),
@@ -390,7 +406,7 @@ class _PainelState extends State<Painel> {
                           border: Border(
                             bottom: BorderSide(
                               color: _selectedIndex == 3
-                                  ? Colors.green
+                                  ? Theme.of(context).primaryColor
                                   : Colors.transparent,
                               width: 1,
                             ),
@@ -399,15 +415,15 @@ class _PainelState extends State<Painel> {
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Text(
-                            'Perfil',
+                            AppLocalizations.of(context)!.profile,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: _selectedIndex == 3
                                   ? FontWeight.bold
                                   : FontWeight.w400,
                               color: _selectedIndex == 3
-                                  ? Colors.green
-                                  : Colors.white,
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),

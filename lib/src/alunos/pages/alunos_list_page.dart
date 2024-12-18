@@ -224,12 +224,12 @@ class _AlunosListPageState extends State<AlunosListPage> {
                     maxWidth: 1500,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.grey[900],
-                    boxShadow: const [
+                    color: Theme.of(context).colorScheme.surface,
+                    boxShadow: [
                       BoxShadow(
                         blurRadius: 3,
-                        color: Color(0x33000000),
-                        offset: Offset(
+                        color: Colors.black.withOpacity(0.1),
+                        offset: const Offset(
                           0,
                           1,
                         ),
@@ -308,20 +308,24 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                       hintText: 'Procurar aluno...',
                                       hintStyle: SafeGoogleFont(
                                         'Open Sans',
-                                        textStyle: const TextStyle(
+                                        textStyle: TextStyle(
                                           fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface
+                                              .withOpacity(0.7),
                                         ),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Colors.grey[800]!,
+                                          color: Theme.of(context).dividerColor,
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Colors.green,
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context).primaryColor,
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
@@ -382,12 +386,13 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                 iconPadding:
                                     const EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 0, 0),
-                                color: Colors.green,
+                                color: Theme.of(context).primaryColor,
                                 textStyle: SafeGoogleFont(
                                   'Open Sans',
-                                  textStyle: const TextStyle(
+                                  textStyle: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.white,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
                                   ),
                                 ),
                                 elevation: 3,
@@ -407,7 +412,8 @@ class _AlunosListPageState extends State<AlunosListPage> {
                             width: double.infinity,
                             height: 40,
                             decoration: BoxDecoration(
-                              color: Colors.grey[800],
+                              color: Theme.of(context)
+                                  .scaffoldBackgroundColor,
                               borderRadius: const BorderRadius.only(
                                 bottomLeft: Radius.circular(0),
                                 bottomRight: Radius.circular(0),
@@ -507,7 +513,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
-                                    color: Colors.grey[800]!,
+                                    color: Theme.of(context).dividerColor,
                                     width: 1,
                                   ),
                                 ),
@@ -521,7 +527,9 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                     boxShadow: [
                                       BoxShadow(
                                         blurRadius: 0,
-                                        color: Colors.grey[900]!,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
                                         offset: const Offset(
                                           0,
                                           1,
@@ -585,11 +593,19 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                               return Container(
                                                                 width: 32,
                                                                 height: 32,
-                                                                color:
-                                                                    Colors.grey,
-                                                                child: const Icon(
-                                                                    Icons
-                                                                        .person),
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .surface
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                child: Icon(
+                                                                  Icons.person,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurface,
+                                                                ),
                                                               );
                                                             },
                                                             errorBuilder:
@@ -598,20 +614,38 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                               return Container(
                                                                 width: 32,
                                                                 height: 32,
-                                                                color:
-                                                                    Colors.grey,
-                                                                child: const Icon(
-                                                                    Icons
-                                                                        .person),
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .surface
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                child: Icon(
+                                                                  Icons.person,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurface,
+                                                                ),
                                                               );
                                                             },
                                                           )
                                                         : Container(
                                                             width: 32,
                                                             height: 32,
-                                                            color: Colors.grey,
-                                                            child: const Icon(
-                                                                Icons.person),
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .surface
+                                                                .withOpacity(
+                                                                    0.5),
+                                                            child: Icon(
+                                                              Icons.person,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onSurface,
+                                                            ),
                                                           ),
                                                   ),
                                                 ),
@@ -654,12 +688,11 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                             style:
                                                                 SafeGoogleFont(
                                                               'Open Sans',
-                                                              textStyle:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color: Colors
-                                                                          .green),
+                                                              textStyle: TextStyle(
+                                                                  fontSize: 12,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColor),
                                                             ),
                                                           ),
                                                         ),
@@ -695,8 +728,11 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                 height: 32,
                                                 decoration: BoxDecoration(
                                                   color: ativo
-                                                      ? Colors.green
-                                                      : Colors.red,
+                                                      ? Theme.of(context)
+                                                          .primaryColor
+                                                      : Theme.of(context)
+                                                          .colorScheme
+                                                          .error,
                                                   borderRadius:
                                                       BorderRadius.circular(40),
                                                 ),
@@ -734,9 +770,11 @@ class _AlunosListPageState extends State<AlunosListPage> {
                                                 phone: false,
                                               ))
                                                 PopupMenuButton<String>(
-                                                  icon: const Icon(
+                                                  icon: Icon(
                                                     Icons.more_vert,
-                                                    color: Colors.white,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurface,
                                                     size: 20,
                                                   ),
                                                   itemBuilder: (context) => [
@@ -869,7 +907,9 @@ class _AlunosListPageState extends State<AlunosListPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.person_outlined, size: 48, color: Colors.grey[600]),
+          Icon(Icons.person_outlined,
+              size: 48,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
           const SizedBox(height: 16),
           Text(
             'Nenhum aluno encontrado',
@@ -877,7 +917,7 @@ class _AlunosListPageState extends State<AlunosListPage> {
               'Open Sans',
               textStyle: TextStyle(
                 fontSize: 16,
-                color: Colors.grey[400],
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
               ),
             ),
           ),
@@ -890,20 +930,17 @@ class _AlunosListPageState extends State<AlunosListPage> {
               );
             },
             text: 'Adicionar aluno',
-            icon: const Icon(
-              Icons.add_rounded,
-              size: 15,
-            ),
+            icon: const Icon(Icons.add_rounded, size: 15),
             options: FFButtonOptions(
               height: 40,
               padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
               iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-              color: Colors.green,
+              color: Theme.of(context).primaryColor,
               textStyle: SafeGoogleFont(
                 'Open Sans',
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 16,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
               elevation: 3,

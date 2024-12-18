@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:photo_view/photo_view.dart';
-import '../../login/login_screen.dart';
 import '../bloc/get_treino_finalizado/get_treino_finalizado_bloc.dart';
 import '../bloc/get_treino_finalizado/get_treino_finalizado_event.dart';
 import '../bloc/get_treino_finalizado/get_treino_finalizado_state.dart';
@@ -65,7 +63,7 @@ class _TreinoFinalizadoScreenState extends State<TreinoFinalizadoScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Dialog(
-      backgroundColor: const Color(0xFF1A1A1A),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: ConstrainedBox(
         constraints: const BoxConstraints(
@@ -96,7 +94,7 @@ class _TreinoFinalizadoScreenState extends State<TreinoFinalizadoScreen> {
                         height: 200,
                         child: Center(
                           child: CircularProgressIndicator(
-                            color: Color(0xFF2ECC71),
+                            color: Colors.green,
                           ),
                         ),
                       )
@@ -134,26 +132,27 @@ class _TreinoFinalizadoScreenState extends State<TreinoFinalizadoScreen> {
 
   Widget _buildHeader() {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
-        color: const Color(0xFF212121),
-        border: Border(bottom: BorderSide(color: Colors.white10)),
+        color: Theme.of(context).colorScheme.surface,
+        border:
+            Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
+          Text(
             'Detalhes do Treino',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
+              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: 21,
               fontWeight: FontWeight.w500,
             ),
           ),
           IconButton(
             onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.close),
-            color: Colors.white54,
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
           ),
         ],
       ),
@@ -194,17 +193,17 @@ class _TreinoFinalizadoScreenState extends State<TreinoFinalizadoScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF212121),
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white10),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label.toUpperCase(),
-            style: const TextStyle(
-              color: Colors.white54,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -212,8 +211,8 @@ class _TreinoFinalizadoScreenState extends State<TreinoFinalizadoScreen> {
           const SizedBox(height: 8),
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
               fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
@@ -264,23 +263,6 @@ class _TreinoFinalizadoScreenState extends State<TreinoFinalizadoScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        // TextButton(
-        //   onPressed: () {
-        //     DialogBuilder(context)
-        //         .showResultDialog('Em desenvolvimento, aguarde.');
-        //   },
-        //   style: TextButton.styleFrom(
-        //     foregroundColor: Colors.white70,
-        //   ),
-        //   child: const Row(
-        //     children: [
-        //       Icon(FontAwesomeIcons.solidThumbsUp, size: 16),
-        //       SizedBox(width: 8),
-        //       Text('Curtir'),
-        //     ],
-        //   ),
-        // ),
-        // const SizedBox(width: 16),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
@@ -293,8 +275,8 @@ class _TreinoFinalizadoScreenState extends State<TreinoFinalizadoScreen> {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF2ECC71),
-            foregroundColor: Colors.white,
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
           ),
           child: const Text('Ver detalhes'),
         ),

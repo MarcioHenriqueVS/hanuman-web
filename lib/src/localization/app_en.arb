@@ -2,5 +2,53 @@
   "appTitle": "web_test",
   "@appTitle": {
     "description": "The title of the application"
+  },
+  "hello": "Hello, ",
+  "@hello": {
+    "description": "Greeting message"
+  },
+  "welcome": "Welcome to innovation!",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  "totalStudents": "Total Students",
+  "@totalStudents": {
+    "description": "Label for total students"
+  },
+  "activeStudents": "Active Students (7 days)",
+  "@activeStudents": {
+    "description": "Label for active students in last 7 days"
+  },
+  "inactiveStudents": "Inactive Students (7 days)",
+  "@inactiveStudents": {
+    "description": "Label for inactive students in last 7 days"
+  },
+  "updates": "Updates",
+  "@updates": {
+    "description": "Updates section title"
+  },
+  "seeStudentActivities": "See student activities",
+  "@seeStudentActivities": {
+    "description": "Subtitle for student activities"
+  },
+  "start": "Start",
+  "@start": {
+    "description": "Start menu item"
+  },
+  "students": "Students",
+  "@students": {
+    "description": "Students menu item"
+  },
+  "workouts": "Workouts",
+  "@workouts": {
+    "description": "Workouts menu item"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile menu item"
+  },
+  "artificialIntelligence": "Artificial Intelligence",
+  "@artificialIntelligence": {
+    "description": "AI chat button label"
   }
 }

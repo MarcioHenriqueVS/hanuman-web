@@ -58,7 +58,7 @@ class _NovoTreinoPersonalScreen2State extends State<NovoTreinoPersonalScreen2> {
       builder: (context, exercicioState) {
         List<Exercicio>? exercicios;
         if (exercicioState is ExercicioLoading) {
-          return LoadingScreen();
+          return const LoadingScreen();
         } else if (exercicioState is ExercicioLoaded) {
           exercicios = exercicioState.exercicios;
           return LoadedScreen(
@@ -69,8 +69,13 @@ class _NovoTreinoPersonalScreen2State extends State<NovoTreinoPersonalScreen2> {
             titulosDosTreinosSalvos: widget.titulosDosTreinosSalvos,
           );
         } else {
-          return const Center(
-            child: Text('Recarregue a tela'),
+          return Center(
+            child: Text(
+              'Recarregue a tela',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
           );
         }
       },

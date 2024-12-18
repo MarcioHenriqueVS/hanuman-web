@@ -24,21 +24,22 @@ class SelectPhotosContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     debugPrint('SelectPhotosContainer');
     debugPrint('foto1: $foto1');
     debugPrint('foto2: $foto2');
     debugPrint('foto3: $foto3');
     debugPrint('foto4: $foto4');
-    
+
     final isSmallScreen = MediaQuery.of(context).size.width < 1200;
     return Container(
       width: isSmallScreen ? MediaQuery.of(context).size.width * 0.55 : 600,
       decoration: BoxDecoration(
-        color: Colors.grey[900],
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: theme.colorScheme.shadow.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -53,10 +54,10 @@ class SelectPhotosContainer extends StatelessWidget {
               'Fotos',
               style: SafeGoogleFont(
                 'Open Sans',
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: theme.colorScheme.onSurface,
                   letterSpacing: 0.5,
                 ),
               ),

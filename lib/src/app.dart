@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,6 +29,9 @@ import 'sample_feature/sample_item_details_view.dart';
 import 'sample_feature/sample_item_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
+import 'stripe/blocs/plans_bloc.dart';
+import 'stripe/blocs/subscription_bloc.dart';
+import 'stripe/stripe_test_services.dart';
 import 'treinos/bloc/concluir_serie/concluir_serie_bloc.dart';
 import 'treinos/bloc/get_pastas/get_pastas_bloc.dart';
 import 'treinos/bloc/get_pastas_personal/get_pastas_bloc.dart';
@@ -133,6 +137,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => PickImageBloc(),
         ),
+        BlocProvider(
+          create: (context) => SubscriptionBloc(FirebaseFirestore.instance),
+        ),
+        BlocProvider(
+          create: (context) => PlansBloc(StripeTestServices()),
+        ),
         // Adicionar quantos BLoCs precisar aqui
       ],
       child: ListenableBuilder(
@@ -153,6 +163,7 @@ class MyApp extends StatelessWidget {
               );
             },
             child: MaterialApp.router(
+              locale: settingsController.locale, // Adicione esta linha
               debugShowCheckedModeBanner: false,
               restorationScopeId: 'app',
               localizationsDelegates: const [
@@ -162,7 +173,9 @@ class MyApp extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: const [
-                Locale('en', ''),
+                Locale('en', ''), // Inglês
+                Locale('pt', 'BR'), // Português do Brasil
+                Locale('pt', 'PT'), // Português de Portugal
               ],
               onGenerateTitle: (BuildContext context) =>
                   AppLocalizations.of(context)!.appTitle,
@@ -178,7 +191,10 @@ class MyApp extends StatelessWidget {
                   ),
                 );
               },
-              theme: ThemeData(
+              theme: ThemeData.light().copyWith(
+                scaffoldBackgroundColor:
+                    const Color.fromARGB(255, 248, 248, 248),
+                //const Color(0xFFF5F5F5),
                 primaryColor: Colors.green,
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
@@ -186,16 +202,65 @@ class MyApp extends StatelessWidget {
                     foregroundColor: Colors.white,
                   ),
                 ),
+                textTheme: const TextTheme(
+                  bodyLarge: TextStyle(color: Colors.black87),
+                  bodyMedium: TextStyle(color: Colors.black87),
+                  bodySmall: TextStyle(color: Colors.black87),
+                  titleLarge: TextStyle(color: Colors.black87),
+                  titleMedium: TextStyle(color: Colors.black87),
+                  titleSmall: TextStyle(color: Colors.black87),
+                  headlineLarge: TextStyle(color: Colors.black87),
+                  headlineMedium: TextStyle(color: Colors.black87),
+                  headlineSmall: TextStyle(color: Colors.black87),
+                  displayLarge: TextStyle(color: Colors.black87),
+                  displayMedium: TextStyle(color: Colors.black87),
+                  displaySmall: TextStyle(color: Colors.black87),
+                  labelLarge: TextStyle(color: Colors.black87),
+                  labelMedium: TextStyle(color: Colors.black87),
+                  labelSmall: TextStyle(color: Colors.black87),
+                ),
                 colorScheme: ColorScheme.light(
                   primary: Colors.green,
                   secondary: Colors.green.shade400,
                   surface: Colors.white,
                   onPrimary: Colors.white,
+                  onSurface: Colors.black87,
                 ),
-                // ...existing code...
+                sliderTheme: SliderThemeData(
+                  activeTrackColor: Colors.green.shade400,
+                  inactiveTrackColor: Colors.grey.shade200,
+                  thumbColor: Colors.green.shade400,
+                  overlayColor: Colors.green.shade400.withOpacity(0.3),
+                  valueIndicatorColor: Colors.green.shade400,
+                ),
+                dividerColor: Colors.grey[200],
+                dialogTheme: DialogTheme(
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                inputDecorationTheme: InputDecorationTheme(
+                  hintStyle: TextStyle(color: Colors.grey[600]),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey[700]!),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey[600]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: Colors.green),
+                  ),
+                  prefixIconColor: Colors.grey,
+                ),
               ),
               darkTheme: ThemeData.dark().copyWith(
-                scaffoldBackgroundColor: const Color(0xFF1A1A1A),
+                scaffoldBackgroundColor: const Color.fromARGB(255, 22, 22, 22),
+                //const Color(0xFF1A1A1A),
                 primaryColor: Colors.green,
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
@@ -236,6 +301,29 @@ class MyApp extends StatelessWidget {
                   valueIndicatorColor: Colors.green.shade400,
                 ),
                 dividerColor: Colors.grey[850],
+                dialogTheme: DialogTheme(
+                  backgroundColor: Colors.grey[900],
+                  surfaceTintColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                inputDecorationTheme: InputDecorationTheme(
+                  hintStyle: TextStyle(color: Colors.grey[600]),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey[700]!),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey[600]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: Colors.green),
+                  ),
+                  prefixIconColor: Colors.grey,
+                ),
                 // ...existing code...
               ),
               themeMode: settingsController.themeMode,

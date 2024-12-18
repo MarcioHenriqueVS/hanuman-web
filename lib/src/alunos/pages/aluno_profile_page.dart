@@ -47,7 +47,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                 color: Theme.of(context).scaffoldBackgroundColor,
                 border: Border(
                   bottom: BorderSide(
-                    color: Colors.grey[800]!,
+                    color: Theme.of(context).dividerColor,
                     width: 1,
                   ),
                 ),
@@ -105,9 +105,10 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                       // Header Card
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[900],
+                          color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey[800]!),
+                          border:
+                              Border.all(color: Theme.of(context).dividerColor),
                         ),
                         child: Stack(
                           children: [
@@ -144,7 +145,8 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                                   Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: Colors.grey[800]!, width: 4),
+                                          color: Theme.of(context).dividerColor,
+                                          width: 4),
                                       borderRadius: BorderRadius.circular(100),
                                     ),
                                     child: CircleAvatar(
@@ -455,9 +457,9 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
   Widget _buildInfoCard(String title, IconData icon, List<Widget> children) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[900],
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[800]!),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -481,7 +483,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
               ],
             ),
           ),
-          const Divider(color: Colors.grey),
+          Divider(color: Theme.of(context).dividerColor),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(children: children),
@@ -503,7 +505,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
               'Open Sans',
               textStyle: TextStyle(
                 fontSize: 14,
-                color: Colors.grey[400],
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
             ),
           ),
@@ -511,7 +513,10 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
             value,
             style: SafeGoogleFont(
               'Open Sans',
-              textStyle: const TextStyle(fontSize: 14),
+              textStyle: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
         ],
@@ -524,7 +529,9 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: Colors.grey[400]),
+          Icon(icon,
+              size: 20,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -536,7 +543,10 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                     'Open Sans',
                     textStyle: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[400],
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.6),
                     ),
                   ),
                 ),
@@ -544,7 +554,10 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                   value,
                   style: SafeGoogleFont(
                     'Open Sans',
-                    textStyle: const TextStyle(fontSize: 14),
+                    textStyle: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ],
@@ -613,7 +626,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
             },
             builder: (context, state) {
               return AlertDialog(
-                backgroundColor: Colors.grey[900],
+                backgroundColor: Theme.of(context).colorScheme.surface,
                 title: const Text(
                   'Confirmar exclusão',
                   style: TextStyle(color: Colors.white),
@@ -625,9 +638,11 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
                     onPressed: state is DeleteAlunoLoading
                         ? null
                         : () => Navigator.of(dialogContext).pop(),
-                    child: const Text(
+                    child: Text(
                       'Cancelar',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
                   ),
                   state is DeleteAlunoLoading
@@ -679,7 +694,7 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
         String mensagemAviso = status ? msgDeDesativacao : msgDeAtivacao;
 
         return AlertDialog(
-          backgroundColor: Colors.grey[900],
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: const Text(
             'Confirmar mudança de status',
             style: TextStyle(color: Colors.white),
@@ -694,7 +709,8 @@ class _AlunoProfilePageState extends State<AlunoProfilePage> {
               Text(
                 mensagemAviso,
                 style: TextStyle(
-                  color: Colors.grey[400],
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                   fontSize: 12,
                 ),
               ),

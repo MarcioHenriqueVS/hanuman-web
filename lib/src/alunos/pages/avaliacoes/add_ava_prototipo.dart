@@ -179,8 +179,10 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
         showDialog(
           context: context,
           builder: (context) {
+            final theme = Theme.of(context);
             return AlertDialog(
-              title: const Text('Aviso', style: TextStyle(color: Colors.white)),
+              title: Text('Aviso',
+                  style: TextStyle(color: theme.colorScheme.onSurface)),
               content: const Text(
                   'Preencha ao menos um campo de medidas para salvar a avaliação.'),
               actions: [
@@ -313,6 +315,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     bool isSmallScreen = MediaQuery.of(context).size.width < 1200;
 
     return Scaffold(
@@ -340,7 +343,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                             ? MediaQuery.of(context).size.width * 0.55
                             : 600,
                         decoration: BoxDecoration(
-                          color: Colors.grey[900],
+                          color: theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
@@ -361,7 +364,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                             ? MediaQuery.of(context).size.width * 0.55
                             : 600,
                         decoration: BoxDecoration(
-                          color: Colors.grey[900],
+                          color: theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
@@ -391,7 +394,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                             ? MediaQuery.of(context).size.width * 0.55
                             : 600,
                         decoration: BoxDecoration(
-                          color: Colors.grey[900],
+                          color: theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
@@ -430,7 +433,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                             ? MediaQuery.of(context).size.width * 0.39
                             : 400,
                         decoration: BoxDecoration(
-                          color: Colors.grey[900],
+                          color: theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
@@ -442,10 +445,10 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                 'Selecione a fórmula',
                                 style: SafeGoogleFont(
                                   'Open Sans',
-                                  textStyle: const TextStyle(
+                                  textStyle: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                    color: theme.textTheme.bodySmall!.color,
                                   ),
                                 ),
                               ),
@@ -455,13 +458,13 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                   'Selecione',
                                   style: SafeGoogleFont(
                                     'Open Sans',
-                                    textStyle: const TextStyle(
-                                      color: Colors.white,
+                                    textStyle: TextStyle(
+                                      color: theme.textTheme.bodySmall!.color,
                                     ),
                                   ),
                                 ),
                                 //cor
-                                dropdownColor: Colors.grey[800],
+                                dropdownColor: theme.colorScheme.surface,
                                 value: _selectedOption,
                                 onChanged: (value) {
                                   setState(() {
@@ -499,8 +502,8 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                       'Durnin-Womersley',
                                       style: SafeGoogleFont(
                                         'Open Sans',
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
+                                        textStyle: TextStyle(
+                                          color: theme.colorScheme.onSurface,
                                         ),
                                       ),
                                     ),
@@ -530,8 +533,8 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                       'Jackson e Pollock (3 dobras)',
                                       style: SafeGoogleFont(
                                         'Open Sans',
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
+                                        textStyle: TextStyle(
+                                          color: theme.colorScheme.onSurface,
                                         ),
                                       ),
                                     ),
@@ -563,8 +566,8 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                       'Jackson e Pollock (4 dobras)',
                                       style: SafeGoogleFont(
                                         'Open Sans',
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
+                                        textStyle: TextStyle(
+                                          color: theme.colorScheme.onSurface,
                                         ),
                                       ),
                                     ),
@@ -606,8 +609,8 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                       'Jackson e Pollock (7 dobras)',
                                       style: SafeGoogleFont(
                                         'Open Sans',
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
+                                        textStyle: TextStyle(
+                                          color: theme.colorScheme.onSurface,
                                         ),
                                       ),
                                     ),
@@ -619,7 +622,7 @@ class _AddAvaPrototipoState extends State<AddAvaPrototipo> {
                                     borderSide: BorderSide.none,
                                   ),
                                   filled: true,
-                                  fillColor: Colors.grey[800],
+                                  fillColor: theme.colorScheme.surface,
                                 ),
                               ),
                             ],

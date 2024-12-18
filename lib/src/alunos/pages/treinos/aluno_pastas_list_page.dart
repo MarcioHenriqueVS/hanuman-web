@@ -136,7 +136,9 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.folder_outlined, size: 48, color: Colors.grey[600]),
+          Icon(Icons.folder_outlined,
+              size: 48,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
           const SizedBox(height: 16),
           Text(
             'Nenhuma pasta encontrada',
@@ -144,7 +146,7 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
               'Open Sans',
               textStyle: TextStyle(
                 fontSize: 16,
-                color: Colors.grey[400],
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
               ),
             ),
           ),
@@ -162,7 +164,7 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
   Widget build(BuildContext context) {
     return LoaderOverlay(
       overlayWidgetBuilder: (_) => SpinKitCubeGrid(
-        color: Colors.green,
+        color: Theme.of(context).primaryColor,
         size: 50.0,
       ),
       child: Scaffold(
@@ -175,7 +177,7 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
                   color: Theme.of(context).scaffoldBackgroundColor,
                   border: Border(
                     bottom: BorderSide(
-                      color: Colors.grey[800]!,
+                      color: Theme.of(context).dividerColor,
                       width: 1,
                     ),
                   ),
@@ -326,11 +328,14 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
                                                   120, // Altura máxima definida
                                             ),
                                             decoration: BoxDecoration(
-                                              color: Colors.grey[900],
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surface,
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
-                                                  color: Colors.grey[800]!),
+                                                  color: Theme.of(context)
+                                                      .dividerColor),
                                             ),
                                             child: Stack(
                                               children: [
@@ -398,9 +403,13 @@ class _AlunoPastasListPageState extends State<AlunoPastasListPage> {
                                                   right: 8,
                                                   child:
                                                       PopupMenuButton<String>(
-                                                    icon: const Icon(
-                                                        Icons.more_vert,
-                                                        color: Colors.grey),
+                                                    icon: Icon(
+                                                      Icons.more_vert,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurface
+                                                          .withOpacity(0.7),
+                                                    ),
                                                     itemBuilder: (BuildContext
                                                             context) =>
                                                         [

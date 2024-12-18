@@ -53,7 +53,7 @@ class ExerciciosDialog extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: Colors.blue.withOpacity(0.1),
+                        color: Theme.of(context).primaryColor.withOpacity(0.1),
                       ),
                     ),
                   ),
@@ -92,7 +92,7 @@ class ExerciciosDialog extends StatelessWidget {
                   child: TextFormField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      fillColor: Colors.grey[900],
+                      fillColor: Theme.of(context).colorScheme.surface,
                       filled: true,
                       contentPadding:
                           const EdgeInsets.symmetric(vertical: 10.0),
@@ -125,8 +125,10 @@ class ExerciciosDialog extends StatelessWidget {
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         state.currentFilter.mecanismo != null
-                                            ? Colors.blue
-                                            : Colors.green)),
+                                            ? Theme.of(context).primaryColor
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .secondary)),
                                 onPressed: () {
                                   _showMecanismoOptions(context);
                                 },
@@ -159,8 +161,10 @@ class ExerciciosDialog extends StatelessWidget {
                                     backgroundColor: MaterialStateProperty.all(
                                         state.currentFilter.grupoMuscular !=
                                                 null
-                                            ? Colors.blue
-                                            : Colors.green)),
+                                            ? Theme.of(context).primaryColor
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .secondary)),
                                 onPressed: () {
                                   _showGruposMuscularesOptions(context);
                                 },
@@ -224,10 +228,11 @@ class ExerciciosDialog extends StatelessWidget {
                               leading: Container(
                                 decoration: BoxDecoration(
                                   border: isSelected
-                                      ? const Border(
+                                      ? Border(
                                           left: BorderSide(
                                               width: 8,
-                                              color: Colors.blueAccent))
+                                              color: Theme.of(context)
+                                                  .primaryColor))
                                       : null,
                                 ),
                                 child: Padding(

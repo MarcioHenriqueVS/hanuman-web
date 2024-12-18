@@ -238,16 +238,26 @@ class _LoadedScreenState extends State<LoadedScreen> {
                                     labelStyle: SafeGoogleFont(
                                       'Open Sans',
                                       textStyle: TextStyle(
-                                          color: Colors.white70, fontSize: 14),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface
+                                            .withOpacity(0.7),
+                                        fontSize: 14,
+                                      ),
                                     ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.white30),
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface
+                                            .withOpacity(0.3),
+                                      ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.green),
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
@@ -435,17 +445,25 @@ class _LoadedScreenState extends State<LoadedScreen> {
                                                                     labelStyle:
                                                                         SafeGoogleFont(
                                                                       'Open Sans',
-                                                                      textStyle: TextStyle(
-                                                                          color: Colors
-                                                                              .white70,
-                                                                          fontSize:
-                                                                              14),
+                                                                      textStyle:
+                                                                          TextStyle(
+                                                                        color: Theme.of(context)
+                                                                            .colorScheme
+                                                                            .onSurface
+                                                                            .withOpacity(0.7),
+                                                                        fontSize:
+                                                                            14,
+                                                                      ),
                                                                     ),
                                                                     enabledBorder:
                                                                         OutlineInputBorder(
                                                                       borderSide:
                                                                           BorderSide(
-                                                                              color: Colors.white30),
+                                                                        color: Theme.of(context)
+                                                                            .colorScheme
+                                                                            .onSurface
+                                                                            .withOpacity(0.3),
+                                                                      ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
                                                                               8),
@@ -454,7 +472,9 @@ class _LoadedScreenState extends State<LoadedScreen> {
                                                                         OutlineInputBorder(
                                                                       borderSide:
                                                                           BorderSide(
-                                                                              color: Colors.green),
+                                                                        color: Theme.of(context)
+                                                                            .primaryColor,
+                                                                      ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
                                                                               8),
@@ -554,7 +574,7 @@ class _LoadedScreenState extends State<LoadedScreen> {
                                                                   backgroundColor:
                                                                       WidgetStatePropertyAll(
                                                                     Colors.grey[
-                                                                        700],
+                                                                        600],
                                                                   ),
                                                                 ),
                                                                 child:
@@ -610,7 +630,8 @@ class _LoadedScreenState extends State<LoadedScreen> {
                                           ),
                                           Divider(
                                             height: 2,
-                                            color: Colors.grey[900],
+                                            color:
+                                                Theme.of(context).dividerColor,
                                           ),
                                         ],
                                       );

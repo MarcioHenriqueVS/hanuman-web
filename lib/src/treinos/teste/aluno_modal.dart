@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/get_pastas/get_pastas_bloc.dart';
 import '../bloc/get_pastas/get_pastas_state.dart';
 import '../pages/galeria/components/add_pasta_dialog.dart';
-import '../services/treino_services.dart';
 import 'enviar_treino_dialog.dart';
 import 'models/training_sheet.dart';
 
@@ -55,7 +54,7 @@ class _AlunoModalState extends State<AlunoModal> {
                 maxHeight: MediaQuery.of(context).size.height * 0.8,
               ),
               decoration: BoxDecoration(
-                color: Colors.grey[900],
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -65,7 +64,8 @@ class _AlunoModalState extends State<AlunoModal> {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(color: Colors.grey[800]!, width: 1),
+                        bottom: BorderSide(
+                            color: Theme.of(context).dividerColor, width: 1),
                       ),
                     ),
                     child: Row(
@@ -82,7 +82,7 @@ class _AlunoModalState extends State<AlunoModal> {
                           cursor: SystemMouseCursors.click,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green[700],
+                              backgroundColor: Theme.of(context).primaryColor,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 12,
@@ -126,9 +126,11 @@ class _AlunoModalState extends State<AlunoModal> {
                               ),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[800],
+                                  color: Theme.of(context).colorScheme.surface,
                                   borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: Colors.grey[700]!),
+                                  border: Border.all(
+                                    color: Theme.of(context).dividerColor,
+                                  ),
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -136,12 +138,17 @@ class _AlunoModalState extends State<AlunoModal> {
                                     Icon(
                                       Icons.folder,
                                       size: 48,
-                                      color: Colors.blue[400],
+                                      color: Theme.of(context).primaryColor,
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
                                       pastasIds[index]['nome'],
-                                      style: const TextStyle(fontSize: 16),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ],

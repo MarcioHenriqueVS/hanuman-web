@@ -6,6 +6,7 @@ import '../../../../autenticacao/services/user_services.dart';
 import '../../../../utils.dart';
 import 'components/atts.dart';
 import 'components/stats_containers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class InicioPage extends StatefulWidget {
   const InicioPage({super.key});
@@ -67,11 +68,20 @@ class _InicioPageState extends State<InicioPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       buildStatContainer(
-                          'Total de Alunos', null, Icons.people, true),
-                      buildStatContainer('Alunos Ativos (7 dias)', null,
-                          Icons.check_circle, true),
-                      buildStatContainer('Alunos Inativos (7 dias)', null,
-                          Icons.warning, true),
+                          AppLocalizations.of(context)!.totalStudents,
+                          null,
+                          Icons.people,
+                          true),
+                      buildStatContainer(
+                          AppLocalizations.of(context)!.activeStudents,
+                          null,
+                          Icons.check_circle,
+                          true),
+                      buildStatContainer(
+                          AppLocalizations.of(context)!.inactiveStudents,
+                          null,
+                          Icons.warning,
+                          true),
                     ],
                   ),
           );
@@ -111,11 +121,20 @@ class _InicioPageState extends State<InicioPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       buildStatContainer(
-                          'Total de Alunos', totalAlunos, Icons.people, false),
-                      buildStatContainer('Alunos Ativos (7 dias)', alunosAtivos,
-                          Icons.check_circle, false),
-                      buildStatContainer('Alunos Inativos (7 dias)',
-                          alunosInativos, Icons.warning, false),
+                          AppLocalizations.of(context)!.totalStudents,
+                          totalAlunos,
+                          Icons.people,
+                          false),
+                      buildStatContainer(
+                          AppLocalizations.of(context)!.activeStudents,
+                          alunosAtivos,
+                          Icons.check_circle,
+                          false),
+                      buildStatContainer(
+                          AppLocalizations.of(context)!.inactiveStudents,
+                          alunosInativos,
+                          Icons.warning,
+                          false),
                     ],
                   ),
           );
@@ -130,11 +149,20 @@ class _InicioPageState extends State<InicioPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       buildStatContainer(
-                          'Total de Alunos', '0', Icons.people, false),
-                      buildStatContainer('Alunos Ativos (7 dias)', '0',
-                          Icons.check_circle, false),
-                      buildStatContainer('Alunos Inativos (7 dias)', '0',
-                          Icons.warning, false),
+                          AppLocalizations.of(context)!.totalStudents,
+                          '0',
+                          Icons.people,
+                          false),
+                      buildStatContainer(
+                          AppLocalizations.of(context)!.activeStudents,
+                          '0',
+                          Icons.check_circle,
+                          false),
+                      buildStatContainer(
+                          AppLocalizations.of(context)!.inactiveStudents,
+                          '0',
+                          Icons.warning,
+                          false),
                     ],
                   ),
           );
@@ -148,8 +176,6 @@ class _InicioPageState extends State<InicioPage> {
   Widget _buildResponsiveLayout(
       BuildContext context, double maxWidth, double maxHeight) {
     bool isSmallScreen = maxWidth < 1000;
-    bool isVerySmallScreen = maxWidth < 768;
-
     return Column(
       crossAxisAlignment:
           isSmallScreen ? CrossAxisAlignment.center : CrossAxisAlignment.start,
@@ -169,12 +195,12 @@ class _InicioPageState extends State<InicioPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Olá, ',
+                    AppLocalizations.of(context)!.hello,
                     style: SafeGoogleFont(
                       'Open Sans',
                       fontSize: 31,
                       fontWeight: FontWeight.normal,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.onSurface,
                       letterSpacing: 0.0,
                     ),
                   ),
@@ -186,7 +212,7 @@ class _InicioPageState extends State<InicioPage> {
                         'Open Sans',
                         fontSize: 31,
                         fontWeight: FontWeight.normal,
-                        color: Colors.green,
+                        color: Theme.of(context).primaryColor,
                         letterSpacing: 0.0,
                       ),
                     ),
@@ -197,12 +223,15 @@ class _InicioPageState extends State<InicioPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'Seja bem vindo(a) à inovação!',
+                    AppLocalizations.of(context)!.welcome,
                     style: SafeGoogleFont('Plus Jakarta Sans',
                         fontSize: 16,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.7)),
                   ),
                 ],
               ),
@@ -246,14 +275,11 @@ class _InicioPageState extends State<InicioPage> {
 
     return Container(
       width: containerWidth,
-      //height: isSmallScreen ? maxHeight * 1 : maxHeight * 0.95,
       decoration: BoxDecoration(
-        //color: Colors.black,
-        color: Colors.grey[900],
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(5),
-        //cor da borda
         border: Border.all(
-          color: Colors.grey[800]!,
+          color: Theme.of(context).dividerColor,
           width: 0.5,
         ),
       ),
@@ -283,7 +309,7 @@ class _InicioPageState extends State<InicioPage> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
                           child: Text(
-                            'Atualizações',
+                            AppLocalizations.of(context)!.updates,
                             style: SafeGoogleFont(
                               'Open Sans',
                               textStyle: const TextStyle(
@@ -296,7 +322,7 @@ class _InicioPageState extends State<InicioPage> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 4, 12, 0),
                           child: Text(
-                            'Veja as atividades dos alunos',
+                            AppLocalizations.of(context)!.seeStudentActivities,
                             style: SafeGoogleFont(
                               'Open Sans',
                               textStyle: const TextStyle(

@@ -30,14 +30,14 @@ class _TreinoFinalizadoDetailsScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A1A),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
             HeaderPrototipo(
               title: widget.treino.titulo.isEmpty
-                            ? 'Sem título'
-                            : widget.treino.titulo,
+                  ? 'Sem título'
+                  : widget.treino.titulo,
               subtitle: 'Detalhes do treino',
               maxWidth: 1150,
             ),
@@ -52,8 +52,10 @@ class _TreinoFinalizadoDetailsScreenState
                       Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF252525),
+                          color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(8),
+                          border:
+                              Border.all(color: Theme.of(context).dividerColor),
                         ),
                         child: Row(
                           children: [
@@ -78,7 +80,9 @@ class _TreinoFinalizadoDetailsScreenState
                               widget.treino.exercicios[index];
                           return Container(
                             decoration: BoxDecoration(
-                              color: const Color(0xFF252525),
+                              color: Theme.of(context).colorScheme.surface,
+                              border: Border.all(
+                                  color: Theme.of(context).dividerColor),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Column(
@@ -97,7 +101,12 @@ class _TreinoFinalizadoDetailsScreenState
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
-                                          color: const Color(0xFF2A2A2A),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .surface,
+                                          border: Border.all(
+                                              color: Theme.of(context)
+                                                  .dividerColor),
                                         ),
                                         child: ClipRRect(
                                           borderRadius:
@@ -123,19 +132,24 @@ class _TreinoFinalizadoDetailsScreenState
                                           children: [
                                             Text(
                                               exercicio.nome,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 22,
                                                 fontWeight: FontWeight.w500,
-                                                color: Colors.white,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface,
                                                 height: 1.2,
                                               ),
                                             ),
                                             const SizedBox(height: 8),
                                             Text(
                                               exercicio.mecanismo,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 14,
-                                                color: Colors.white54,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface
+                                                    .withOpacity(0.54),
                                               ),
                                             ),
                                           ],
@@ -145,7 +159,8 @@ class _TreinoFinalizadoDetailsScreenState
                                   ),
                                 ),
                                 Container(
-                                    height: 1, color: const Color(0xFF2F2F2F)),
+                                    height: 1,
+                                    color: Theme.of(context).dividerColor),
                                 Padding(
                                   padding: const EdgeInsets.all(32),
                                   child: Column(
@@ -156,7 +171,8 @@ class _TreinoFinalizadoDetailsScreenState
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 12, vertical: 8),
                                         decoration: BoxDecoration(
-                                          color: const Color(0xFF2A2A2A),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
                                           borderRadius:
                                               BorderRadius.circular(6),
                                         ),
@@ -184,9 +200,14 @@ class _TreinoFinalizadoDetailsScreenState
                                           width: double.infinity,
                                           padding: const EdgeInsets.all(16),
                                           decoration: BoxDecoration(
-                                            color: const Color(0xFF2A2A2A),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .surface,
                                             borderRadius:
                                                 BorderRadius.circular(6),
+                                            border: Border.all(
+                                                color: Theme.of(context)
+                                                    .dividerColor),
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
@@ -240,9 +261,9 @@ class _TreinoFinalizadoDetailsScreenState
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
-            color: Colors.white38,
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.38),
             fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
           ),
@@ -250,9 +271,9 @@ class _TreinoFinalizadoDetailsScreenState
         const SizedBox(height: 8),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 17,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -276,10 +297,10 @@ class _TreinoFinalizadoDetailsScreenState
           },
           children: [
             TableRow(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: Color(0xFF2F2F2F),
+                    color: Theme.of(context).dividerColor,
                     width: 1,
                   ),
                 ),
@@ -296,9 +317,12 @@ class _TreinoFinalizadoDetailsScreenState
                         child: Text(
                           header,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: Colors.white38,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.38),
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.5,
                           ),
@@ -323,10 +347,10 @@ class _TreinoFinalizadoDetailsScreenState
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: cell == 'Concluído'
-                                  ? Colors.green
+                                  ? Theme.of(context).primaryColor
                                   : cell == 'Não realizado'
                                       ? Colors.red
-                                      : Colors.white,
+                                      : Theme.of(context).colorScheme.onSurface,
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
                             ),

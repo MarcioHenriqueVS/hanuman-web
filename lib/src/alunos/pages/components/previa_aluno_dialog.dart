@@ -4,6 +4,20 @@ import '../../models/aluno_model.dart';
 import '../avaliacoes/add_ava_prototipo.dart';
 import '../avaliacoes/avaliacoes_list_page.dart';
 import '../treinos/aluno_pastas_list_page.dart';
+import '../../../themes/action_button_theme.dart';
+
+// Adicione esta classe para padronizar o tema dos botões de ação
+class ActionButtonThemeData {
+  final Color labelColor;
+  final Color iconColor;
+  final Color hoverColor;
+
+  const ActionButtonThemeData({
+    required this.labelColor,
+    required this.iconColor,
+    required this.hoverColor,
+  });
+}
 
 class PreviaAlunoDialog extends StatefulWidget {
   final AlunoModel aluno;
@@ -22,7 +36,7 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
         width: 600,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Colors.grey[900],
+          color: Theme.of(context).dialogTheme.backgroundColor,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -36,14 +50,16 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
                   'Prévia do Aluno',
                   style: SafeGoogleFont(
                     'Open Sans',
-                    textStyle: const TextStyle(
+                    textStyle: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close),
+                  icon: Icon(Icons.close,
+                      color: Theme.of(context).colorScheme.onSurface),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
@@ -139,7 +155,7 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
               'Open Sans',
               textStyle: TextStyle(
                 fontSize: 14,
-                color: Colors.grey[400],
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -147,16 +163,7 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
         ),
         Expanded(
           child: isStatus
-              ?
-              // Container(
-              //     padding:
-              //         const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              //     decoration: BoxDecoration(
-              //       color: isActive ? Colors.green : Colors.red,
-              //       borderRadius: BorderRadius.circular(12),
-              //     ),
-              //     child:
-              Text(
+              ? Text(
                   value,
                   style: SafeGoogleFont(
                     'Open Sans',
@@ -165,14 +172,14 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
                       color: isActive ? Colors.green : Colors.red,
                     ),
                   ),
-                  //),
                 )
               : Text(
                   value,
                   style: SafeGoogleFont(
                     'Open Sans',
-                    textStyle: const TextStyle(
+                    textStyle: TextStyle(
                       fontSize: 14,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -183,20 +190,21 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
 
   Widget _buildActionButton(
       String label, IconData icon, Color color, VoidCallback onPressed) {
+    final theme = Theme.of(context).actionButtonTheme;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onPressed,
-          hoverColor: color.withOpacity(0.1),
+          hoverColor: theme.hoverColor,
           borderRadius: BorderRadius.circular(4),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, color: color, size: 18),
+                Icon(icon, color: theme.iconColor, size: 18),
                 const SizedBox(width: 8),
                 Text(
                   label,
@@ -204,7 +212,7 @@ class _PreviaAlunoDialogState extends State<PreviaAlunoDialog> {
                     'Open Sans',
                     textStyle: TextStyle(
                       fontSize: 14,
-                      color: color,
+                      color: theme.labelColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

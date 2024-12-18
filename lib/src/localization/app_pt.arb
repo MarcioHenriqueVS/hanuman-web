@@ -1,0 +1,7 @@
+
+{
+  "appTitle": "web_test",
+  "@appTitle": {
+    "description": "O título da aplicação"
+  }
+}

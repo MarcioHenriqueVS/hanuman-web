@@ -15,45 +15,31 @@ class AttHomeWidget extends StatefulWidget {
   final String alunoUid;
   final String treinoDocId;
   final bool isSmallScreen;
-  const AttHomeWidget(
-      {super.key,
-      required this.tipo,
-      required this.titulo,
-      this.descricao,
-      required this.timestamp,
-      required this.alunoUid,
-      required this.treinoDocId,
-      required this.isSmallScreen});
+  final AlunoModel aluno; // Novo parâmetro
+
+  const AttHomeWidget({
+    super.key,
+    required this.tipo,
+    required this.titulo,
+    this.descricao,
+    required this.timestamp,
+    required this.alunoUid,
+    required this.treinoDocId,
+    required this.isSmallScreen,
+    required this.aluno, // Novo parâmetro
+  });
 
   @override
   State<AttHomeWidget> createState() => _AttHomeWidgetState();
 }
 
 class _AttHomeWidgetState extends State<AttHomeWidget> {
-  AlunoModel? aluno;
-  String uid = FirebaseAuth.instance.currentUser!.uid;
-  final AlunosServices _alunosServices = AlunosServices();
   String? friendlyDate;
 
   @override
   void initState() {
-    getAluno();
     formatarTimestamp();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void getAluno() async {
-    debugPrint(widget.alunoUid);
-    debugPrint(uid);
-    final newAluno = await _alunosServices.getAluno(uid, widget.alunoUid);
-    setState(() {
-      aluno = newAluno;
-    });
   }
 
   void formatarTimestamp() {
@@ -69,7 +55,7 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return aluno == null || friendlyDate == null
+    return friendlyDate == null
         ? const SizedBox.shrink()
         : Padding(
             padding: EdgeInsets.symmetric(vertical: 3),
@@ -86,9 +72,9 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                   );
                 },
                 child: Container(
-                  //margin: const EdgeInsets.symmetric(vertical: 3),
                   decoration: BoxDecoration(
-                    color: Color(0xFF121212),
+                    // Cor um pouco mais clara que a cor de fundo
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(3),
                   ),
                   padding:
@@ -96,7 +82,7 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage: NetworkImage(aluno!.fotoUrl ??
+                        backgroundImage: NetworkImage(widget.aluno.fotoUrl ??
                             'https://i.pravatar.cc/150?img=1'),
                         radius: 20,
                       ),
@@ -106,11 +92,12 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${aluno!.nome} ${widget.titulo}',
+                              '${widget.aluno.nome} ${widget.titulo}',
                               style: SafeGoogleFont(
                                 'Open Sans',
-                                textStyle: const TextStyle(
-                                  color: Colors.white,
+                                textStyle: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -121,7 +108,10 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                               style: SafeGoogleFont(
                                 'Open Sans',
                                 textStyle: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.7),
                                   fontSize: 12,
                                 ),
                               ),
@@ -139,7 +129,10 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                             style: SafeGoogleFont(
                               'Open Sans',
                               textStyle: TextStyle(
-                                color: Colors.grey[500],
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.7),
                                 fontSize: 12,
                               ),
                             ),
@@ -148,8 +141,8 @@ class _AttHomeWidgetState extends State<AttHomeWidget> {
                             friendlyDate ?? 'Não registrado',
                             style: SafeGoogleFont(
                               'Open Sans',
-                              textStyle: const TextStyle(
-                                color: Colors.green,
+                              textStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
                                 fontSize: 12,
                               ),
                             ),

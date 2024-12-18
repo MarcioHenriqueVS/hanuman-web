@@ -165,7 +165,7 @@ class StripeTestServices {
 
       // Usar a URL de produção quando estiver em produção
       final returnUrl = Uri.base.toString().contains('localhost')
-          ? 'http://localhost:63484/#/painel'
+          ? 'http://localhost:50939/#/painel'
           : 'https://hanuman-4e9f4.web.app/#/painel';
 
       debugPrint('URL de retorno: $returnUrl');

@@ -21,6 +21,8 @@ class FormBasicoAvaliacaoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Form(
       key: formBasicoAvaliacaoKey,
       child: Column(
@@ -30,10 +32,10 @@ class FormBasicoAvaliacaoWidget extends StatelessWidget {
             'Dados básicos',
             style: SafeGoogleFont(
               'Open Sans',
-              textStyle: const TextStyle(
+              textStyle: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: theme.colorScheme.onSurface,
               ),
             ),
           ),
@@ -52,6 +54,7 @@ class FormBasicoAvaliacaoWidget extends StatelessWidget {
               return null;
             },
             label: 'Título da Avaliação',
+            context: context,
           ),
           const SizedBox(height: 16),
           // campo para preencher observações
@@ -68,6 +71,7 @@ class FormBasicoAvaliacaoWidget extends StatelessWidget {
               return null;
             },
             label: 'Observações',
+            context: context,
           ),
           const SizedBox(height: 16),
           Row(
@@ -86,6 +90,7 @@ class FormBasicoAvaliacaoWidget extends StatelessWidget {
                   validateFunction: (value) {
                     return null;
                   },
+                  context: context,
                 ),
               ),
               const SizedBox(width: 16),
@@ -102,6 +107,7 @@ class FormBasicoAvaliacaoWidget extends StatelessWidget {
                   validateFunction: (value) {
                     return null;
                   },
+                  context: context,
                 ),
               ),
             ],
@@ -117,7 +123,10 @@ class FormBasicoAvaliacaoWidget extends StatelessWidget {
     required List<TextInputFormatter>? inputFormatters,
     required TextInputType? keyboardType,
     required String? Function(String?) validateFunction,
+    required BuildContext context,
   }) {
+    final theme = Theme.of(context);
+
     return TextFormField(
       controller: controller,
       inputFormatters: inputFormatters,
@@ -125,20 +134,23 @@ class FormBasicoAvaliacaoWidget extends StatelessWidget {
       validator: validateFunction,
       style: SafeGoogleFont(
         'Open Sans',
-        textStyle: const TextStyle(color: Colors.white, fontSize: 14),
+        textStyle: TextStyle(color: theme.colorScheme.onSurface, fontSize: 14),
       ),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: SafeGoogleFont(
           'Open Sans',
-          textStyle: TextStyle(color: Colors.white70, fontSize: 14),
+          textStyle: TextStyle(
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
+              fontSize: 14),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white30),
+          borderSide:
+              BorderSide(color: theme.colorScheme.onSurface.withOpacity(0.3)),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.green),
+          borderSide: BorderSide(color: theme.primaryColor),
           borderRadius: BorderRadius.circular(8),
         ),
       ),

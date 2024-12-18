@@ -10,6 +10,7 @@ class HeaderPrototipo extends StatelessWidget {
   final bool? icon;
   final double? maxWidth;
   final VoidCallback? onBack;
+  final Icon? iconData;
 
   const HeaderPrototipo({
     super.key,
@@ -20,6 +21,7 @@ class HeaderPrototipo extends StatelessWidget {
     this.icon = true,
     this.maxWidth,
     this.onBack,
+    this.iconData,
   });
 
   @override
@@ -30,7 +32,7 @@ class HeaderPrototipo extends StatelessWidget {
         color: Theme.of(context).scaffoldBackgroundColor,
         border: Border(
           bottom: BorderSide(
-            color: Colors.grey[800]!,
+            color: Theme.of(context).dividerColor,
             width: 1,
           ),
         ),
@@ -47,7 +49,10 @@ class HeaderPrototipo extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     onPressed: onBack ?? () => Navigator.of(context).pop(),
                   ),
                   const SizedBox(width: 16),
@@ -58,9 +63,10 @@ class HeaderPrototipo extends StatelessWidget {
                         title,
                         style: SafeGoogleFont(
                           'Open Sans',
-                          textStyle: const TextStyle(
+                          textStyle: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -71,7 +77,10 @@ class HeaderPrototipo extends StatelessWidget {
                           'Open Sans',
                           textStyle: TextStyle(
                             fontSize: 14,
-                            color: Colors.grey[400],
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.6),
                           ),
                         ),
                       ),
@@ -81,14 +90,19 @@ class HeaderPrototipo extends StatelessWidget {
               ),
               button != null
                   ? Padding(
-                      padding: EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.only(right: 10),
                       child: FFButtonWidget(
                         onPressed: onSave,
                         text: button!,
                         icon: icon!
-                            ? const Icon(
+                            ? iconData != null ? Icon(
+                                iconData!.icon,
+                                size: 15,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                            ) : Icon(
                                 Icons.add_rounded,
                                 size: 15,
+                                color: Theme.of(context).colorScheme.onPrimary,
                               )
                             : null,
                         options: FFButtonOptions(
@@ -97,15 +111,7 @@ class HeaderPrototipo extends StatelessWidget {
                               16, 0, 16, 0),
                           iconPadding:
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                          color: Colors.green,
-                          // textStyle:
-                          // // SafeGoogleFont(
-                          // //   'Open Sans',
-                          // //   textStyle: const TextStyle(
-                          // //     fontSize: 16,
-                          // //     color: Colors.white,
-                          // //   ),
-                          // ),
+                          color: Theme.of(context).primaryColor,
                           elevation: 3,
                           borderSide: const BorderSide(
                             color: Colors.transparent,

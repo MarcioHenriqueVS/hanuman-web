@@ -146,23 +146,7 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
   }) {
     return InputDecoration(
       hintText: hintText,
-      hintStyle: TextStyle(color: Colors.grey[600]),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: Colors.grey[700]!),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: Colors.grey[600]!),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: Colors.green),
-      ),
-      prefixIcon: Icon(
-        prefixIcon,
-        color: Colors.grey,
-      ),
+      prefixIcon: Icon(prefixIcon),
     );
   }
 
@@ -179,7 +163,7 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.9,
           decoration: BoxDecoration(
-            color: Colors.grey[900],
+            color: Theme.of(context).dialogTheme.backgroundColor,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
@@ -194,10 +178,10 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
             children: [
               // Cabeçalho
               Container(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 decoration: BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(color: Colors.grey[800]!, width: 1),
+                    bottom: BorderSide(color: Theme.of(context).dividerColor),
                   ),
                 ),
                 child: Row(
@@ -215,7 +199,6 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
                     IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: () => Navigator.pop(context),
-                      hoverColor: Colors.grey[800],
                     ),
                   ],
                 ),
@@ -244,7 +227,8 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
                                       height: 180,
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: Colors.grey[700]!),
+                                            color:
+                                                Theme.of(context).dividerColor),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: _photoUrl != null
@@ -811,6 +795,9 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
                                     const SizedBox(height: 8),
                                     TextFormField(
                                       controller: _obsController,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(200),
+                                      ],
                                       decoration: _getInputDecoration(
                                         hintText:
                                             'Digite observações adicionais',
@@ -824,10 +811,10 @@ class _AddAlunoDialogState extends State<AddAlunoDialog> {
                                 Container(
                                   padding: const EdgeInsets.all(24),
                                   decoration: BoxDecoration(
-                                    border: Border(
-                                      top: BorderSide(
-                                          color: Colors.grey[800]!, width: 1),
-                                    ),
+                                    // border: Border(
+                                    //   top: BorderSide(
+                                    //       color: Colors.grey[800]!, width: 1),
+                                    // ),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,

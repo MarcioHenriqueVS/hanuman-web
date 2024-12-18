@@ -58,7 +58,7 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
   final CriarTreinoServices criarTreinoServices = CriarTreinoServices();
   final Map<String, bool> exercicioExpandido = {};
   Map<String, String?> exerciseIntervalMap = {};
-    bool habilitado = false;
+  bool habilitado = false;
   String selectedInterval = "5 seg";
 
   void getExercicios() {
@@ -124,132 +124,6 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                 FocusScope.of(context).unfocus();
               },
               child: Scaffold(
-                // appBar:
-                // AppBar(
-                //   automaticallyImplyLeading: false,
-                //   title: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       TextButton(
-                //         onPressed: () {
-                //           Navigator.pop(context);
-                //         },
-                //         child: const Text('Cancelar'),
-                //       ),
-                //       Text(
-                //         'Editar treino',
-                //         style: SafeGoogleFont('Open Sans',
-                //             fontSize: 25, fontWeight: FontWeight.bold),
-                //       ),
-                //       BlocBuilder<ElevatedButtonBloc, ElevatedButtonBlocState>(
-                //         builder: (context, buttonState) {
-                //           return TextButton(
-                //             onPressed: buttonState is ElevatedButtonBlocLoading
-                //                 ? null
-                //                 : () async {
-                //                     BlocProvider.of<ElevatedButtonBloc>(context)
-                //                         .add(ElevatedButtonPressed());
-                //                     final currentState = context
-                //                         .read<ExercicioSelectionBloc>()
-                //                         .state;
-
-                //                     final List<ExercicioSelecionado>
-                //                         selectedExerciciosList =
-                //                         currentState.selectedExercicios;
-
-                //                     final List<ExercicioTreino> convertedList =
-                //                         selectedExerciciosList.map((exercicio) {
-                //                       List<Serie> seriesForExercicio =
-                //                           criarTreinoServices
-                //                               .getSeriesForExercicio(exercicio,
-                //                                   exercicioSeriesMap);
-                //                       Intervalo intervaloForExercicio =
-                //                           criarTreinoServices
-                //                               .getIntervalForExercicio(
-                //                                   exercicio,
-                //                                   exerciseIntervalMap);
-
-                //                       return ExercicioTreino(
-                //                         id: exercicio.id,
-                //                         newId: exercicio.newId,
-                //                         nome: exercicio.nome,
-                //                         grupoMuscular: exercicio.grupoMuscular,
-                //                         agonista: exercicio.agonista,
-                //                         antagonista: exercicio.antagonista,
-                //                         sinergista: exercicio.sinergista,
-                //                         mecanismo: exercicio.mecanismo,
-                //                         fotoUrl: exercicio.fotoUrl,
-                //                         videoUrl: exercicio.videoUrl,
-                //                         series: seriesForExercicio,
-                //                         intervalo: intervaloForExercicio,
-                //                         notas: exercicioNotesMap[
-                //                                 exercicio.newId] ??
-                //                             "",
-                //                       );
-                //                     }).toList();
-
-                //                     for (var exercicio in convertedList) {
-                //                       for (var serie in exercicio.series) {
-                //                         debugPrint(
-                //                             ' reps ---> ${serie.reps.toString()}');
-                //                         debugPrint(
-                //                             ' rep controller ---> ${serie.repsController!.text}');
-                //                       }
-                //                     }
-
-                //                     Treino newTreino = Treino(
-                //                         titulo: titulo.text,
-                //                         exercicios: convertedList);
-
-                //                     for (var exercicio
-                //                         in newTreino.exercicios) {
-                //                       for (var serie in exercicio.series) {
-                //                         debugPrint(
-                //                             ' reps ---> ${serie.reps.toString()}');
-                //                         debugPrint(
-                //                             ' rep controller ---> ${serie.repsController!.text}');
-                //                       }
-                //                     }
-
-                //                     TrainingSheet treinoEditado =
-                //                         newTreino.toTrainingSheet(newTreino);
-
-                //                     debugPrint('editando treino...');
-
-                //                     final sucesso =
-                //                         await _treinoServices.editTreinoMessage(
-                //                             uid,
-                //                             widget.messageId!,
-                //                             widget.index!,
-                //                             treinoEditado);
-
-                //                     if (sucesso) {
-                //                       MensagemDeSucesso().showSuccessSnackbar(
-                //                           context,
-                //                           'Treino editado com sucesso.');
-                //                       BlocProvider.of<ElevatedButtonBloc>(
-                //                               context)
-                //                           .add(ElevatedButtonReset());
-                //                       Navigator.of(context).pop({
-                //                         'titulo': newTreino.titulo,
-                //                         'exercicios': newTreino.exercicios
-                //                       });
-                //                       Navigator.of(context).pop();
-                //                     } else {
-                //                       BlocProvider.of<ElevatedButtonBloc>(
-                //                               context)
-                //                           .add(ElevatedButtonReset());
-                //                     }
-                //                   },
-                //             child: buttonState is ElevatedButtonBlocLoading
-                //                 ? const CircularProgressIndicator()
-                //                 : const Text('Salvar'),
-                //           );
-                //         },
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 body: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -330,7 +204,8 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                           if (sucesso) {
                             GFToast.showToast(
                                 'Treino editado com sucesso.', context,
-                                backgroundColor: Colors.green);
+                                backgroundColor:
+                                    Theme.of(context).primaryColor);
                             // BlocProvider.of<ElevatedButtonBloc>(context)
                             //     .add(ElevatedButtonReset());
                             Navigator.of(context).pop({
@@ -344,7 +219,8 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                             GFToast.showToast(
                                 'Erro ao editar treino. Tente novamente.',
                                 context,
-                                backgroundColor: Colors.red);
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.error);
                           }
                         },
                         icon: false,
@@ -367,20 +243,37 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                                         child: TextFormField(
                                           controller: titulo,
                                           decoration: InputDecoration(
-                                            filled: true,
-                                            fillColor: Colors.grey[900],
                                             labelText: 'Nome do treino',
-                                            labelStyle: const TextStyle(
-                                                color: Colors.grey),
-                                            prefixIcon: const Icon(
-                                              Icons.edit,
-                                              color: Colors.grey,
+                                            labelStyle: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface
+                                                  .withOpacity(0.7),
                                             ),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(
-                                                  25), // Raio da borda arredondada
-                                              borderSide: BorderSide
-                                                  .none, // Remove a borda
+                                            prefixIcon: Icon(
+                                              Icons.edit,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface
+                                                  .withOpacity(0.7),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface
+                                                    .withOpacity(0.3),
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
                                             ),
                                           ),
                                         ),
@@ -406,9 +299,10 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                                     if (state.selectedExercicios.isEmpty) {
                                       return Column(
                                         children: [
-                                          const FaIcon(
+                                          FaIcon(
                                             FontAwesomeIcons.dumbbell,
-                                            color: Colors.green,
+                                            color:
+                                                Theme.of(context).primaryColor,
                                           ),
                                           const Padding(
                                             padding: EdgeInsets.all(20),
@@ -566,11 +460,12 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                                                                               index]
                                                                           .newId);
                                                                 },
-                                                                icon:
-                                                                    const Icon(
+                                                                icon: Icon(
                                                                   Icons.delete,
-                                                                  color: Colors
-                                                                      .red,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .error,
                                                                 ),
                                                               ),
                                                               IconButton(
@@ -590,8 +485,12 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                                                                           .expand_less
                                                                       : Icons
                                                                           .expand_more,
-                                                                  color: Colors
-                                                                      .grey,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .onSurface
+                                                                      .withOpacity(
+                                                                          0.7),
                                                                 ),
                                                               ),
                                                             ],
@@ -631,22 +530,36 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                                                                         : null,
                                                                     decoration:
                                                                         InputDecoration(
-                                                                      fillColor:
-                                                                          Colors
-                                                                              .grey[900],
-                                                                      filled:
-                                                                          true,
                                                                       labelText:
                                                                           'Notas sobre o exercício',
                                                                       labelStyle:
-                                                                          const TextStyle(
-                                                                              color: Colors.grey),
-                                                                      border:
+                                                                          TextStyle(
+                                                                        color: Theme.of(context)
+                                                                            .colorScheme
+                                                                            .onSurface
+                                                                            .withOpacity(0.7),
+                                                                      ),
+                                                                      enabledBorder:
                                                                           OutlineInputBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(25),
                                                                         borderSide:
-                                                                            BorderSide.none,
+                                                                            BorderSide(
+                                                                          color: Theme.of(context)
+                                                                              .colorScheme
+                                                                              .onSurface
+                                                                              .withOpacity(0.3),
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8),
+                                                                      ),
+                                                                      focusedBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              Theme.of(context).primaryColor,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -734,7 +647,7 @@ class _TrainingProgramToExerciciosSelecionadosScreenState
                                                                       backgroundColor:
                                                                           WidgetStatePropertyAll(
                                                                         Colors.grey[
-                                                                            700],
+                                                                            600],
                                                                       ),
                                                                     ),
                                                                     child:

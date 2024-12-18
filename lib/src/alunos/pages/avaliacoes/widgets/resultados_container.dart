@@ -24,10 +24,12 @@ class ResultadosContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 1200;
+    final theme = Theme.of(context);
+
     return Container(
       width: isSmallScreen ? MediaQuery.of(context).size.width * 0.39 : 400,
       decoration: BoxDecoration(
-        color: Colors.grey[900],
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
@@ -39,59 +41,65 @@ class ResultadosContainer extends StatelessWidget {
               'Resultados',
               style: SafeGoogleFont(
                 'Open Sans',
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: theme.colorScheme.onSurface,
                 ),
               ),
             ),
             const SizedBox(height: 24),
             _buildResultCard(
+              context,
               'IMC',
               imc?.toStringAsFixed(1) ?? '0.0',
               classificacaoImc != null ? ' (${classificacaoImc!})' : ' - ',
-              Colors.green,
+              theme.primaryColor,
               'kg/m²',
             ),
             const SizedBox(height: 16),
             _buildResultCard(
+              context,
               'Percentual de Gordura',
               bf?.toStringAsFixed(1) ?? '0.0',
               '',
-              Colors.green,
+              theme.primaryColor,
               '%',
             ),
             const SizedBox(height: 16),
             _buildResultCard(
+              context,
               'Massa Magra',
               massaMagra?.toStringAsFixed(1) ?? '0.0',
               '',
-              Colors.blue,
+              theme.colorScheme.secondary,
               'kg',
             ),
             const SizedBox(height: 16),
             _buildResultCard(
+              context,
               'Massa Gorda',
               massaGorda?.toStringAsFixed(1) ?? '0.0',
               '',
-              Colors.green,
+              theme.primaryColor,
               'kg',
             ),
             const SizedBox(height: 16),
             _buildResultCard(
+              context,
               'Peso Ideal',
               pesoIdeal?.toStringAsFixed(1) ?? '0.0',
               '',
-              Colors.orange,
+              theme.colorScheme.secondary,
               'kg',
             ),
             const SizedBox(height: 16),
             _buildResultCard(
+              context,
               'RCE',
               rce?.toStringAsFixed(1) ?? '0.0',
               classificacaoRce != null ? ' (${classificacaoRce!})' : ' - ',
-              Colors.green,
+              theme.primaryColor,
               '',
             ),
             const SizedBox(height: 24),
@@ -136,14 +144,16 @@ class ResultadosContainer extends StatelessWidget {
     );
   }
 
-  Widget _buildResultCard(String title, String value, String status,
-      Color statusColor, String unit) {
+  Widget _buildResultCard(BuildContext context, String title, String value,
+      String status, Color statusColor, String unit) {
+    final theme = Theme.of(context);
+
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[850],
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey[800]!),
+        border: Border.all(color: theme.dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,14 +168,15 @@ class ResultadosContainer extends StatelessWidget {
                 style: SafeGoogleFont(
                   'Open Sans',
                   textStyle: TextStyle(
-                    color: Colors.grey[400],
+                    color: theme.colorScheme.onSurface.withOpacity(0.7),
                     fontSize: 14,
                   ),
                 ),
               ),
               if (status.trim().isNotEmpty)
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: statusColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(4),
@@ -192,10 +203,10 @@ class ResultadosContainer extends StatelessWidget {
                 value,
                 style: SafeGoogleFont(
                   'Open Sans',
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: theme.colorScheme.onSurface,
                   ),
                 ),
               ),
@@ -207,7 +218,7 @@ class ResultadosContainer extends StatelessWidget {
                   style: SafeGoogleFont(
                     'Open Sans',
                     textStyle: TextStyle(
-                      color: Colors.grey[400],
+                      color: theme.colorScheme.onSurface.withOpacity(0.7),
                       fontSize: 14,
                     ),
                   ),

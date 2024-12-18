@@ -38,6 +38,8 @@ class FormMedidasAvaliacaoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Form(
       key: formMedidasAvaliacaoKey,
       child: Column(
@@ -47,10 +49,10 @@ class FormMedidasAvaliacaoWidget extends StatelessWidget {
             'Circunferências (cm)',
             style: SafeGoogleFont(
               'Open Sans',
-              textStyle: const TextStyle(
+              textStyle: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: theme.colorScheme.onSurface,
               ),
             ),
           ),
@@ -176,33 +178,41 @@ class FormMedidasAvaliacaoWidget extends StatelessWidget {
     required TextEditingController? controller,
     required String label,
   }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(6),
-        FilteringTextInputFormatter.allow(RegExp(r'^\d*[.,]?\d*')),
-        CommaToPointInputFormatter(),
-      ],
-      style: SafeGoogleFont(
-        'Open Sans',
-        textStyle: const TextStyle(color: Colors.white, fontSize: 14),
-      ),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: SafeGoogleFont(
+    return Builder(builder: (context) {
+      final theme = Theme.of(context);
+
+      return TextFormField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(6),
+          FilteringTextInputFormatter.allow(RegExp(r'^\d*[.,]?\d*')),
+          CommaToPointInputFormatter(),
+        ],
+        style: SafeGoogleFont(
           'Open Sans',
-          textStyle: TextStyle(color: Colors.white70, fontSize: 14),
+          textStyle:
+              TextStyle(color: theme.colorScheme.onSurface, fontSize: 14),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white30),
-          borderRadius: BorderRadius.circular(8),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: SafeGoogleFont(
+            'Open Sans',
+            textStyle: TextStyle(
+                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                fontSize: 14),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: theme.colorScheme.onSurface.withOpacity(0.3)),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: theme.primaryColor),
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.green),
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-    );
+      );
+    });
   }
 }

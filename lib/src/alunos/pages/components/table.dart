@@ -3,6 +3,7 @@ import 'package:diacritic/diacritic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../flutter_flow/ff_button_options.dart';
 import '../../../utils.dart';
 import '../../../widgets_comuns/flutter_flow/flutter_flow_helpers.dart';
@@ -77,21 +78,27 @@ class _AlunosTableState extends State<AlunosTable> {
       context: context,
       position: position,
       items: [
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 'visualizar',
           child: Row(
             children: [
-              Icon(Icons.account_circle_outlined),
+              Icon(
+                Icons.account_circle_outlined,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               SizedBox(width: 8),
               Text('Ver perfil'),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 'editar',
           child: Row(
             children: [
-              Icon(Icons.edit_outlined),
+              Icon(
+                Icons.edit_outlined,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               SizedBox(width: 8),
               Text('Editar'),
             ],
@@ -124,6 +131,154 @@ class _AlunosTableState extends State<AlunosTable> {
     return width < 710 || width > 1460;
   }
 
+  Widget _buildShimmerEffect() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 3),
+      child: Shimmer.fromColors(
+        baseColor: Theme.of(context).scaffoldBackgroundColor,
+        highlightColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Cabeçalho
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+                        child: Text(
+                          'Alunos',
+                          style: SafeGoogleFont(
+                            'Open Sans',
+                            textStyle: const TextStyle(fontSize: 24),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 4, 12, 0),
+                        child: Text(
+                          'Alunos atualizados recentemente',
+                          style: SafeGoogleFont(
+                            'Open Sans',
+                            textStyle: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Botão desabilitado durante loading
+                Opacity(
+                  opacity: 0.5,
+                  child: FFButtonWidget(
+                    onPressed: null,
+                    text: 'Adicionar aluno',
+                    icon: const Icon(Icons.add_rounded, size: 15),
+                    options: FFButtonOptions(
+                      height: 40,
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                      color: Colors.green,
+                      textStyle: SafeGoogleFont(
+                        'Open Sans',
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            // Lista de shimmer
+            Shimmer.fromColors(
+              baseColor: Theme.of(context).scaffoldBackgroundColor,
+              highlightColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+              child: Column(
+                children: List.generate(
+                  5,
+                  (index) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            flex: 4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 150,
+                                  height: 14,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(height: 8),
+                                Container(
+                                  width: 100,
+                                  height: 12,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              width: 80,
+                              height: 12,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              width: 60,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 40),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -131,8 +286,8 @@ class _AlunosTableState extends State<AlunosTable> {
 
     return BlocBuilder<GetAlunosBloc, GetAlunosState>(
       builder: (context, state) {
-        if (state is GetAlunosLoading) {
-          return const Center(child: CircularProgressIndicator());
+        if (state is GetAlunosLoading || state is GetAlunosInitial) {
+          return _buildShimmerEffect();
         }
 
         if (state is GetAlunosError) {
@@ -204,12 +359,12 @@ class _AlunosTableState extends State<AlunosTable> {
                             const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                         iconPadding:
                             const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                        color: Colors.green,
+                        color: Theme.of(context).primaryColor,
                         textStyle: SafeGoogleFont(
                           'Open Sans',
-                          textStyle: const TextStyle(
+                          textStyle: TextStyle(
                             fontSize: 16,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
                         elevation: 3,
@@ -391,12 +546,12 @@ class _AlunosTableState extends State<AlunosTable> {
                             const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                         iconPadding:
                             const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                        color: Colors.green,
+                        color: Theme.of(context).primaryColor,
                         textStyle: SafeGoogleFont(
                           'Open Sans',
-                          textStyle: const TextStyle(
+                          textStyle: TextStyle(
                             fontSize: 16,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
                         elevation: 3,
@@ -501,7 +656,7 @@ class _AlunosTableState extends State<AlunosTable> {
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: Colors.grey[800]!,
+                            color: Theme.of(context).dividerColor,
                             width: 1,
                           ),
                         ),
@@ -532,7 +687,8 @@ class _AlunosTableState extends State<AlunosTable> {
                                 boxShadow: [
                                   BoxShadow(
                                     blurRadius: 0,
-                                    color: Colors.grey[900]!,
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
                                     offset: const Offset(0, 1),
                                   )
                                 ],
@@ -703,9 +859,11 @@ class _AlunosTableState extends State<AlunosTable> {
                                             phone: false,
                                           ))
                                             IconButton(
-                                              icon: const Icon(
+                                              icon: Icon(
                                                 Icons.more_vert,
-                                                color: Colors.white,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface,
                                                 size: 20,
                                               ),
                                               onPressed: () {

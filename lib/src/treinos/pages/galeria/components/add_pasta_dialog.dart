@@ -70,6 +70,10 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 400),
         padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: Form(
           key: _formKey,
           child: Column(
@@ -78,7 +82,8 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
             children: [
               Row(
                 children: [
-                  Icon(Icons.folder_open, color: _corSelecionada, size: 28),
+                  Icon(Icons.folder_open,
+                      color: Theme.of(context).primaryColor, size: 28),
                   const SizedBox(width: 16),
                   Text(
                     'Nova Pasta de Treinos',
@@ -86,6 +91,7 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
                       'Open Sans',
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ],
@@ -97,12 +103,18 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
                   labelText: 'Nome da Pasta',
                   labelStyle: SafeGoogleFont(
                     'Open Sans',
-                    color: Colors.grey[600],
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.7),
                   ),
                   hintText: 'Ex: Treinos de Força',
                   hintStyle: SafeGoogleFont(
                     'Open Sans',
-                    color: Colors.grey[700],
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.5),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -122,6 +134,7 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
                   'Open Sans',
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 12),
@@ -162,7 +175,10 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
                       'Cancelar',
                       style: SafeGoogleFont(
                         'Open Sans',
-                        color: Colors.grey,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.7),
                       ),
                     ),
                   ),
@@ -202,12 +218,12 @@ class _AddPastaDialogState extends State<AddPastaDialog> {
                           const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                       iconPadding:
                           const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                      color: Colors.green,
+                      color: Theme.of(context).primaryColor,
                       textStyle: SafeGoogleFont(
                         'Open Sans',
-                        textStyle: const TextStyle(
+                        textStyle: TextStyle(
                           fontSize: 16,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
                       elevation: 3,

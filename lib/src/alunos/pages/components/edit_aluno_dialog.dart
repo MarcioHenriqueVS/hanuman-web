@@ -1,7 +1,11 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:web_test/src/alunos/pages/components/add_aluno_dialog.dart';
+import 'package:web_test/src/alunos/pages/components/email_validator.dart';
 import '../../models/aluno_model.dart';
 import '../../services/alunos_services.dart';
 import '../../../utils.dart';
@@ -186,23 +190,7 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
   }) {
     return InputDecoration(
       hintText: hintText,
-      hintStyle: TextStyle(color: Colors.grey[600]),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: Colors.grey[700]!),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: Colors.grey[600]!),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: Colors.green),
-      ),
-      prefixIcon: Icon(
-        prefixIcon,
-        color: Colors.grey,
-      ),
+      prefixIcon: Icon(prefixIcon),
     );
   }
 
@@ -214,7 +202,7 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
         width: MediaQuery.of(context).size.width * 0.8,
         constraints: const BoxConstraints(maxWidth: 1200),
         decoration: BoxDecoration(
-          color: Colors.grey[900],
+          color: Theme.of(context).dialogTheme.backgroundColor,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -231,7 +219,7 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(color: Colors.grey[800]!, width: 1),
+                  bottom: BorderSide(color: Theme.of(context).dividerColor),
                 ),
               ),
               child: Row(
@@ -280,8 +268,9 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
                                     width: 180,
                                     height: 180,
                                     decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.grey[700]!),
+                                      border: Border.all(
+                                          color:
+                                              Theme.of(context).dividerColor),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: _photoUrl != null
@@ -352,6 +341,14 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
                                         const SizedBox(height: 8),
                                         TextFormField(
                                           controller: _nomeController,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                              RegExp(
+                                                  "[a-zA-ZáéíóúâêôàüãõçÁÉÍÓÚÂÊÔÀÜÃÕÇ ]"),
+                                            ),
+                                            LengthLimitingTextInputFormatter(
+                                                30),
+                                          ],
                                           decoration: _getInputDecoration(
                                             hintText: 'Digite o nome completo',
                                             prefixIcon: Icons.person_outline,
@@ -381,6 +378,13 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
                                         const SizedBox(height: 8),
                                         TextFormField(
                                           controller: _emailController,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .singleLineFormatter,
+                                            EmailInputFormatter(),
+                                            LengthLimitingTextInputFormatter(
+                                                60),
+                                          ],
                                           decoration: _getInputDecoration(
                                             hintText: 'Digite o email',
                                             prefixIcon: Icons.email_outlined,
@@ -412,6 +416,11 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
                                         const SizedBox(height: 8),
                                         TextFormField(
                                           controller: _dataNascController,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                            DateInputFormatter(),
+                                          ],
                                           decoration: _getInputDecoration(
                                             hintText: 'DD/MM/AAAA',
                                             prefixIcon: Icons.cake_outlined,
@@ -441,6 +450,12 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
                                         const SizedBox(height: 8),
                                         TextFormField(
                                           controller: _telefoneController,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                            LengthLimitingTextInputFormatter(
+                                                15),
+                                          ],
                                           decoration: _getInputDecoration(
                                             hintText: '(00) 00000-0000',
                                             prefixIcon: Icons.phone_outlined,
@@ -513,6 +528,11 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
                                         const SizedBox(height: 8),
                                         TextFormField(
                                           controller: _cpfController,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                            CpfInputFormatter(),
+                                          ],
                                           decoration: _getInputDecoration(
                                             hintText: 'Digite o CPF',
                                             prefixIcon: Icons.badge_outlined,
@@ -739,6 +759,9 @@ class _EditAlunoDialogState extends State<EditAlunoDialog> {
                                   const SizedBox(height: 8),
                                   TextFormField(
                                     controller: _obsController,
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(200),
+                                    ],
                                     decoration: _getInputDecoration(
                                       hintText: 'Digite observações adicionais',
                                       prefixIcon: Icons.notes_outlined,

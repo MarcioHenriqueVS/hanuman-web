@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import '../../antropometria/models/avaliacao_model.dart';
 import '../../../utils.dart';
@@ -39,7 +38,7 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             child: Container(
               constraints: const BoxConstraints(maxWidth: 900),
               decoration: BoxDecoration(
-                color: Colors.grey[850],
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
@@ -91,8 +90,9 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
       width: double.infinity,
       padding: const EdgeInsets.all(40),
       decoration: BoxDecoration(
-        color: Colors.grey[900],
-        border: Border(bottom: BorderSide(color: Colors.grey[800]!)),
+        color: Theme.of(context).colorScheme.surface,
+        border:
+            Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,24 +101,25 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back,
+                    color: Theme.of(context).colorScheme.onSurface),
                 onPressed: () => Navigator.of(context).pop(newAvaliacao),
               ),
               Text(
                 'RELATÓRIO DE AVALIAÇÃO FÍSICA',
                 style: SafeGoogleFont(
                   'Open Sans',
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                     letterSpacing: 1.2,
                   ),
                 ),
               ),
-              //baixar
               IconButton(
-                icon: const Icon(Icons.download, color: Colors.white),
+                icon: Icon(Icons.download,
+                    color: Theme.of(context).colorScheme.onSurface),
                 onPressed: () {
                   //TODO: Implementar download do relatório
                 },
@@ -130,10 +131,10 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             newAvaliacao!.titulo,
             style: SafeGoogleFont(
               'Open Sans',
-              textStyle: const TextStyle(
+              textStyle: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),
@@ -145,7 +146,8 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
                 'Data da avaliação: ${newAvaliacao!.timestamp}',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.grey[400],
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                 ),
               ),
               TextButton(
@@ -224,10 +226,10 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
   TextStyle _sectionTitleStyle() {
     return SafeGoogleFont(
       'Open Sans',
-      textStyle: const TextStyle(
+      textStyle: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.onSurface,
       ),
     );
   }
@@ -248,9 +250,9 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.grey[900],
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey[800]!),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,17 +261,17 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             title,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[400],
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           Text(
@@ -347,16 +349,16 @@ class _AvaliacaoPageState extends State<AvaliacaoPage> {
             label,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[500],
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
             ),
           ),
           const SizedBox(height: 4),
           Text(
             value != null ? '$value $unit' : '-',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ],

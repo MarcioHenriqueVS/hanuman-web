@@ -34,10 +34,9 @@ class _TreinosListPageState extends State<TreinosListPage> {
   }
 
   void _mostrarDetalhesPasta(BuildContext context, Map<String, dynamic> pasta) {
-    // Disparar evento para buscar treinos da pasta
-    context.read<GetTreinosCriadosBloc>().add(
-          BuscarTreinosCriados(pasta['id']),
-        );
+    context
+        .read<GetTreinosCriadosBloc>()
+        .add(BuscarTreinosCriados(pasta['id']));
 
     showDialog(
       context: context,
@@ -45,6 +44,7 @@ class _TreinosListPageState extends State<TreinosListPage> {
         return Dialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          backgroundColor: Theme.of(context).colorScheme.surface, // Adicionado
           child: Container(
             constraints: const BoxConstraints(maxWidth: 600, maxHeight: 800),
             padding: const EdgeInsets.all(24),
@@ -55,11 +55,11 @@ class _TreinosListPageState extends State<TreinosListPage> {
                 Row(
                   children: [
                     Container(
-                      width: 48,
-                      height: 48,
+                      width: 56,
+                      height: 56,
                       decoration: BoxDecoration(
                         color: pasta['cor'].withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(Icons.folder, color: pasta['cor'], size: 28),
                     ),
@@ -141,9 +141,8 @@ class _TreinosListPageState extends State<TreinosListPage> {
 
                       if (state is GetTreinosCriadosLoaded) {
                         final treinos = state.treinos;
-                        titulosDosTreinos = treinos
-                            .map((treino) => treino.titulo)
-                            .toList();
+                        titulosDosTreinos =
+                            treinos.map((treino) => treino.titulo).toList();
 
                         if (treinos.isEmpty) {
                           return const Center(
@@ -333,6 +332,9 @@ class _TreinosListPageState extends State<TreinosListPage> {
                             'Open Sans',
                             fontSize: 24,
                             fontWeight: FontWeight.w500,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface, // Adicionado
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -341,7 +343,10 @@ class _TreinosListPageState extends State<TreinosListPage> {
                           style: SafeGoogleFont(
                             'Open Sans',
                             fontSize: 14,
-                            color: Colors.grey,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.7), // Modificado
                           ),
                         ),
                       ],
@@ -433,10 +438,14 @@ class _TreinosListPageState extends State<TreinosListPage> {
                                             120, // Altura máxima definida
                                       ),
                                       decoration: BoxDecoration(
-                                        color: Colors.grey[900],
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface, // Modificado
                                         borderRadius: BorderRadius.circular(8),
                                         border: Border.all(
-                                            color: Colors.grey[800]!),
+                                          color: Theme.of(context)
+                                              .dividerColor, // Modificado
+                                        ),
                                       ),
                                       child: Stack(
                                         children: [
@@ -493,8 +502,14 @@ class _TreinosListPageState extends State<TreinosListPage> {
                                             top: 8,
                                             right: 8,
                                             child: PopupMenuButton<String>(
-                                              icon: const Icon(Icons.more_vert,
-                                                  color: Colors.grey),
+                                              icon: Icon(
+                                                Icons.more_vert,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface
+                                                    .withOpacity(
+                                                        0.7), // Modificado
+                                              ),
                                               itemBuilder:
                                                   (BuildContext context) => [
                                                 const PopupMenuItem(
@@ -560,7 +575,14 @@ class _TreinosListPageState extends State<TreinosListPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.folder_outlined, size: 48, color: Colors.grey[600]),
+            Icon(
+              Icons.folder_outlined,
+              size: 48,
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withOpacity(0.6), // Modificado
+            ),
             const SizedBox(height: 16),
             Text(
               'Nenhuma pasta encontrada',
@@ -568,7 +590,10 @@ class _TreinosListPageState extends State<TreinosListPage> {
                 'Open Sans',
                 textStyle: TextStyle(
                   fontSize: 16,
-                  color: Colors.grey[400],
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withOpacity(0.7), // Modificado
                 ),
               ),
             ),

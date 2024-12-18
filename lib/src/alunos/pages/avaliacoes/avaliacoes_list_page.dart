@@ -78,7 +78,7 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
         color: Theme.of(context).scaffoldBackgroundColor,
         border: Border(
           bottom: BorderSide(
-            color: Colors.grey[800]!,
+            color: Theme.of(context).dividerColor,
             width: 1,
           ),
         ),
@@ -203,11 +203,11 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.grey[900],
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(4),
               border: Border.all(
                 color: hoveredItems[index] == true
-                    ? Colors.grey[850]!
+                    ? Theme.of(context).dividerColor
                     : Colors.transparent,
               ),
             ),
@@ -224,22 +224,20 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
                       children: [
                         Text(
                           avaliacao.titulo,
-                          style: SafeGoogleFont(
-                            'Open Sans',
-                            textStyle: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                         Text(
                           avaliacao.timestamp,
-                          style: SafeGoogleFont(
-                            'Open Sans',
-                            textStyle: TextStyle(
-                              color: Colors.grey[400],
-                              fontSize: 14,
-                            ),
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.6),
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -281,20 +279,18 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
         children: [
           Text(
             label,
-            style: SafeGoogleFont(
-              'Open Sans',
-              textStyle: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[400],
-              ),
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
             ),
           ),
           const SizedBox(height: 4),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ],
@@ -308,16 +304,17 @@ class _AvaliacoesListPageState extends State<AvaliacoesListPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.assessment_outlined, size: 48, color: Colors.grey[600]),
+          Icon(
+            Icons.assessment_outlined,
+            size: 48,
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+          ),
           const SizedBox(height: 16),
           Text(
             'Nenhuma avaliação encontrada',
-            style: SafeGoogleFont(
-              'Open Sans',
-              textStyle: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[400],
-              ),
+            style: TextStyle(
+              fontSize: 16,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
             ),
           ),
         ],

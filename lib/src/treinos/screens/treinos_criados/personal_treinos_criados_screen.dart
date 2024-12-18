@@ -62,21 +62,28 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF252525),
-          title: const Text(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: Text(
             'Confirmar exclusão',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
-          content: const Text(
+          content: Text(
             'Tem certeza que deseja excluir este treino?',
-            style: TextStyle(color: Colors.white70),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+            ),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text(
+              child: Text(
                 'Cancelar',
-                style: TextStyle(color: Colors.white70),
+                style: TextStyle(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                ),
               ),
             ),
             TextButton(
@@ -98,7 +105,7 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A1A),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -151,10 +158,8 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                             child: Text(
                               'Editar',
                               style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .color),
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface),
                             ),
                           ),
                           TextButton(
@@ -195,7 +200,7 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                               widget.treino.exercicios[index];
                           return Container(
                             decoration: BoxDecoration(
-                              color: const Color(0xFF252525),
+                              color: Theme.of(context).colorScheme.surface,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Column(
@@ -214,8 +219,10 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
-                                          color: const Color(
-                                              0xFF2A2A2A), // Cor de fundo para quando a imagem falhar
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .surface
+                                              .withOpacity(0.3),
                                         ),
                                         child: ClipRRect(
                                           borderRadius:
@@ -235,10 +242,11 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                               if (loadingProgress == null) {
                                                 return child;
                                               }
-                                              return const Center(
+                                              return Center(
                                                 child:
                                                     CircularProgressIndicator(
-                                                  color: Colors.green,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
                                                 ),
                                               );
                                             },
@@ -256,19 +264,24 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                             ),
                                             Text(
                                               exercicio.nome,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 22,
                                                 fontWeight: FontWeight.w500,
-                                                color: Colors.white,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface,
                                                 height: 1.2,
                                               ),
                                             ),
                                             const SizedBox(height: 8),
                                             Text(
                                               exercicio.mecanismo,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 14,
-                                                color: Colors.white54,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface
+                                                    .withOpacity(0.7),
                                               ),
                                             ),
                                           ],
@@ -280,7 +293,7 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                 // Divisor
                                 Container(
                                   height: 1,
-                                  color: const Color(0xFF2F2F2F),
+                                  color: Theme.of(context).dividerColor,
                                 ),
                                 // Corpo do exercício
                                 Padding(
@@ -294,7 +307,10 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 12, vertical: 8),
                                         decoration: BoxDecoration(
-                                          color: const Color(0xFF2A2A2A),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .surface
+                                              .withOpacity(0.3),
                                           borderRadius:
                                               BorderRadius.circular(6),
                                         ),
@@ -303,12 +319,14 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                           children: [
                                             Icon(Icons.timer_outlined,
                                                 size: 14,
-                                                color: Colors.green.shade400),
+                                                color: Theme.of(context)
+                                                    .primaryColor),
                                             const SizedBox(width: 8),
                                             Text(
                                               'Intervalo: ${exercicio.intervalo.valor} ${_treinoServices.intervaloTipoParaString(exercicio.intervalo.tipo)}',
                                               style: TextStyle(
-                                                color: Colors.green.shade400,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -324,7 +342,10 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                           width: double.infinity,
                                           padding: const EdgeInsets.all(16),
                                           decoration: BoxDecoration(
-                                            color: const Color(0xFF2A2A2A),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .surface
+                                                .withOpacity(0.3),
                                             borderRadius:
                                                 BorderRadius.circular(6),
                                           ),
@@ -332,10 +353,13 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              const Text(
+                                              Text(
                                                 'Observações',
                                                 style: TextStyle(
-                                                  color: Colors.white38,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurface
+                                                      .withOpacity(0.5),
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w600,
                                                   letterSpacing: 0.5,
@@ -344,8 +368,11 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                               const SizedBox(height: 8),
                                               Text(
                                                 exercicio.notas,
-                                                style: const TextStyle(
-                                                  color: Colors.white70,
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurface
+                                                      .withOpacity(0.8),
                                                   height: 1.5,
                                                 ),
                                               ),
@@ -375,10 +402,11 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                             },
                                             children: [
                                               TableRow(
-                                                decoration: const BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   border: Border(
                                                     bottom: BorderSide(
-                                                      color: Color(0xFF2F2F2F),
+                                                      color: Theme.of(context)
+                                                          .dividerColor,
                                                       width: 1,
                                                     ),
                                                   ),
@@ -398,11 +426,14 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                                             header,
                                                             textAlign: TextAlign
                                                                 .center,
-                                                            style:
-                                                                const TextStyle(
+                                                            style: TextStyle(
                                                               fontSize: 12,
-                                                              color: Colors
-                                                                  .white38,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onSurface
+                                                                  .withOpacity(
+                                                                      0.38),
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w600,
@@ -436,10 +467,11 @@ class _TreinoCriadoScreenState extends State<TreinoCriadoScreen> {
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
-                                                              style:
-                                                                  const TextStyle(
-                                                                color: Colors
-                                                                    .white,
+                                                              style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .onSurface,
                                                                 fontSize: 15,
                                                                 fontWeight:
                                                                     FontWeight

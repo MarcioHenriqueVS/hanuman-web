@@ -1,0 +1,54 @@
+{
+    "appTitle": "web_test",
+    "@appTitle": {
+        "description": "O título da aplicação"
+    },
+    "hello": "Olá, ",
+    "@hello": {
+        "description": "Mensagem de saudação"
+    },
+    "welcome": "Seja bem vindo(a) à inovação!",
+    "@welcome": {
+        "description": "Mensagem de boas-vindas"
+    },
+    "totalStudents": "Total de Alunos",
+    "@totalStudents": {
+        "description": "Rótulo para total de alunos"
+    },
+    "activeStudents": "Alunos Ativos (7 dias)",
+    "@activeStudents": {
+        "description": "Rótulo para alunos ativos nos últimos 7 dias"
+    },
+    "inactiveStudents": "Alunos Inativos (7 dias)",
+    "@inactiveStudents": {
+        "description": "Rótulo para alunos inativos nos últimos 7 dias"
+    },
+    "updates": "Atualizações",
+    "@updates": {
+        "description": "Título da seção de atualizações"
+    },
+    "seeStudentActivities": "Veja as atividades dos alunos",
+    "@seeStudentActivities": {
+        "description": "Subtítulo para atividades dos alunos"
+    },
+    "start": "Início",
+    "@start": {
+        "description": "Item do menu início"
+    },
+    "students": "Alunos",
+    "@students": {
+        "description": "Item do menu alunos"
+    },
+    "workouts": "Treinos",
+    "@workouts": {
+        "description": "Item do menu treinos"
+    },
+    "profile": "Perfil",
+    "@profile": {
+        "description": "Item do menu perfil"
+    },
+    "artificialIntelligence": "Inteligência Artificial",
+    "@artificialIntelligence": {
+        "description": "Rótulo do botão de IA"
+    }
+}

@@ -27,9 +27,7 @@ class _SuporteWidgetState extends State<SuporteWidget> {
               child: Container(
                 width: MediaQuery.sizeOf(context).width * 0.55,
                 decoration: BoxDecoration(
-                  color:
-                      //Theme.of(context).scaffoldBackgroundColor,
-                      Colors.grey[900],
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(
                     color: Theme.of(context).dividerColor,
@@ -54,15 +52,19 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    'Ajuda e Suporte',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 18,
-                                          letterSpacing: 0.0,
-                                        ),
+                                  Expanded(
+                                    child: Text(
+                                      'Ajuda e Suporte',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            fontSize: 18,
+                                            letterSpacing: 0.0,
+                                          ),
+                                      softWrap: true,
+                                      overflow: TextOverflow.clip,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -76,14 +78,18 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Text(
-                                        'Procurando informações sobre nós?',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              letterSpacing: 0.0,
-                                            ),
+                                      Expanded(
+                                        child: Text(
+                                          'Procurando informações sobre nós?',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                letterSpacing: 0.0,
+                                              ),
+                                          softWrap: true,
+                                          overflow: TextOverflow.clip,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -102,7 +108,8 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                             child: Text(
                                               'Saiba mais',
                                               style: TextStyle(
-                                                  color: Colors.green,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
                                                   fontSize: 14),
                                             ),
                                           ),
@@ -122,14 +129,18 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Text(
-                                        'Dicas de como usar a plataforma?',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              letterSpacing: 0.0,
-                                            ),
+                                      Expanded(
+                                        child: Text(
+                                          'Dicas de como usar a plataforma?',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                letterSpacing: 0.0,
+                                              ),
+                                          softWrap: true,
+                                          overflow: TextOverflow.clip,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -148,7 +159,8 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                             child: Text(
                                               'Saiba mais',
                                               style: TextStyle(
-                                                  color: Colors.green,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
                                                   fontSize: 14),
                                             ),
                                           ),
@@ -168,15 +180,19 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    'Precisa de algo mais?',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          fontSize: 18,
-                                          letterSpacing: 0.0,
-                                        ),
+                                  Expanded(
+                                    child: Text(
+                                      'Precisa de algo mais?',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            fontSize: 18,
+                                            letterSpacing: 0.0,
+                                          ),
+                                      softWrap: true,
+                                      overflow: TextOverflow.clip,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -187,78 +203,94 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 8, 0),
-                                            child: Icon(
-                                              Icons.support_agent_rounded,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                              size: 24,
-                                            ),
-                                          ),
-                                          MouseRegion(
-                                            cursor: SystemMouseCursors.click,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                // TODO: Implement
-                                              },
-                                              child: Text(
-                                                'Falar com suporte',
-                                                style: TextStyle(
-                                                    color: Colors.green,
-                                                    fontSize: 14),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 16, 0, 0),
-                                        child: Row(
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0, 0, 8, 0),
-                                              child: FaIcon(
-                                                FontAwesomeIcons
-                                                    .solidCircleQuestion,
+                                              child: Icon(
+                                                Icons.support_agent_rounded,
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .secondary,
                                                 size: 24,
                                               ),
                                             ),
-                                            MouseRegion(
-                                              cursor: SystemMouseCursors.click,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  // TODO: Implement
-                                                },
-                                                child: Text(
-                                                  'Perguntas frequentes',
-                                                  style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: 14),
+                                            Expanded(
+                                              child: MouseRegion(
+                                                cursor:
+                                                    SystemMouseCursors.click,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    // TODO: Implement
+                                                  },
+                                                  child: Text(
+                                                    'Falar com suporte',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 14),
+                                                    softWrap: true,
+                                                    overflow: TextOverflow.clip,
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    ],
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 16, 0, 0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(0, 0, 8, 0),
+                                                child: FaIcon(
+                                                  FontAwesomeIcons
+                                                      .solidCircleQuestion,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
+                                                  size: 24,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: MouseRegion(
+                                                  cursor:
+                                                      SystemMouseCursors.click,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      // TODO: Implement
+                                                    },
+                                                    child: Text(
+                                                      'Perguntas frequentes',
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          fontSize: 14),
+                                                      softWrap: true,
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -299,7 +331,9 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                                         .pop(true),
                                                 child: Text('Sair',
                                                     style: TextStyle(
-                                                        color: Colors.red)),
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .error)),
                                               ),
                                             ],
                                           );
@@ -317,7 +351,8 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                     text: 'Sair',
                                     icon: Icon(
                                       Icons.logout,
-                                      color: Colors.red,
+                                      color:
+                                          Theme.of(context).colorScheme.error,
                                       size: 15,
                                     ),
                                     options: FFButtonOptions(
@@ -328,13 +363,15 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                       iconPadding:
                                           const EdgeInsetsDirectional.fromSTEB(
                                               0, 0, 0, 0),
-                                      color: Colors.grey[900],
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
                                       textStyle: SafeGoogleFont(
                                         'Open Sans',
                                         fontSize: 14,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.red,
+                                        color:
+                                            Theme.of(context).colorScheme.error,
                                       ),
                                       elevation: 0,
                                       borderSide: BorderSide(
@@ -342,9 +379,10 @@ class _SuporteWidgetState extends State<SuporteWidget> {
                                         width: 2,
                                       ),
                                       borderRadius: BorderRadius.circular(12),
-                                      hoverColor: Colors.grey[700]!,
+                                      hoverColor:
+                                          Theme.of(context).dividerColor,
                                       hoverBorderSide: BorderSide(
-                                        color: Colors.grey[700]!,
+                                        color: Theme.of(context).dividerColor,
                                         width: 2,
                                       ),
                                       hoverTextColor: const Color(0xFF15161E),

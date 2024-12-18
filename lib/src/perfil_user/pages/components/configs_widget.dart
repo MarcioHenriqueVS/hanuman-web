@@ -51,7 +51,7 @@ class _ConfigsWidgetState extends State<ConfigsWidget> {
             width: MediaQuery.sizeOf(context).width * 0.55,
             decoration: BoxDecoration(
               //color: Theme.of(context).scaffoldBackgroundColor,
-              color: Colors.grey[900],
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(4),
               border: Border.all(
                 color: Theme.of(context).dividerColor,
@@ -633,7 +633,7 @@ class _ConfigsWidgetState extends State<ConfigsWidget> {
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                             color:
                                 //Theme.of(context).scaffoldBackgroundColor,
-                                Colors.grey[900],
+                                Theme.of(context).colorScheme.surface,
                             textStyle:
                                 // Theme.of(context)
                                 //     .textTheme
